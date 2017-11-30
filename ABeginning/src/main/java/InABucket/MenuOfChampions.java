@@ -11,7 +11,10 @@ package InABucket;
  */
 public class MenuOfChampions {
     
-    String decoration = " *=*=**=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=";
+    public static void main(String[] args) {
+        
+    
+    String decoration = "*=*=**=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=";
     
     String menuTitle = "                      Welcome To Restaurante Canté";
     String todaysMenu = "                            Today's Menus is";
@@ -19,7 +22,12 @@ public class MenuOfChampions {
     String pizzaCost = "Slice of Pizza.................";
     double applePie = 5;
     String applePieCost = "Slice of Pie................";
-    
-//    System.log
-    
+    System.out.println(decoration);
+    System.out.println(menuTitle);
+    System.out.println(todaysMenu);
+    System.out.println(pizzaCost + "$" + pizza);
+    System.out.println(applePieCost + "$"+ applePie);
+
+}
+
 }
