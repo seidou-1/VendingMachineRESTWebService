@@ -73,21 +73,6 @@ public class MiniMadLibs {
                 );
         
     }
-    
-//    <1>: the <2> frontier. These are the voyages of the starship <3>. 
-//    Its <4>-year mission: to explore strange <5> <6>, to seek out <5> <7> and <5> <8>, 
-//    to boldly <9> where no one has <10> before.
+
     
 } 
-//String noun1;
-//    String adjective1;
-//    String noun2;
-//    int number1;
-//    String adjective2;
-//    
-//    String noun3;
-//    String noun4;
-//    String noun5;
-//    
-//    String verbPresentTense;
-//    String sameVerbButPastTense;
