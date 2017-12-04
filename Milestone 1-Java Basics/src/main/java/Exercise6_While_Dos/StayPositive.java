@@ -26,18 +26,25 @@ public class StayPositive {
             System.out.println("Hey man give me a number between 1 and 50");
             theirInput = radarsAndScanners.nextInt();
                 
-                    if (theirInput < 50) 
+                    if (theirInput <= 50) 
                     {
-                        for (int i = (theirInput); i > 0; i--)
-                            
-                            System.out.print(" " + i); 
+                        for (int i = (theirInput); i > 0; i--) //This is to print the numbers backwards from their input counting down
+                        
+                        {
+                            System.out.print(" " + i); //Just print out i
+                            if (i % 10 ==0) { //This line checks if the number has reached 10 spaces. If so, break the line and start a new
+                                System.out.println("\n"); //This is the break line
+                                
+                            }
+                        }
+                        System.out.println("\n" +"\n" + "Whoaaaa better stop there roger rabbit!");
                         
                     } 
                     
-                    else if (theirInput > 50) {
-                        
-                    System.out.println(theirInput + " is not between 1 and 50 now is it? Try again");
-//                    break;
+                    else if (theirInput > 50) { //This does something if the user inputs a number above 50
+                    System.out.println("");
+                    System.out.println(theirInput + " is not between 1 and 50 now is it? Try again!!");
+                    System.out.println("");//Space it out
                     }
                            
             } while (theirInput > 50);
