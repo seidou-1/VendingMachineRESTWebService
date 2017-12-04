@@ -1,17 +1,16 @@
-package Exercise4_If_Else;
-import java.util.Scanner;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Exercise4_If_Else;
+
+import java.util.Scanner;
 
 /**
  *
  * @author laptop
  */
-// lass
 public class BirthStones {
 
     /**
@@ -55,4 +54,6 @@ public class BirthStones {
         } else  {
             System.out.println("You didn't select a month between 1 and 12. " + theirNumber + " doesn't match a month. Goodbye!");
         }
+    }
+    
 }

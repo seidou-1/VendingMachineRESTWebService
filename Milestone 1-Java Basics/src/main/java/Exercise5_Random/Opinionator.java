@@ -1,3 +1,5 @@
+package Exercise5_Random;
+
 
 import java.util.Random;
 
@@ -27,7 +29,7 @@ public class Opinionator {
 
         System.out.println("The number we chose was: " + x);
 
-        if (x == 0) {
+        if (x == 0) { 
             System.out.println("Llamas are the best!");
         } else if (x == 1) {
             System.out.println("Dodos are the best!");
@@ -39,7 +41,7 @@ public class Opinionator {
             System.out.println("Cockatoos are just so awesomme!");
         } else if (x == 5) {
             System.out.println("Have you ever met a Mole-Rat? They're GREAT!");
-        }
+        } 
 
         System.out.println("Thanks Random, maybe YOU'RE the best!");
         
