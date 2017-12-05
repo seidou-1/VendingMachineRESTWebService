@@ -17,7 +17,7 @@ public class BewareTheKraken {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        int depthDivedInFt = 0;
+        int depthDivedInFt = 1000;
 
         // Turns out the ocean is only so deep, 36200 at the deepest survey,
         // so if we reach the bottom ... we should probably stop.
