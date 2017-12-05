@@ -27,11 +27,11 @@ public class BewareTheKraken2 {
         boolean finished = true;
         
         outer://labeled this first for loop as outer so i can select it to break into afterwards
-        for (int depthDivedInFt = 0; depthDivedInFt < 8000 /*&& !finished*/; depthDivedInFt+=1000) {
+        for (int depthDivedInFt = 0; depthDivedInFt < 36200 /*&& !finished*/; depthDivedInFt+=1000) {
             System.out.println("So far, we've swam " + depthDivedInFt + " feet");
             in: //labeled this if statement so i can target it later to break out of
-            if (depthDivedInFt == 4000) {
-                System.out.println("We're at 18,100 feet. Do you want to continue?");
+            if (depthDivedInFt == 18100) {
+                System.out.println("We're at the half way point.... 18,100 feet. Do you want to continue?");
                 theirInput = myScanner.next();
                 inner:
                     if (theirInput.equals("n")) {
