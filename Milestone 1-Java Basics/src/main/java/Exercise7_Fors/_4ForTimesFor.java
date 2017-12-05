@@ -19,41 +19,33 @@ public class _4ForTimesFor {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        
-        
-//        int whatNumber;
-//        int i = 0;
-//        int theirInput;
+        int correctAnswerIncrement = 0;
         Scanner myScanner = new Scanner (System.in);
-        int theirInput = myScanner.nextInt();
-        int piggyBackToGetOutOfLoop = 0;
         
+        System.out.println("What times table do you want me to do? ");
+        int theirTimesTableInput = myScanner.nextInt();
         
-        System.out.println("What times tables do you want me to do? ");
-        theirInput = myScanner.nextInt();
-        
+        for (int i = 0; i <= 12; i++) {
+            System.out.println("What is " + theirTimesTableInput + " * " + i + " ?");
+            int theirAnswerInput = myScanner.nextInt();//needed to create another input Scanner because the first one kept getting used in the loop
+            int correctAnswer = (theirTimesTableInput * i);//Had to place this as a local varibale because it wouldn't know what "i" is
             
-        do {
+            if (theirAnswerInput == correctAnswer) {
+                System.out.println("");
+                System.out.println("** That is correct! ** ");
+                System.out.println("");
+                correctAnswerIncrement++;
+                
+            } else {
+                System.out.println("");
+                System.out.println("Nope. The correct answer is: " + correctAnswer);
+                System.out.println("");
+            }
             
-                for (int i = 0; i < 12; i++) {
-                    piggyBackToGetOutOfLoop++;
-
-                    int correctAnswer = theirInput *i;    
-
-                    System.out.println("What is " + theirInput + " * " + i + " ?");
-                    theirInput = myScanner.nextInt();//capturing their input here
-
-
-
-                if (theirInput == correctAnswer) {
-                    System.out.println("That is correct");
-
-                } else  {
-                    System.out.println("That is NOT correct");
-                        }
+        }
+        
+            System.out.println("You got " + correctAnswerIncrement + " correct");
         
     }
-            } while (piggyBackToGetOutOfLoop <=12);
     
-}
 }
