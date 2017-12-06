@@ -45,6 +45,13 @@ public class _4ForTimesFor {
         }
         
             System.out.println("You got " + correctAnswerIncrement + " correct");
+                if (correctAnswerIncrement < 6) {
+                    System.out.println("You should study more bro! ");
+            
+        } else if (correctAnswerIncrement >= 10) {
+                    System.out.println("Congratulations on getting over 90% right! ");
+            
+        }
         
     }
     
