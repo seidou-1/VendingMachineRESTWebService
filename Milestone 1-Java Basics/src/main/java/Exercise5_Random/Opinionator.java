@@ -25,7 +25,7 @@ public class Opinionator {
         System.out.println("I can't decide what animal I like the best.");
         System.out.println("I know! Random can decide FOR ME!");
 
-        int x = randomizer.nextInt(5);
+        int x = randomizer.nextInt(6); //This was the bug. Changed it from 5 to 6 so it can include the last condition. Because it starts counting from 0 not 1.
 
         System.out.println("The number we chose was: " + x);
 
