@@ -16,22 +16,24 @@ public class _6TwoForsAndTenYearsAgo {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        
+    
+public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
         System.out.print("What year would you like to count back from? ");
         int year = userInput.nextInt();
 
         for (int i = 0; i <= 10; i++) {
-            System.out.println(i + " years ago would be " + (year - i)); //This one is easier to understand
+            System.out.println(i + " years ago would be " + (year - i));
         }
 
         System.out.println("\nI can count backwards using a different way too...");
 
-        for (int i = year; i >= year - 20; i-=20 { //I'm going to have to get back to this one
+        //original for loop:
+        //for (int i = year; i >= year - 10; i--)
+        for (int i = year; i >= year - 100; i-=10) { /*i changed the termination to be 100 years from the users input. I 
+                                                /*I also changed the increment to -=10 to go back down by 10 years at a time
+                                                */
             System.out.println( (year - i) + " years ago would be " + i);
         }
     }
-    
 }
