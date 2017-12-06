@@ -18,56 +18,53 @@ public class DoOrDoNotPt2 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        boolean doIt;
+        boolean iPressedAnything = true;
+        boolean justStart = true;
         
-        Scanner myScanner = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
+        System.out.print("Should I do it? (y/n) ");
+//        String myInput = input.ne;
+        String myInput = input.nextLine();
         
-        boolean shouldI = true;
+      
         
-        System.out.println("Should I do it?");
-        myScanner.next();
-        
-        String convertedVersionOfBoolean = String.valueOf(shouldI);//Captures y or n from boolean
-        
-        
-        while (convertedVersionOfBoolean.equals("y") ) //As long as shouldI = true or they pick y. 
-        {
-            
-            
-            
-            System.out.println("Wheeeee. Rollercoasters are fun.");
-            System.out.println("Do it again?");
-            shouldI = myScanner.nextLine();
-//            myScanner.next();
-            
-//            if (convertedVersionOfBoolean.equals("n")) {
-//                System.out.println("I did it anyway");
-//                break;
-//                
-//            }
+        if (myInput == "y") {
+            doIt = true; // DO IT!
+        } else if (myInput == "n") {
+            doIt = false; //I didn't do it
+        }
+          else if (myInput !="y" && myInput !="n"){
+            iPressedAnything = true; // DONT YOU DARE!
         }
         
-        System.out.println("That was fun.");
+        outter:
+         while (justStart){
+             
+             if (myInput !="y" && myInput !="n") {
+                System.out.println("I didn't do it");  
+                 
+                 
+             }
+                else if (myInput == "y") {
+                 System.out.println("I did it");
+                
+                 
+             } else if (myInput == "n") { // will not evaluate to true
+                 System.out.println("I know you said not to but i did anyway");
+                
+                 
+             } 
+                break outter;
+                 
+             }
+//             System.out.println("I didn't do it");
+             
+//             if (!myInput){
+//                 System.out.println("I know you said not to but i did anyway");
+//                 break outter;
+//             }
+//        
         
-        
-        
-        
-//            switch (convertedVersionOfBoolean)
-//            {
-//            case "y": System.out.println("I did it! ");
-//                break;
-//            case "n": System.out.println("I didt it ANYWAYS!");
-//                break;
-//            }
-        
-        
-        
-//         return convertedVersionOfBoolean ? "true" : "false";
-
-        
-//        while ()
-        
-        
-        
+        }
     }
-    
-}

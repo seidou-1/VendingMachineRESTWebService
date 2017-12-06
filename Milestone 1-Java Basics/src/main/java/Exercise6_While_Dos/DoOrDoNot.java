@@ -24,7 +24,11 @@ public class DoOrDoNot {
 
         if (input.next().equals("y")) {
             doIt = true; // DO IT!
-        } else {
+        } else if (input.next().equals("n")) {
+            doIt = false;
+        }
+            else {
+        
             doIt = false; // DONT YOU DARE!
         }
 
