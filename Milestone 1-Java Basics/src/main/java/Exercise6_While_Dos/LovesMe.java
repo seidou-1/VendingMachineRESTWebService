@@ -25,7 +25,7 @@ public class LovesMe {
         System.out.println("Pick a number");
         int userInput = myScanner.nextInt();
         
-        
+        //Change this to a while loop
         for (int i = 0; i < userInput; i++) { //As long as the user inputs a number. Perform this operation up until that number
             
             
