@@ -5,6 +5,8 @@
  */
 package Exercise9_Arrays;
 
+//import java.util.Random;
+
 /**
  *
  * @author laptop
@@ -38,21 +40,27 @@ public class _4FruitsBasket {
             if (fruit[i] == "Apple") {
                 appleCounter++;
                 appleIndex = i;
-                System.out.println(fruit[i]);
-
-            } else if (fruit[i] == "Orange") {
+                System.out.println("Index# " + i + "\t" + fruit[i]);
+                
+            } 
+            
+            if (fruit[i] == "Orange") {
                 orangeCounter++;
                 orangeIndex = i;
-                System.out.println(fruit[i]);
-            }
+                System.out.println("Index# " + i + "\t" + fruit[i]);
+//            }
+            
             
 
-
         }
+        
+    }   System.out.println("");
         System.out.println("Number Of Apples: " + appleCounter);//This is printing out the number of times apple appears
         System.out.println("Number Of Oranges: " + orangeCounter);
+        System.out.println("");
         System.out.println("Number Of Fruits: " + (appleCounter + orangeCounter));
-    }
+        
+        
 
 //    public static void applesOut(){
 //        System.out.println("" + orangeIndex);
@@ -63,6 +71,9 @@ public class _4FruitsBasket {
 //    int orangeArray = {}
                 
                 
+} 
+    
+    
 }
 //create a variable that increments each time an orange is there. Same for apple
 //                            int index; // created this variable as a placeholder to store the value of i
