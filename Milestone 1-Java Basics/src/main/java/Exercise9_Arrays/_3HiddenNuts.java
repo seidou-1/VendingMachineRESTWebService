@@ -25,10 +25,18 @@ public class _3HiddenNuts {
         Having randomizer loop through an index of 100 elements randomly and storing "Nut" in one of the indexes */
         System.out.println("The nut has been hidden...");
         
+        
+        
         for (int i = 0; i < hidingSpots.length; i++) {
             
-            if (hidingSpots[i].equals("Nut")) {
-                System.out.println( "Found it! It's in spot# " + hidingSpots[i]);
+            if (hidingSpots[i]==("Nut")) {
+                int index; // created this variable as a placeholder to store the value of i
+                index = i; 
+                System.out.println(index);
+                System.out.println("Found it! It's in spot# " + index);
+                
+                
+
                 
             }
             
