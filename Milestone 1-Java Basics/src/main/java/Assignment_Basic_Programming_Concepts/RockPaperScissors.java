@@ -21,6 +21,9 @@ public class RockPaperScissors {
         
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        //Global variables here
+//        int userInput; //this if to pass over to the userStartsPlaying Method
       
         
     }
@@ -29,7 +32,33 @@ public class RockPaperScissors {
     
     //Methods Here
     
-    public static int computerDecisionMaker(int userInput){ //Method for deciding who wins the battle of R, P, S
+    //Intro to user and User picks between 1-3
+     public static int userStartsPlaying (int pick){
+        System.out.println("*******************************************");
+        System.out.println("Let's play a game or Rock, Paper, Scissors.");
+        System.out.println(" ");
+        System.out.println("        Pick one of the following:");
+        System.out.println("");
+        System.out.println("  '1' for Rock               '2' for Paper"); 
+        System.out.println("             '3' for Scissors");
+        
+        Scanner radarsAndScanners = new Scanner(System.in);
+        int selection = (int pick) radarsAndScanners.nextInt();
+        
+//        int pick = radarsAndScanners.nextInt();
+        
+        if (pick>=1 && pick<=3) { //number selected has to be between 1 and 3
+            System.out.println("You picked: " + pick);
+        } else {
+            System.out.println("pick either 1 for Rock, 2 for Paper, or 3 for Scissors!");
+        } 
+        return pick;
+    }
+     
+        //That pick is passed to this method below as an input
+     
+    public static int computerDecisionMaker(int finalUserInput){ //Method for deciding who wins the battle of R, P, S
+        int userInput = userStartsPlaying(usersPick); //this retrieves the pick value from the userStartsPlaying method
         int computerWins = 0;
         int userWins = 0;
         int rounds = 0;
@@ -80,31 +109,11 @@ public class RockPaperScissors {
                            rounds++;
                            
                         }
-        return userInput;
+        return finalUserInput;
                           
     }
     
-    public static int userStartsPlaying (int pick){
-        System.out.println("*******************************************");
-        System.out.println("Let's play a game or Rock, Paper, Scissors.");
-        System.out.println(" ");
-        System.out.println("        Pick one of the following:");
-        System.out.println("");
-        System.out.println("  '1' for Rock               '2' for Paper"); 
-        System.out.println("             '3' for Scissors");
-        
-        Scanner radarsAndScanners = new Scanner(System.in);
-        pick = (int) radarsAndScanners.nextInt();
-        
-//        int pick = radarsAndScanners.nextInt();
-        
-        if (pick>=1 && pick<=3) { //number selected has to be between 1 and 3
-            System.out.println("You picked: " + pick);
-        } else {
-            System.out.println("pick either 1 for Rock, 2 for Paper, or 3 for Scissors!");
-        } 
-        return pick;
-    }
+   
     
     
     
