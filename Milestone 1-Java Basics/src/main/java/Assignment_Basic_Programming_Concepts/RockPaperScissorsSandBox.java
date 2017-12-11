@@ -27,6 +27,7 @@ public class RockPaperScissorsSandBox {
         int userWins = 0;
         int ties = 0;
         int rounds = 0;
+        int overallRoundsContinued = 0;
         final int MIN_NUMBER = 1;
         final int MAX_NUMBER = 3;
         Random randomizer = new Random();
@@ -46,8 +47,7 @@ do {//This DO starts the game over if the number of rounds is met and the user w
             System.out.println("How many rounds do you want to play?");
             System.out.println("Pick between 1 and 10 rounds");
 
-//        int noOfRounds;
-//        noOfRounds = roundsScanner.nextInt();
+            
             noOfRounds = myScanner.nextInt();
 
             if (noOfRounds >= 1 && noOfRounds <= 10) {
@@ -62,18 +62,20 @@ do {//This DO starts the game over if the number of rounds is met and the user w
             }
 
         } while (noOfRounds < 1 || noOfRounds > 10);
-
-        //Put a while loop in here somewhere to ask the user to try again
-//        do {
+ 
             do {//This DO allows the user to continue slecting R\P\S for each of the rounds (for how long they specified)
-//while (continueOn.equalsIgnoreCase("y")){
-            System.out.println("     Pick one of the following:");
+                do { //This DO makes the user pick a valid number if they pick anything other than 1,2, or 3
+ 
+            System.out.println("*******");
+            System.out.println("Round: " + (rounds +1));
+            System.out.println("*******");
+            System.out.println("        Pick one of the following:");
             System.out.println("");
             System.out.println("  '1' for Rock               '2' for Paper");
             System.out.println("             '3' for Scissors");
             System.out.println("");
 
-            System.out.println("What's your pick?");
+            System.out.println("What's your pick? ");
             userInput = myScanner.nextInt();
 
 //     public static String userStartsPlaying(String prompt) {
@@ -83,6 +85,10 @@ do {//This DO starts the game over if the number of rounds is met and the user w
 //        userInput = myScanner.nextLine();
 //            if (userInput == 1 || userInput == 2 || userInput == 3) { //number selected has to be between 1 and 3
 //                System.out.println("Ok you picked: ");
+                System.out.println("");
+       
+        
+                
         switch (userInput) {
             case 1:
                 System.out.print("Ok you picked: " + userInput + "" + Rock);
@@ -101,7 +107,8 @@ do {//This DO starts the game over if the number of rounds is met and the user w
             default:
                 System.out.println("Hey man pick either 1 for Rock, 2 for Paper, or 3 for Scissors!!!");
                 break;
-        }
+                }
+        } while (userInput <1 || userInput >3);
 
 //        int computerWins = 0;
 //        int userWins = 0;
@@ -115,9 +122,10 @@ do {//This DO starts the game over if the number of rounds is met and the user w
                  
             computerSelects = randomizer.nextInt((MAX_NUMBER - MIN_NUMBER) + 1) + MIN_NUMBER;    
             
-                System.out.println(" Ok my turn ");
+                System.out.println(" Ok my turn... ");
                 System.out.println("");
                 System.out.print("I picked: ");
+                System.out.println("");
                 
                 switch (computerSelects) {
                     case 1:
@@ -130,9 +138,18 @@ do {//This DO starts the game over if the number of rounds is met and the user w
                         System.out.print(computerSelects + "" + Scissors);
                         break;
                 }
-                System.out.println("");
+               
                
                 System.out.println(" Since you picked " + userInput + " and I picked " + computerSelects);
+                System.out.println("");
+                
+                if (userInput == computerSelects){
+                        System.out.println(" It's a draw! Go again ");
+                        System.out.println("");
+                        ties++; 
+                }
+                else {
+                     
                 switch (computerSelects) { //comparing from the computer
                         case 1: //if computer selects rock
                 /*Rock*/ if (userInput == 2) { //if user picks paper
@@ -140,7 +157,7 @@ do {//This DO starts the game over if the number of rounds is met and the user w
                             userWins++; 
                             } 
                         else {
-                            System.out.println("  Wins.. I won ");
+                            System.out.println("  Rock Wins.. I won ");
                             computerWins++;
                         }
                         break;
@@ -151,39 +168,54 @@ do {//This DO starts the game over if the number of rounds is met and the user w
                             userWins++;
                         
                         } else {
-                            System.out.println("  .. I won "); //if user picks rock
+                            System.out.println("  Paper Wins.. I won "); //if user picks rock
                             computerWins++;
                         }
                         break;
               /*Scissors*/
-                        case 3:
+                        case 3://if computer picks Scissors
                         if (userInput == 1) { //if user picks rock
                             System.out.println(" Rock wins.. You won ");
                             System.out.println("");
                             userWins++;
 
                         } else {
-                            System.out.println("  won.. I won ");
+                            System.out.println(" Scissors wins.. I won ");
                             System.out.println("");
                             computerWins++;
                         }
                          break;
-                        
-                        default:
-                        System.out.println(" It's a draw! Go again ");
-                            System.out.println("");
-                        ties++;
-  
+ 
+                         
                     }
+//                rounds++;
+                }
                     rounds++;
-                    System.out.println("Round" + (rounds+1) + ":");
+                    System.out.println("****************");
+                    System.out.println("Your wins: " + userWins);
+                    System.out.println("My wins: " + computerWins);
+                    System.out.println("****************");
                     System.out.println("");
+                    
+                    //This displays the number of rounds nicely formatted
+                    if (rounds != noOfRounds + overallRoundsContinued) {
+//                    System.out.println("Round " + (rounds+1) + ":");
+                    System.out.println("");
+//                } else if (rounds > noOfRounds) {
+//                    System.out.println("Round " + (rounds+1) + ":");
+//                    System.out.println("");
+                }
+                    else
+                            {
+                        break;
+                    }
+                    
                 
-                } while (noOfRounds != rounds);
+                } while (rounds < (noOfRounds /*+ overallRoundsContinued*/) );
                 
             
-                System.out.println(" So far we've played " + rounds + " rounds");
-                System.out.println(" Would you lke to continue?");
+                System.out.println(" So far we've played " + (rounds+overallRoundsContinued) + " rounds total");
+                System.out.println(" Would you lke to continue? (y/n)");
                 System.out.println("");
 //                        Scanner roundsContinue = new Scanner(System.in); 
                 continueOn = myScanner.next();
@@ -191,7 +223,10 @@ do {//This DO starts the game over if the number of rounds is met and the user w
                 switch (continueOn) {
                     case "y":
                         System.out.println(" Great we'll continue on ");
+                        overallRoundsContinued++;
+                        rounds-=rounds;
                         break;
+                        
 
                     case "n":
                         System.out.println(" Alright we'll end here ");
@@ -200,19 +235,21 @@ do {//This DO starts the game over if the number of rounds is met and the user w
                         System.out.println(" Please select 'y' for Yes or 'n' for No");
                 }
                 
-        } while (continueOn.equalsIgnoreCase("y"));
+                
+        } while (continueOn.equalsIgnoreCase("y")&& rounds < (noOfRounds /*+ overallRoundsContinued*/));
         
  
     
 //              } while (rounds <= noOfRounds || continueOn.equalsIgnoreCase("y"));
-
-            System.out.println(" Here are the scores: ");
-            System.out.println(" Number of Rounds played: " + rounds);
+            System.out.println("");
+            System.out.println(" Here Are The Scores: ");
+            System.out.println("");
+            System.out.println(" Number Of Total Rounds Played: " + (rounds + overallRoundsContinued));
             System.out.println(" Your Wins: " + userWins);
             System.out.println(" Computer Wins: " + computerWins);
             System.out.println(" Ties: " + ties);
 
-            //Another while loop here
+            //Another while loop here maybe
 //        return finalUserInput;
         }                          
     
