@@ -37,6 +37,7 @@ public class _1RockPaperScissors {
         int computerSelects;
 
         //***************************************
+        outter:
         do {//This DO starts the game over if the number of rounds is met and the user wants to play again
             System.out.println("*******************************************");
             System.out.println("Let's play a game or Rock, Paper, Scissors.");
@@ -200,12 +201,16 @@ public class _1RockPaperScissors {
                 }
 
             } while (rounds < (noOfRounds /*+ overallRoundsContinued*/));
-
+            
+            do { //This loop makes the user try again if they didn't select yes or no
+            
+            
             System.out.println(" So far we've played " + (rounds + overallRoundsContinued) + " rounds total");
             System.out.println(" Would you lke to continue? (y/n)");
             System.out.println("");
 //                        Scanner roundsContinue = new Scanner(System.in); 
             continueOn = myScanner.next();
+            
 
             switch (continueOn) {
                 case "y":
@@ -216,12 +221,15 @@ public class _1RockPaperScissors {
 
                 case "n":
                     System.out.println(" Alright we'll end here ");
-                    break;
+                    break outter; //I put this here so it'll break out of the main Do loop if the user chooses to not contineu
                 default:
-                    System.out.println(" Please select 'y' for Yes or 'n' for No");
+                    System.out.println("");
+                    System.out.println(" Excuse me! Please select 'y' for Yes or 'n' for No");
+                    System.out.println("");
             }
+             } while (continueOn != "y" ||continueOn != "yes" || continueOn != "n" || continueOn != "no");  //ends the Do loop that checks if the user didnt select yes or no
 
-        } while (continueOn.equalsIgnoreCase("y") && rounds < (noOfRounds /*+ overallRoundsContinued*/));
+        } while ((continueOn.equalsIgnoreCase("y") || continueOn.equalsIgnoreCase("yes"))&& rounds < (noOfRounds /*+ overallRoundsContinued*/));
 
 //              } while (rounds <= noOfRounds || continueOn.equalsIgnoreCase("y"));
         System.out.println("");
