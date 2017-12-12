@@ -17,7 +17,7 @@ public class _1RockPaperScissors {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) { //The grading instructions for this assignment said to include everything in the main method. So i didn't create any other methods.
         // TODO code application logic here
         int userInput;
         int noOfRounds;

@@ -26,16 +26,20 @@ public class _2DogGenetics {
         Scanner myScanner = new Scanner(System.in);
         String doggy = myScanner.nextLine();
 
-        String[] breeds = {
+        String[] breeds = { //Created this string to store different type of dog breeds as an array
             "Pitbull", "Yorkie", "Great Dane", "Bulldog", "Shih-Tzu", "Scottish Terrier", "Wheaten", "Pug", "Collie"
         };
-
+        
+        /*Below i created variables to store random numbers up to 100. 
+        Each variable below it subtracts from the one above it so all the numbers can add up to 100        
+        */
         int firstCount = randoBaby.nextInt(101 /*+ 1 - 1) + 1*/); //To exclude zero
         int secondCount = randoBaby.nextInt(101 - firstCount);
         int thirdCount = randoBaby.nextInt(101 - firstCount - secondCount);
         int fourthCount = randoBaby.nextInt(101 - firstCount - secondCount);
         int fifthCount = randoBaby.nextInt(101 - firstCount - secondCount - thirdCount - fourthCount);
-
+        
+        //I created this array to list out all the variables when i eventually output the results via the for loop
         int[] randomPercentage = {firstCount, secondCount, thirdCount, fourthCount, fifthCount};
 
         System.out.println("Ok your dog " + doggy + "'s" + " breed makeup is: ");
