@@ -17,7 +17,7 @@ public class _1RockPaperScissors {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) { //The grading instructions for this assignment said to include everything in the main method. So i didn't create any other methods.
         // TODO code application logic here
         int userInput;
         int noOfRounds;
@@ -37,7 +37,6 @@ public class _1RockPaperScissors {
         int computerSelects;
 
         //***************************************
-        outter:
         do {//This DO starts the game over if the number of rounds is met and the user wants to play again
             System.out.println("*******************************************");
             System.out.println("Let's play a game or Rock, Paper, Scissors.");
@@ -48,7 +47,7 @@ public class _1RockPaperScissors {
                 System.out.println("How many rounds do you want to play?");
                 System.out.println("Pick between 1 and 10 rounds");
 
-                noOfRounds = Integer.parseInt(myScanner.nextLine()); //Taking in the user's input for number of rounds
+                noOfRounds = myScanner.nextInt(); //This checks whether the user picked 1\2\3
 
                 if (noOfRounds >= 1 && noOfRounds <= 10) { //This logic ensures the user picks a number between 1-10
                     System.out.println("");
@@ -61,7 +60,7 @@ public class _1RockPaperScissors {
 
                 }
 
-            } while (noOfRounds < 1 || noOfRounds > 10 ); //This loop closes the first DO
+            } while (noOfRounds < 1 || noOfRounds > 10);
 
             do {//This DO allows the user to continue slecting R\P\S for each of the rounds (for how long they specified)
                 do { //This DO makes the user pick a valid number if they pick anything other than 1,2, or 3
@@ -76,7 +75,7 @@ public class _1RockPaperScissors {
                     System.out.println("");
 
                     System.out.println("What's your pick? ");
-                    userInput = Integer.parseInt(myScanner.nextLine());
+                    userInput = myScanner.nextInt();
 
 //     public static String userStartsPlaying(String prompt) {
 //        Scanner myScanner = new Scanner (System.in);
@@ -137,7 +136,7 @@ public class _1RockPaperScissors {
 
                 System.out.println(" Since you picked " + userInput + " and I picked " + computerSelects);
                 System.out.println("");
-
+                //The below logic compares rock vs paper vs scissors to determine the winner
                 if (userInput == computerSelects) {
                     System.out.println(" It's a draw! Go again ");
                     System.out.println("");
@@ -182,7 +181,7 @@ public class _1RockPaperScissors {
                     }
 //                rounds++;
                 }
-                rounds++;
+                rounds++; //The number of rounds increment to keep track of how many rounds have progressed
                 System.out.println("****************");
                 System.out.println("Your wins: " + userWins);
                 System.out.println("My wins: " + computerWins);
@@ -201,16 +200,12 @@ public class _1RockPaperScissors {
                 }
 
             } while (rounds < (noOfRounds /*+ overallRoundsContinued*/));
-            
-            do { //This loop makes the user try again if they didn't select yes or no
-            
-            
+
             System.out.println(" So far we've played " + (rounds + overallRoundsContinued) + " rounds total");
             System.out.println(" Would you lke to continue? (y/n)");
             System.out.println("");
 //                        Scanner roundsContinue = new Scanner(System.in); 
             continueOn = myScanner.next();
-            
 
             switch (continueOn) {
                 case "y":
@@ -221,15 +216,12 @@ public class _1RockPaperScissors {
 
                 case "n":
                     System.out.println(" Alright we'll end here ");
-                    break outter; //I put this here so it'll break out of the main Do loop if the user chooses to not contineu
+                    break;
                 default:
-                    System.out.println("");
-                    System.out.println(" Excuse me! Please select 'y' for Yes or 'n' for No");
-                    System.out.println("");
+                    System.out.println(" Please select 'y' for Yes or 'n' for No");
             }
-             } while (continueOn != "y" ||continueOn != "yes" || continueOn != "n" || continueOn != "no");  //ends the Do loop that checks if the user didnt select yes or no
 
-        } while ((continueOn.equalsIgnoreCase("y") || continueOn.equalsIgnoreCase("yes"))&& rounds < (noOfRounds /*+ overallRoundsContinued*/));
+        } while (continueOn.equalsIgnoreCase("y") && rounds < (noOfRounds /*+ overallRoundsContinued*/));
 
 //              } while (rounds <= noOfRounds || continueOn.equalsIgnoreCase("y"));
         System.out.println("");
@@ -240,7 +232,7 @@ public class _1RockPaperScissors {
         System.out.println(" Computer Wins: " + computerWins);
         System.out.println(" Ties: " + ties);
 
-        //Another while loop here maybe...
+        //Another while loop here maybe
 //        return finalUserInput;
     }
 
