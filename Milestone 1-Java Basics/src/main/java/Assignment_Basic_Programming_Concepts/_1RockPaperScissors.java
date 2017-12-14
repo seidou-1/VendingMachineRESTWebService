@@ -46,8 +46,9 @@ public class _1RockPaperScissors {
                 System.out.println("");
                 System.out.println("How many rounds do you want to play?");
                 System.out.println("Pick between 1 and 10 rounds");
-
-                noOfRounds = Integer.parseInt(myScanner.nextLine()); //Taking in the user's input for number of rounds
+                
+                noOfRounds  = myScanner.nextInt();
+//                noOfRounds = Integer.parseInt(myScanner.nextLine()); //Taking in the user's input for number of rounds
 
                 if (noOfRounds >= 1 && noOfRounds <= 10) { //This logic ensures the user picks a number between 1-10
                     System.out.println("");
@@ -75,7 +76,8 @@ public class _1RockPaperScissors {
                     System.out.println("");
 
                     System.out.println("What's your pick? ");
-                    userInput = Integer.parseInt(myScanner.nextLine());
+                    userInput = myScanner.nextInt();
+//                    userInput = Integer.parseInt(myScanner.nextLine());
 
 //     public static String userStartsPlaying(String prompt) {
 //        Scanner myScanner = new Scanner (System.in);
