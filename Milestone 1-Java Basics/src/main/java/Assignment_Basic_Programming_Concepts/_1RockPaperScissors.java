@@ -17,7 +17,7 @@ public class _1RockPaperScissors {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) { //The grading instructions for this assignment said to include everything in the main method. So i didn't create any other methods.
+    public static void main(String[] args) {  
         // TODO code application logic here
         int userInput;
         int noOfRounds;
@@ -46,8 +46,8 @@ public class _1RockPaperScissors {
                 System.out.println("");
                 System.out.println("How many rounds do you want to play?");
                 System.out.println("Pick between 1 and 10 rounds");
-                
-                noOfRounds  = myScanner.nextInt();
+
+                noOfRounds = myScanner.nextInt();
 //                noOfRounds = Integer.parseInt(myScanner.nextLine()); //Taking in the user's input for number of rounds
 
                 if (noOfRounds >= 1 && noOfRounds <= 10) { //This logic ensures the user picks a number between 1-10
@@ -61,7 +61,7 @@ public class _1RockPaperScissors {
 
                 }
 
-            } while (noOfRounds < 1 || noOfRounds > 10 ); //This loop closes the first DO
+            } while (noOfRounds < 1 || noOfRounds > 10); //This loop closes the first DO
 
             do {//This DO allows the user to continue slecting R\P\S for each of the rounds (for how long they specified)
                 do { //This DO makes the user pick a valid number if they pick anything other than 1,2, or 3
