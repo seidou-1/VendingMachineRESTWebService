@@ -17,10 +17,9 @@ public class _1RockPaperScissors {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) { //The grading instructions for this assignment said to include everything in the main method. So i didn't create any other methods.
+    public static void main(String[] args) {  
         // TODO code application logic here
         int userInput;
-//        int noOfRounds;
         int noOfRounds;
         Scanner myScanner = new Scanner(System.in);
         String continueOn = "";
@@ -36,10 +35,6 @@ public class _1RockPaperScissors {
         String Paper = "(Paper)";
         String Scissors = "(Scissors)";
         int computerSelects;
-        
-        String message = "What's your pick? ";
-        prompt(message);
-        String line = null;
 
         //***************************************
         do {//This DO starts the game over if the number of rounds is met and the user wants to play again
@@ -52,16 +47,10 @@ public class _1RockPaperScissors {
                 System.out.println("How many rounds do you want to play?");
                 System.out.println("Pick between 1 and 10 rounds");
 
-                noOfRounds = myScanner.nextInt(); //This checks whether the user picked 1\2\3
-//                line = myScanner.nextLine();
-//                try {
-//                    
-//                    userInput = Integer.valueOf(line);
-//                String empty = "";
-//                userPickRounds = Integer.parseInt(myScanner.nextLine());
-//                    
-                if ((noOfRounds >=1) && (noOfRounds<=10)) {
-//                if (noOfRounds >= 1 && noOfRounds <= 10) { //This logic ensures the user picks a number between 1-10
+                noOfRounds = myScanner.nextInt();
+//                noOfRounds = Integer.parseInt(myScanner.nextLine()); //Taking in the user's input for number of rounds
+
+                if (noOfRounds >= 1 && noOfRounds <= 10) { //This logic ensures the user picks a number between 1-10
                     System.out.println("");
                     System.out.println("Ok great we'll play for  " + noOfRounds + " rounds!!");
                     System.out.println("");
@@ -71,13 +60,8 @@ public class _1RockPaperScissors {
                     System.out.println("Nope! can't play less than 1 round or more than 10 rounds");
 
                 }
-//                } catch (NumberFormatException e) {
-//                    prompt ("Expected numeric value");
-////                    line = null;
-//                }
-//                break;
 
-            } while (noOfRounds < 1 || noOfRounds > 10 || line ==null);
+            } while (noOfRounds < 1 || noOfRounds > 10); //This loop closes the first DO
 
             do {//This DO allows the user to continue slecting R\P\S for each of the rounds (for how long they specified)
                 do { //This DO makes the user pick a valid number if they pick anything other than 1,2, or 3
@@ -93,6 +77,7 @@ public class _1RockPaperScissors {
 
                     System.out.println("What's your pick? ");
                     userInput = myScanner.nextInt();
+//                    userInput = Integer.parseInt(myScanner.nextLine());
 
 //     public static String userStartsPlaying(String prompt) {
 //        Scanner myScanner = new Scanner (System.in);
@@ -153,7 +138,7 @@ public class _1RockPaperScissors {
 
                 System.out.println(" Since you picked " + userInput + " and I picked " + computerSelects);
                 System.out.println("");
-                //The below logic compares rock vs paper vs scissors to determine the winner
+
                 if (userInput == computerSelects) {
                     System.out.println(" It's a draw! Go again ");
                     System.out.println("");
@@ -198,7 +183,7 @@ public class _1RockPaperScissors {
                     }
 //                rounds++;
                 }
-                rounds++; //The number of rounds increment to keep track of how many rounds have progressed
+                rounds++;
                 System.out.println("****************");
                 System.out.println("Your wins: " + userWins);
                 System.out.println("My wins: " + computerWins);
@@ -249,12 +234,8 @@ public class _1RockPaperScissors {
         System.out.println(" Computer Wins: " + computerWins);
         System.out.println(" Ties: " + ties);
 
-        //Another while loop here maybe
+        //Another while loop here maybe...
 //        return finalUserInput;
-    }
-
-    private static void prompt(String message) {
-        System.out.println(message); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
