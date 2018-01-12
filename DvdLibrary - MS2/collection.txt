@@ -1,3 +1,3 @@
-offset::wb::2/3::20333::yoshi::it was ok
-quevo::world::4/4::2011::the lost arc::yes
-jumanji::2017::2pac::2/5::rocafella::it was meh
+offset::20333::wb::2/3::yoshi::it was ok
+quevo::2011::world::4/4::the lost arc::yes
+jumanji::2/5::2017::2pac::rocafella::it was meh
