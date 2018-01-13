@@ -19,8 +19,8 @@ import static org.junit.Assert.*;
 public class SayHiTest {
     
     //Put a member field for the Say Hi class so we can call one of the methods
-    
-    private SayHi sayHi = new SayHi();
+        
+    private SayHi sayHi = new SayHi();//Create a reference called "sayHi" to the SayHi() method.
     
     public SayHiTest() {
     }

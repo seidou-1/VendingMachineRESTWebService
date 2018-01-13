@@ -16,6 +16,7 @@ public class S03UnitTests {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        String expectedResult = "Hello Bob!";
     }
     
 }
