@@ -30,25 +30,25 @@ public class VendingMachineView {
         myIO.print("A1: Snickers **** $2.00 " /*+ snickersPrice*/);
         myIO.print("B1: Gatorade **** $3.00 " /*+ gatoradePrice*/);
         myIO.print("C1: Water    **** $1.00 " /*+ waterPrice*/);
-        myIO.print("I:  See Inventory" /*+ waterPrice*/);
+//        myIO.print("I:  See Inventory" /*+ waterPrice*/);
         myIO.print("Add: Add To Inventory " /*+ waterPrice*/);
-        myIO.print("Exit: Bye Falicia!\n");
+        myIO.print("Exit: Exit Application\n");
 
-        String usersSelection = myIO.readString("Make A Selection (i.e. A1) \n");
+        String usersSelection = myIO.readString("Type A Selection (i.e. A1) \n");
 
         return usersSelection;
 
     }
 
-    public String selectItem() {
-//        myIO.print("Vending Menu Items");
-//        myIO.print("A1: Snickers **** $2.00 " /*+ snickersPrice*/);
-//        myIO.print("A2: Gatorade **** $3.00 " /*+ gatoradePrice*/);
-//        myIO.print("A3: Water    **** $1.00 " /*+ waterPrice*/);
-
-        return myIO.readString("Select an item (i.e. A1)");
-
-    }
+//    public String selectItem() {
+////        myIO.print("Vending Menu Items");
+////        myIO.print("A1: Snickers **** $2.00 " /*+ snickersPrice*/);
+////        myIO.print("A2: Gatorade **** $3.00 " /*+ gatoradePrice*/);
+////        myIO.print("A3: Water    **** $1.00 " /*+ waterPrice*/);
+//
+//        return myIO.readString("Select an item (i.e. A1)");
+//
+//    }
 
     public String cashFirst() {
         String usersMoney = myIO.readString("Please Insert Money First. $1, $,5 or $10 \n");
@@ -71,10 +71,12 @@ public class VendingMachineView {
         String itemID = myIO.readString("What's the item's ID? i.e. C1");
         String itemName = myIO.readString("What's the item's Name? i.e. Gatorade Frost");
         String itemCost = myIO.readString("What is the item's price? i.e. 3.00");
+        int itemQuantity = myIO.readInt("What is the quantity? ");
 
         Item currentItem = new Item (itemID); //This is instantiating a new item and setting the properties to them
         currentItem.setItemName(itemName);
         currentItem.setItemCost(itemCost);
+        currentItem.setItemQuantity(itemQuantity);
         return currentItem;
     }
     
@@ -85,6 +87,10 @@ public class VendingMachineView {
     public void displayInsufficientFunds(String errorMsg){
         myIO.print("=== You don't have enough dough bro === ");
         myIO.print(errorMsg);
+    }
+    
+    public String getItemIdChoice(){
+        return myIO.readString("Please enter the Item ID");
     }
     
    public void displayErrorMessage(String errorMsg){
@@ -108,6 +114,14 @@ public class VendingMachineView {
        System.out.println(" Total Items: " + itemCount);
        myIO.readString("\nPlease hit enter to continue");
        
+   }
+   
+   public void displayDispense(){
+       myIO.print("*** Dispense ***");
+   }
+   
+   public void displayDispenseSuccessfully(){
+       myIO.print("Successfully dispensed. Pick up your item below");
    }
     
 

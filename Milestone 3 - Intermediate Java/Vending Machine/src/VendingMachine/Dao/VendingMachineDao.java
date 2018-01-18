@@ -29,6 +29,7 @@ public interface VendingMachineDao {
  List<Item> getAllItems() throws VendingMachineDaoException;//Item inventory
  
  Item dispenseItem (String itemId) throws VendingMachineDaoException; //Remove item
-    
+ 
+ List <Item> displayItemWithQuantityFiltered(String itemName) throws VendingMachineDaoException;
               
 }

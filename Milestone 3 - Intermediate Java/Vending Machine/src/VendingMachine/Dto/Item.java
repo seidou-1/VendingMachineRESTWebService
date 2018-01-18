@@ -11,13 +11,14 @@ package VendingMachine.Dto;
  */
 public class Item {
     
-//    private String Gatorade;
-//    private String Snickers;
-//    private String Water;
+    private String Gatorade;
+    private String Snickers;
+    private String Water;
     
     private String itemId;
     private String itemCost;
     private String itemName;
+    private int itemQuantity;
 
     
     public Item (String itemId){
@@ -45,29 +46,39 @@ public class Item {
         this.itemCost = itemCost;
     }
     
-//    
-//    public String getGatorade() {
-//        return Gatorade;
-//    }
-//
-//    public void setGatorade(String Gatorade) {
-//        this.Gatorade = Gatorade;
-//    }
-//
-//    public String getSnickers() {
-//        return Snickers;
-//    }
-//
-//    public void setSnickers(String Snickers) {
-//        this.Snickers = Snickers;
-//    }
-//
-//    public String getWater() {
-//        return Water;
-//    }
-//
-//    public void setWater(String Water) {
-//        this.Water = Water;
-//    }
+    
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
+    public void setItemQuantity(int itemQuantity) {
+        this.itemQuantity = itemQuantity;
+    }
+
+    
+    
+    public String getGatorade() {
+        return Gatorade;
+    }
+
+    public void setGatorade(String Gatorade) {
+        this.Gatorade = Gatorade;
+    }
+
+    public String getSnickers() {
+        return Snickers;
+    }
+
+    public void setSnickers(String Snickers) {
+        this.Snickers = Snickers;
+    }
+
+    public String getWater() {
+        return Water;
+    }
+
+    public void setWater(String Water) {
+        this.Water = Water;
+    }
     
 }

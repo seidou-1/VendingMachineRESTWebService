@@ -77,7 +77,23 @@ public class ChangeDto {
         double dollarsAmount = remainingAmount /100;
         remainingAmount = remainingAmount % 100;
         
-        double quartersAmount = remainingAmount /25
+        double quartersAmount = remainingAmount /25;
+        remainingAmount = remainingAmount %25;
+        
+        double dimesAmount = remainingAmount /10;
+        remainingAmount = remainingAmount %10;
+        
+        double nickelsAmount = remainingAmount /5;
+        remainingAmount = remainingAmount %5;
+        
+        double penniesAmount = remainingAmount;
+//        remainingAmount = remainingAmount %1;
+        
+//        return remainingAmount
+
+        System.out.println("Total change = " + "$ " + dollarsAmount + "\n Quarters:" + quartersAmount + "\n Dimes: " + dimesAmount + "\n Nickels:" + nickelsAmount + "\n Pennies: " + penniesAmount);
+        
+        
         
 //        return numberConverted;
     

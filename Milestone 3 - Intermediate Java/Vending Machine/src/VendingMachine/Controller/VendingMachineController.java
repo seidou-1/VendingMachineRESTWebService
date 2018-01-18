@@ -36,23 +36,26 @@ public class VendingMachineController {
         try {
             while (keepGoing) {
 
-                menuSelection = getMenuSelection();
-                getMenuSelection();
+//                menuSelection = getMenuSelection();
+//                getMenuSelection();
 
-                switch (menuSelection) {
+                switch (getMenuSelection()) {
 
-                    case "A1":
-                    case "A2":
-                    case "A3":
-                        whatchuWant();
+                    case "a1":
+//                        dispenseSnickers();
+                    case "b1":
+//                        dispenseGatorade(); 
+//                        break;
+                    case "c1":
+                        dispenseItem();
                         break;
-                    case "I":
-                        getInventory();
-                        break;
-                    case "Add":
+//                    case "I":
+//                        getInventory();
+//                        break;
+                    case "add":
                         replenishItems();
                         break;
-                    case "Exit":
+                    case "exit":
                         keepGoing = false;
                         break;
                     default:
@@ -66,6 +69,31 @@ public class VendingMachineController {
         }
 
     }
+    
+//    private void dispenseGatorade() throws VendingMachineDaoException{
+//        view.displayDispense();
+//        String itemId = view.getItemIdChoice();
+//        dao.dispenseItem(itemId);
+//        view.displayDispenseSuccessfully();
+//    }
+    
+    private void dispenseItem() throws VendingMachineDaoException{
+        view.displayDispense();
+//        String itemId = view.getItemIdChoice();
+//        String itemId = getMenuSelection();
+        String input =VendingMachineController.this.getMenuSelection();
+        dao.dispenseItem(input);//i need to get the return value of the user's input from the view
+        view.displayDispenseSuccessfully();
+    }
+    
+//    private void dispenseWater() throws VendingMachineDaoException{
+//        view.displayDispense();
+//        String itemId = view.getItemIdChoice();
+//        dao.dispenseItem(itemId);
+//        view.displayDispenseSuccessfully();
+//    }
+    
+    
 
     private String getMenuSelection() {
         return view.printMenuAndGetSelection();
@@ -77,20 +105,23 @@ public class VendingMachineController {
         view.displayItemSuccessfllyReplenished();
     }
     
-    private void getInventory() throws VendingMachineDaoException {
-        List<Item> itemList = dao.getAllItems();
-        view.displayInventoryList(itemList);
+    private void getInventory(String itemName) throws VendingMachineDaoException {
+        List<Item> itemList = dao.displayItemWithQuantityFiltered(itemName);
+//        List<Item> itemList = dao.getAllItems();
+//        view.displayInventoryList(itemList);
     }
 
     private void moneyGood() {
         view.displayMoneyInsertedBanner();
 
     }
+    
+    
 
-    private void whatchuWant() {
-        view.selectItem();
-
-    }
+//    private void whatchuWant() {
+//        view.selectItem();
+//
+//    }
 
     private void cashMoneyFirst() {
         view.cashFirst();

@@ -9,8 +9,18 @@ package VendingMachine.Dto;
  *
  * @author laptop
  */
-public class VendingMachine {
+public enum ItemEnums {
     
+    WATER("1"), SNICKERS("2"), GATORADE("3");
     
+    private String price;
+    
+    private ItemEnums(String price){
+        this.price = price;
+    }
+    
+    public String getPrice(){
+        return price;
+    }
     
 }
