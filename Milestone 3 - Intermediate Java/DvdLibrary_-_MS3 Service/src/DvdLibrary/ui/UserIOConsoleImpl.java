@@ -12,6 +12,11 @@ import java.util.Scanner;
  * @author laptop
  */
 public class UserIOConsoleImpl implements UserIO {
+    //Flavor A
+    
+    public void hello(){
+        System.out.println("hello");
+    }
 
     Scanner myScanner = new Scanner(System.in);
     String userInput;

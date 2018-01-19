@@ -42,8 +42,11 @@ public class DvdLibraryController {
     */
     
 //    DvdLibraryDao myDao;
-    DvdLibraryView view;
+    private DvdLibraryView view;
     private DvdLibraryServiceLayer myService;
+    
+    private DvdLibraryView view2;
+    private DvdLibraryServiceLayer myService2;
             
     public DvdLibraryController(DvdLibraryServiceLayer myService, DvdLibraryView view){ //constructor
         this.myService = myService; //this means the paramaters are going to be mapped to the myDao class declaration above

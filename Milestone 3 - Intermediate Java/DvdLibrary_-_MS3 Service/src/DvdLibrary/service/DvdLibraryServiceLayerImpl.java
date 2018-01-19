@@ -60,13 +60,13 @@ public class DvdLibraryServiceLayerImpl implements DvdLibraryServiceLayer{
     }
 
     @Override
-    public DvdLibrary displayParticularDvd(String dvd) throws DvdLibraryPersistenceException {
+    public DvdLibrary displayParticularDvd(String title) throws DvdLibraryPersistenceException {
         /*
         Also since this method doesn't really have business validation logic to check,
         we'll just call the Dao to retrieve all the Dvds
         */
         
-        return dao.diaplayParticularDvd(dvd);
+        return dao.diaplayParticularDvd(title);
     }
 
     @Override

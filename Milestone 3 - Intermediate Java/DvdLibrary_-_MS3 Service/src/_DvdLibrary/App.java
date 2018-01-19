@@ -8,6 +8,8 @@ package _DvdLibrary;
 import DvdLibrary.controller.DvdLibraryController;
 import DvdLibrary.dao.DvdLibraryDao;
 import DvdLibrary.dao.DvdLibraryDaoFileImpl;
+import DvdLibrary.service.DvdLibraryServiceLayer;
+import DvdLibrary.service.DvdLibraryServiceLayerImpl;
 import DvdLibrary.ui.DvdLibraryView;
 import DvdLibrary.ui.UserIO;
 import DvdLibrary.ui.UserIOConsoleImpl;
@@ -29,9 +31,14 @@ public class App {
         UserIO myUserIO = new UserIOConsoleImpl(); //creating a UserIOConsoleImpl object and assigning it to the variable myUserIO
 
         DvdLibraryView viewsFromThe6 = new DvdLibraryView(myUserIO); //Declared and instantiated a DvdLibraryView object, passing the myUserIO variable created above into the constructor.
+        DvdLibraryView viewsFromThe7 = new DvdLibraryView(myUserIO); //Declared and instantiated a DvdLibraryView object, passing the myUserIO variable created above into the constructor.
         DvdLibraryDao myDao = new DvdLibraryDaoFileImpl(); //Declared a DvdLibraryDao variable called myDao and initialized it with a DvdLibraryDaoFileImpl reference.
         
-        DvdLibraryController myController = new DvdLibraryController(myDao,viewsFromThe6);
+        //Instantiating the Service Layer
+        DvdLibraryServiceLayer myService = new DvdLibraryServiceLayerImpl(myDao);
+         
+        DvdLibraryController myController = new DvdLibraryController(myService,viewsFromThe6);
+        DvdLibraryController myController2 = new DvdLibraryController(myService,viewsFromThe7);
  
         myController.run();
        
