@@ -60,7 +60,7 @@ public class DvdLibraryServiceLayerImpl implements DvdLibraryServiceLayer{
     }
 
     @Override
-    public DvdLibrary displayParticularDvd(DvdLibrary dvd) throws DvdLibraryPersistenceException {
+    public DvdLibrary displayParticularDvd(String dvd) throws DvdLibraryPersistenceException {
         /*
         Also since this method doesn't really have business validation logic to check,
         we'll just call the Dao to retrieve all the Dvds
@@ -71,12 +71,45 @@ public class DvdLibraryServiceLayerImpl implements DvdLibraryServiceLayer{
 
     @Override
     public DvdLibrary removeDvd(String title) throws DvdLibraryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*
+        Also since this method doesn't really have business validation logic to check,
+        we'll just call the Dao to retrieve all the Dvds
+        */
+        return dao.removeDvd(title);
     }
 
     @Override
     public DvdLibrary editDvdInfo(String title, DvdLibrary Dvd) throws DvdLibraryDuplicateNameException, DvdLibraryDataValidationException, DvdLibraryPersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        /*
+        Since the editDvdInfo method behind the scenes removes the dvd and then asks the user to add
+        brand new field values (for a new dvd entry), i'm going to call the dao to remove the 
+        respective dvd title passed by the user
+        */
+            dao.removeDvd(title);
+            
+            if (dao.diaplayParticularDvd(Dvd.getTitle()) != null) { 
+            throw new DvdLibraryDuplicateNameException ("ERROR: Could not create Dvd. Dvd title " + Dvd.getTitle() + " already exists");  
+        }
+            
+        /*
+        The dvd should be removed at this point so then i'm just going to do another check to ensure the user inputted all the fields    
+        */
+       
+//        validateDvdData(Dvd);
+        
+//        if (dao.editDvdInfo(dao.diaplayParticularDvd(title))!=null){
+//        
+//        if (dao.editDvdInfo(Dvd.getTitle(), Dvd != null)) { 
+//            throw new DvdLibraryDuplicateNameException ("ERROR: Could not create Dvd. Dvd title " + dvd.getTitle() + " already exists");  
+//        }
+            
+            validateDvdData(Dvd); //validates all fields are filled in
+        
+  
+            return dao.addDvd(Dvd.getTitle(), Dvd);
+            
+        
     }
     
     private void validateDvdData(DvdLibrary dvd) throws DvdLibraryDataValidationException {

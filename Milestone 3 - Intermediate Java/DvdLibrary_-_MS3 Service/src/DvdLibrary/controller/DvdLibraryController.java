@@ -10,6 +10,9 @@ import static DvdLibrary.dao.DvdLibraryDao.myDao;
 import DvdLibrary.dao.DvdLibraryPersistenceException;
 import DvdLibrary.dao.DvdLibraryDaoFileImpl;
 import DvdLibrary.dto.DvdLibrary;
+import DvdLibrary.service.DvdLibraryDataValidationException;
+import DvdLibrary.service.DvdLibraryDuplicateNameException;
+import DvdLibrary.service.DvdLibraryServiceLayer;
 import DvdLibrary.ui.DvdLibraryView;
 import DvdLibrary.ui.UserIO;
 import DvdLibrary.ui.UserIOConsoleImpl;
@@ -38,11 +41,12 @@ public class DvdLibraryController {
     
     */
     
-    DvdLibraryDao myDao;
+//    DvdLibraryDao myDao;
     DvdLibraryView view;
+    private DvdLibraryServiceLayer myService;
             
-    public DvdLibraryController(DvdLibraryDao myDao, DvdLibraryView view){ //constructor
-        this.myDao= myDao; //this means the paramaters are going to be mapped to the myDao class declaration above
+    public DvdLibraryController(DvdLibraryServiceLayer myService, DvdLibraryView view){ //constructor
+        this.myService = myService; //this means the paramaters are going to be mapped to the myDao class declaration above
         this.view = view; //this means the paramaters are going to be mapped to the view class declaration above
     }
     
@@ -115,38 +119,48 @@ public class DvdLibraryController {
 
     private void createDvd() throws DvdLibraryPersistenceException {
         view.diaplayCreateDvdEntry();
+        
+        boolean hasErrors = false;
+        do {
         DvdLibrary myDvdLibrary = view.getNewDvdInfo();
-        myDao.addDvd(myDvdLibrary.getTitle(), myDvdLibrary);
-        view.displayCreateDvdEntrySuccessful();
+            try{
+                myService.createDvd(myDvdLibrary);
+                view.displayCreateDvdEntrySuccessful();
+                hasErrors = false;
+            } catch (DvdLibraryDuplicateNameException | DvdLibraryDataValidationException e){
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
+            }
+         } while (hasErrors);
     
     }
 
     private void displayDvds() throws DvdLibraryPersistenceException {
         view.displayDisplayAllBanner();
-        List<DvdLibrary> releaseDate = myDao.getAllDvds();
+        List<DvdLibrary> releaseDate = myService.getAllDvds();
         view.displayAllDvds(releaseDate);
     }
 
     private void viewSpecificDvd() throws DvdLibraryPersistenceException {
         view.displayParticularDvdBanner();
         String specificDvd = view.getDvdByChoice();
-        DvdLibrary Dvd = myDao.diaplayParticularDvd(specificDvd);
+        DvdLibrary Dvd = myService.displayParticularDvd(specificDvd);
         view.displayParticularDvd(Dvd);
     }
 
     private void removeDVD() throws DvdLibraryPersistenceException {
         view.displayRemoveDVDBanner();
         String title = view.getDvdByChoice();
-        myDao.removeDvd(title);
+        myService.removeDvd(title);
         view.displayDvdRemovedSuccessBanner();
     }
 
     public void editDvd() throws DvdLibraryPersistenceException {
         view.displayEditBanner();
         String specificDvd = view.whichDvdToEdit();
-        myDao.removeDvd(specificDvd);
+        myService.removeDvd(specificDvd);
         DvdLibrary myDvdLibrary = view.getNewDvdInfo();
-        myDao.addDvd(myDvdLibrary.getTitle(), myDvdLibrary);
+        myService.createDvd(myDvdLibrary.getTitle(), myDvdLibrary); //Here
         view.displayEditBannerSuccess();
     }
 
