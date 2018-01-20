@@ -24,7 +24,7 @@ public interface DvdLibraryServiceLayer {
             DvdLibraryPersistenceException; //This is a pass through method because there really isn't any business logic. 
             
     
-    DvdLibrary displayParticularDvd (DvdLibrary dvd) throws
+    DvdLibrary displayParticularDvd (String title) throws
             DvdLibraryPersistenceException;
     
     DvdLibrary removeDvd (String title) throws

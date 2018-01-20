@@ -14,9 +14,9 @@ import java.util.Scanner;
 public class UserIOConsoleImpl implements UserIO {
     //Flavor A
     
-    public void hello(){
-        System.out.println("hello");
-    }
+//    public void hello(){
+//        System.out.println("hello");
+//    }
 
     Scanner myScanner = new Scanner(System.in);
     String userInput;
@@ -26,7 +26,7 @@ public class UserIOConsoleImpl implements UserIO {
     public void print(String message) {
 
         System.out.println(/*"You typed in: "*/"" + message);
-
+//        this.hello();
     }
 
     @Override

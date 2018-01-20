@@ -78,14 +78,14 @@ public class DvdLibraryView {
 
     public void displayAllDvds(List<DvdLibrary> Dvd) {
 
-        for (DvdLibrary currentDvdLibrary : Dvd) {
+        Dvd.forEach (currentDvdLibrary -> {//super enhanced for each
             io.print(currentDvdLibrary.getTitle() + " : "
                     + currentDvdLibrary.getDirectorsName() + " : "
                     + currentDvdLibrary.getMpaaRating() + " : "
                     + currentDvdLibrary.getReleaseDate() + " : "
                     + currentDvdLibrary.getStudio() + " : "
                     + currentDvdLibrary.getUserNote());
-        }
+        });
 
         io.print("Please hit enter to continue");
     }

@@ -17,6 +17,8 @@ import DvdLibrary.ui.DvdLibraryView;
 import DvdLibrary.ui.UserIO;
 import DvdLibrary.ui.UserIOConsoleImpl;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,27 +34,26 @@ public class DvdLibraryController {
             But since all references to UserIO are gone from the controller, I removed the UserIO member field.
      */
 
-    /*
+ /*
     
     I'm removing these two hard coded references below so i can use dependency injection instead
     DvdLibraryView view = new DvdLibraryView();
 
     DvdLibraryDao myDao = new DvdLibraryDaoFileImpl(); //Dao is a child and DaoFileImpl
     
-    */
-    
+     */
 //    DvdLibraryDao myDao;
     private DvdLibraryView view;
     private DvdLibraryServiceLayer myService;
-    
+
     private DvdLibraryView view2;
     private DvdLibraryServiceLayer myService2;
-            
-    public DvdLibraryController(DvdLibraryServiceLayer myService, DvdLibraryView view){ //constructor
+
+    public DvdLibraryController(DvdLibraryServiceLayer myService, DvdLibraryView view) { //constructor
         this.myService = myService; //this means the paramaters are going to be mapped to the myDao class declaration above
         this.view = view; //this means the paramaters are going to be mapped to the view class declaration above
     }
-    
+
     public void run() {
         /*
                 The run method will ask for the user selection and then route the request 
@@ -61,55 +62,54 @@ public class DvdLibraryController {
          */
         boolean keepGoing = true;
         int menuSelection = 0;
-        
+
         try {
             /*
             Here i added a try-catch block to the controller’s run method so 
             the code can react to the DvdLibraryDaoExceptions that potentially 
             get thrown by the user's selection.  When an exception is encountered, 
             it’ll just tell the "view" to print out the error message.
-            */
-            
-        outter:
-        while (keepGoing) {
+             */
 
-            menuSelection = getMenuSelection();
+            outter:
+            while (keepGoing) {
 
-            switch (menuSelection) {
-                case 1:
-                    createDvd();
-                    break;
-                case 2:
-                    removeDVD();
-                    break;
-                case 3:
-                    editDvd();
-                    break;
-                case 4:
-                    displayDvds();
-                    break;
-                case 5:
-                    viewSpecificDvd();
-                    break;
-                case 6:
-                    viewSpecificDvd();
-                    break;
-                case 7:
-                    exitMessage();
-                    //Exit application
-                    keepGoing = false;
-                    break outter;
-                default:
-                    unknownCommand();
+                menuSelection = getMenuSelection();
+
+                switch (menuSelection) {
+                    case 1:
+                        createDvd();
+                        break;
+                    case 2:
+                        removeDVD();
+                        break;
+                    case 3:
+                        editDvd();
+                        break;
+                    case 4:
+                        displayDvds();
+                        break;
+                    case 5:
+                        viewSpecificDvd();
+                        break;
+                    case 6:
+                        viewSpecificDvd();
+                        break;
+                    case 7:
+                        exitMessage();
+                        //Exit application
+                        keepGoing = false;
+                        break outter;
+                    default:
+                        unknownCommand();
+                }
+
             }
-
-            
-        }
 //            exitMessage();
 //        io.print("GOOD BYE");
-    } catch (DvdLibraryPersistenceException e){
-        view.displayErrorMessage(e.getMessage());
-    }
+        } catch (DvdLibraryPersistenceException e) {
+            view.displayErrorMessage(e.getMessage());
+        }
     }
 
     private int getMenuSelection() {
@@ -122,20 +122,20 @@ public class DvdLibraryController {
 
     private void createDvd() throws DvdLibraryPersistenceException {
         view.diaplayCreateDvdEntry();
-        
+
         boolean hasErrors = false;
         do {
-        DvdLibrary myDvdLibrary = view.getNewDvdInfo();
-            try{
+            DvdLibrary myDvdLibrary = view.getNewDvdInfo();
+            try {
                 myService.createDvd(myDvdLibrary);
                 view.displayCreateDvdEntrySuccessful();
                 hasErrors = false;
-            } catch (DvdLibraryDuplicateNameException | DvdLibraryDataValidationException e){
+            } catch (DvdLibraryDuplicateNameException | DvdLibraryDataValidationException e) {
                 hasErrors = true;
                 view.displayErrorMessage(e.getMessage());
             }
-         } while (hasErrors);
-    
+        } while (hasErrors);
+
     }
 
     private void displayDvds() throws DvdLibraryPersistenceException {
@@ -146,15 +146,33 @@ public class DvdLibraryController {
 
     private void viewSpecificDvd() throws DvdLibraryPersistenceException {
         view.displayParticularDvdBanner();
-        String specificDvd = view.getDvdByChoice();
-        DvdLibrary Dvd = myService.displayParticularDvd(specificDvd);
-        view.displayParticularDvd(Dvd);
+        
+//        
+//        
+//        String specificDvd = view.getDvdByChoice();
+//        DvdLibrary Dvd = myService.displayParticularDvd(specificDvd);
+//        
+//        First shortcut:
+//        myService.displayParticularDvd(view.getDvdByChoice());
+//        
+//          But I have to pass the above statement into "Dvd" below
+//        view.displayParticularDvd(Dvd);
+
+        //So second shortcut:
+        view.displayParticularDvd(myService.displayParticularDvd(view.getDvdByChoice()));
+  //getters to get object metadata         getting the object       returns title
     }
 
     private void removeDVD() throws DvdLibraryPersistenceException {
         view.displayRemoveDVDBanner();
-        String title = view.getDvdByChoice();
-        myService.removeDvd(title);
+        
+        //Get you Mind blown here:
+//        
+//        String title = view.getDvdByChoice();
+//        myService.removeDvd(title);
+        
+        myService.removeDvd(view.getDvdByChoice());
+        
         view.displayDvdRemovedSuccessBanner();
     }
 
@@ -163,8 +181,19 @@ public class DvdLibraryController {
         String specificDvd = view.whichDvdToEdit();
         myService.removeDvd(specificDvd);
         DvdLibrary myDvdLibrary = view.getNewDvdInfo();
-        myService.createDvd(myDvdLibrary.getTitle(), myDvdLibrary); //Here
-        view.displayEditBannerSuccess();
+
+        boolean hasErrors = false;
+        do {
+            view.getNewDvdInfo();
+            try {
+                myService.createDvd(myDvdLibrary);
+                view.displayCreateDvdEntrySuccessful();
+                hasErrors = false;
+            } catch (DvdLibraryDuplicateNameException | DvdLibraryDataValidationException e) {
+                hasErrors = true;
+                view.displayErrorMessage(e.getMessage());
+            }
+        } while (hasErrors);
     }
 
     private void unknownCommand() {
