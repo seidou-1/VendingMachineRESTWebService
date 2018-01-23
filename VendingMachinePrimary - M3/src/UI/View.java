@@ -80,4 +80,9 @@ public class View {
     public String userSelectionID() {
         return myIO.readString("Select an item i.e. A1");
     }
+    
+    public void displayCalculatedChange(String message){
+        myIO.print(message);
+        
+    }
 }

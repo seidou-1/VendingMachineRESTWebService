@@ -7,6 +7,7 @@ package VendingMachineController;
 
 import UI.View;
 import VendingMachineDao.PersistenceException;
+import VendingMachineDto.Change;
 import VendingMachineDto.Products;
 import VendingMachineServiceLayer.Service;
 import static java.lang.Integer.parseInt;
@@ -21,13 +22,18 @@ public class Controller {
 
     private Service myService;
     private View myView;
+    private Change myChange;
 
-    public Controller(Service myService, View myView) {
+    public Controller(Service myService, View myView, Change myChange) {
         this.myService = myService;
         this.myView = myView;
+        this.myChange = myChange;
     }
 
     public void run() throws PersistenceException {
+        
+        
+//        Products getTheUsersProduct = productSelection();
 
         boolean keepGoing = true;
 
@@ -70,6 +76,13 @@ public class Controller {
                         userSelection variable.
                         */
                         String userSelection = userSelectionID();
+                        
+            Products getProductSelection = productSelection(userSelection);
+
+            String changeCalculated = myChange.calculateChange(userInsert, getProductSelection);
+            
+            displayCalculatedChange("Your change is "+ changeCalculated);
+            
             }
 
         }
@@ -108,6 +121,10 @@ public class Controller {
     //This method prints the menu and returns the products from the service layer as well
     private void printMenu() throws PersistenceException {
         myView.printMenuAndGetSelection(myService.getAllProducts());
+    }
+    
+    private void displayCalculatedChange(String message) throws PersistenceException{
+        myView.displayCalculatedChange(message);
     }
 
 }

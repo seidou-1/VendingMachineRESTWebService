@@ -12,6 +12,7 @@ import VendingMachineController.Controller;
 import VendingMachineDao.Dao;
 import VendingMachineDao.DaoFileImpl;
 import VendingMachineDao.PersistenceException;
+import VendingMachineDto.Change;
 import VendingMachineServiceLayer.*;
 
 /**
@@ -34,8 +35,10 @@ public class App {
        //Adding the service layer
        Service theService = new ServiceImpl(hashMap);
        
+       Change theChange = new Change();
+       
        //Also instantiating the controller
-       Controller theController = new Controller (theService, theView);
+       Controller theController = new Controller (theService, theView, theChange);
        
        theController.run();
        
