@@ -31,17 +31,14 @@ public class Controller {
     }
 
     public void run() throws PersistenceException {
-        
-        
-//        Products getTheUsersProduct = productSelection();
 
+//        Products getTheUsersProduct = productSelection();
         boolean keepGoing = true;
 
         /*
         First we need to get all the inventory list items via the service. Returning it as a list
         and display it to the user
          */
-
 //        List<Products> myList = myService.getAllProducts();
 
         /*
@@ -59,34 +56,63 @@ public class Controller {
 //                    "Exit";
 //                    break;
 //            }
-            printMenu();
-            
+            printMenu();//First display the menu
+
             BigDecimal userInsert = userInsertCash();
+//Prompting the user to input cash through a big decimal prompt
+/*
+Big Decimal checks if the user inputted a string equivalent of a number
+
+If so:
+It will accept the users input as a string
+
+If not:
+It will reprompt the user to try again
+
+If the user's BigString input is "exit" the BigString value becomes null and 
+the program exits
+             */
 
             if (userInsert == null) {
                 keepGoing = false;
                 exit();
                 break;
 
+                /*
+If the user did not type exit, that means they passed the BigString requirements
 
+And now...
+
+1.Create a new Products variable and the value of that is what the user inputted
+for their product selection "Products getProductSelection"
+                
+2.Calculate Change is a method from the Change class. It takes in the money
+the user inserted as well as the cost of the item
+                
+In order to get what the user inserted, i pass the above product Selection variable to it
+and as far as the money they inputted, that would be the Big Decimal userInsert variable
+"BigDecimal userInsert = userInsertCash();"
+*/
             } else {
-                        /*
+                /*
                         Program reads from right to left.
                         It calls userSelectionID() first and assigns that to the
                         userSelection variable.
-                        */
-                        String userSelection = userSelectionID();
-                        
-            Products getProductSelection = productSelection(userSelection);
+                 */
+                String userSelection = userSelectionID();
+                
+                Products getProductSelection = productSelection(userSelection);
 
-            String changeCalculated = myChange.calculateChange(userInsert, getProductSelection);
-            
-            displayCalculatedChange("Your change is "+ changeCalculated);
-            
+                //calculateChange takes a Product data type. So i took that the user slection
+                //was and inserted it into a Products getProductSelection variable
+                //and then pass that variable into the calculateChange class
+                String changeCalculated = myChange.calculateChange(userInsert, getProductSelection);
+
+                displayCalculatedChange("Your change is " + changeCalculated);
+
             }
 
         }
-
 
 //        if (parseInt(menuSelection) == myList.size()+ 1) {
 //            
@@ -112,6 +138,10 @@ public class Controller {
     //This method returns the product based on the user's ID input
     private Products productSelection(String userSelectionID) throws PersistenceException {
         return myService.getProduct(userSelectionID);
+        /*
+        Here i am capturing what the user inputted as the selection
+        and getting the product ID that matches the users input
+         */
     }
 
     private void exit() {
@@ -122,8 +152,8 @@ public class Controller {
     private void printMenu() throws PersistenceException {
         myView.printMenuAndGetSelection(myService.getAllProducts());
     }
-    
-    private void displayCalculatedChange(String message) throws PersistenceException{
+
+    private void displayCalculatedChange(String message) throws PersistenceException {
         myView.displayCalculatedChange(message);
     }
 
