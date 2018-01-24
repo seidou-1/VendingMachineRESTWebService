@@ -19,5 +19,7 @@ public interface Service {
    Products getProduct(String productID) throws PersistenceException;
    
    List <Products> getAllProducts() throws PersistenceException;
+   
+//   public void justWriteInventory() throws PersistenceException;
     
 }
