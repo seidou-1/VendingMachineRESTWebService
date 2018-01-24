@@ -101,7 +101,7 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
                  */
                 String userSelection = userSelectionID();
                 
-                Products getProductSelection = productSelection(userSelection);
+//                Products getProductSelection = productSelection(userSelection);
 
                 //calculateChange takes a Product data type. So i took that the user slection
                 //was and inserted it into a Products getProductSelection variable
@@ -109,6 +109,8 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
                 String changeCalculated = myChange.calculateChange(userInsert, getProductSelection);
 
                 displayCalculatedChange("Your change is " + changeCalculated);
+                
+                
 
             }
 
@@ -136,13 +138,35 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
     }
 
     //This method returns the product based on the user's ID input
-    private Products productSelection(String userSelectionID) throws PersistenceException {
-        return myService.getProduct(userSelectionID);
+    private int productSelection(String userSelectionID) throws PersistenceException {
+        
+        //Got the users SelectionID and stored it into a Products object
+        //                      ServiceLayer, Method,  Paramater
+        Products usersProduct = myService.getProduct(userSelectionID);
+        
+        /*
+        If the inventory of the product is <=0, subtract 1
+        */
+        if (usersProduct.getProductInventory()<=0) {
+            
+            Products selectedProduct = myService.(userSelectionID);
+            
+            myService.justWriteInventory();
+            
+//        return myService.(userSelectionID)-1;
+        
+        
+        }
+        
         /*
         Here i am capturing what the user inputted as the selection
         and getting the product ID that matches the users input
          */
     }
+    
+    private Products inventoryTracker (String usersItemSelection) throws PersistenceException {
+        return myService.getProduct(usersItemSelection);
+        }
 
     private void exit() {
         myView.exitMessage();

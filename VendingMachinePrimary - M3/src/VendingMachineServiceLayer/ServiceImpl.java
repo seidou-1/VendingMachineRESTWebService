@@ -34,6 +34,18 @@ public class ServiceImpl implements Service{
         return myDao.getAllProducts();
     }
     
+    public void justWriteInventory() throws PersistenceException{
+        myDao.justWriteInventory();
+    }
+    
+    public Products inventoryTracker (String usersItemSelection) throws PersistenceException {
+        
+        loadInventory();
+        myDao.getProduct(usersItemSelection);
+        }
+        
+    }
     
     
-}
+    
+
