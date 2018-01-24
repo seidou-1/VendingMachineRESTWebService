@@ -94,6 +94,6 @@ public class View {
     }
     
     public void displayOutOfStock(){
-         myIO.print("Sorry bro out of stock");
+         myIO.print("¯\\_(ツ)_/¯\n");
     }
 }

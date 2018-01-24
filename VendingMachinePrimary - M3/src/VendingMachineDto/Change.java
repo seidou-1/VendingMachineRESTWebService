@@ -12,6 +12,8 @@ import java.math.BigDecimal;
  * @author laptop
  */
 public class Change {
+    
+    
 
     /*
     The purpose of this class is to calculate the change of the amount of money
@@ -36,6 +38,15 @@ public class Change {
                             AND
         The selectedProduct
          */
+
+        
+        if (selectedProduct.getProductInventory()==0) {
+
+            String refund = usersMoney.toPlainString();
+            return "Out of stock! your $" + refund + " has been refunded back to you";
+            
+        } //Here
+        
         String getCostOfItem = selectedProduct.getProductCost();
 
         //Getting the big decimal version of what the users money
@@ -44,12 +55,28 @@ public class Change {
 
         BigDecimal selectedProductConverted = new BigDecimal(selectedProduct.getProductCost());
 
-        BigDecimal calculation = usersCash.subtract(selectedProductConverted);
+        
+        //Here
+//        
+        
+          BigDecimal calculation = usersCash.subtract(selectedProductConverted);
 
         //This takes the calculaiton and converts it to a string
         String convertertsBackToString = calculation.toString();
+        
+        /*
+        Logic here that talks to the controller to check if 
+        */
 
-        return convertertsBackToString;
+            
+//        } else {
+            
+//            System.out.println("Out of stock! " + usersMoney + " has been refunded to you");
+//        }
+        //Here
+                return "Your change is " + convertertsBackToString;    
+
+      
 
         /*
         Quarters nicks dimes calculation

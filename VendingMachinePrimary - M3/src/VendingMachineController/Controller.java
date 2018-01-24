@@ -108,7 +108,7 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
                 //and then pass that variable into the calculateChange class
                 String changeCalculated = myChange.calculateChange(userInsert, getProductSelection);
                 
-                displayCalculatedChange("Your change is " + changeCalculated);
+                displayCalculatedChange(/*"Your change is " +*/ changeCalculated);
                 
                 inventoryReducer(userSelection);
                 
@@ -153,8 +153,14 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
     /*
     This method reduces the inventory of the item the users selected
     */
-    private void inventoryReducer (String userSelectionID) throws PersistenceException {
-        
+    private void inventoryReducer (String userSelectionID) throws PersistenceException { 
+    //Should this be an int return instead?
+    /*
+    The purpose of this class is to reduce the inventory count of the item
+    the user selected
+    */
+
+                    
         //Got the users SelectionID and stored it into a Products object
         //                      ServiceLayer, Method,  Paramater
         Products usersProduct = myService.getProduct(userSelectionID);
@@ -163,11 +169,8 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
         If the inventory of the product is <=0, subtract 1
         */
         if (usersProduct.getProductInventory()<=0) {
-            
-            
-            
-//        return myService.(userSelectionID)-1;
-        
+             
+            myView.displayOutOfStock();
         
         } else {
             
@@ -180,8 +183,8 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
             */
             usersProduct.setProductInventory(inventoryCount);
             myService.justWriteInventory();
-            System.out.println("Item Remaining Inventory: " + inventoryCount);
-
+//            return "Item Remaining Inventory: " + inventoryCount;
+            System.out.println(usersProduct.getProductName() + " Remaining Inventory: " + inventoryCount);
         }
         
         /*
