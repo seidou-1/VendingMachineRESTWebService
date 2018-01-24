@@ -101,15 +101,16 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
                  */
                 String userSelection = userSelectionID();
                 
-//                Products getProductSelection = productSelection(userSelection);
+                Products getProductSelection = productSelection(userSelection);
 
                 //calculateChange takes a Product data type. So i took that the user slection
                 //was and inserted it into a Products getProductSelection variable
                 //and then pass that variable into the calculateChange class
                 String changeCalculated = myChange.calculateChange(userInsert, getProductSelection);
-
+                
                 displayCalculatedChange("Your change is " + changeCalculated);
                 
+                inventoryReducer(userSelection);
                 
 
             }
@@ -138,7 +139,21 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
     }
 
     //This method returns the product based on the user's ID input
-    private int productSelection(String userSelectionID) throws PersistenceException {
+    private Products productSelection(String userSelectionID) throws PersistenceException {
+        
+     return myService.getProduct(userSelectionID);
+        
+        }
+        
+        /*
+        Here i am capturing what the user inputted as the selection
+        and getting the product ID that matches the users input
+         */
+    
+    /*
+    This method reduces the inventory of the item the users selected
+    */
+    private void inventoryReducer (String userSelectionID) throws PersistenceException {
         
         //Got the users SelectionID and stored it into a Products object
         //                      ServiceLayer, Method,  Paramater
@@ -149,24 +164,36 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
         */
         if (usersProduct.getProductInventory()<=0) {
             
-            Products selectedProduct = myService.(userSelectionID);
             
-            myService.justWriteInventory();
             
 //        return myService.(userSelectionID)-1;
         
         
+        } else {
+            
+            int inventoryCount = usersProduct.getProductInventory();
+            inventoryCount--;
+            
+            /*
+            At this point it's just floating in memory. So i have to
+            set the inventory value back into the object
+            */
+            usersProduct.setProductInventory(inventoryCount);
+            myService.justWriteInventory();
+            System.out.println("Item Remaining Inventory: " + inventoryCount);
+
         }
         
         /*
         Here i am capturing what the user inputted as the selection
         and getting the product ID that matches the users input
          */
+        
     }
     
-    private Products inventoryTracker (String usersItemSelection) throws PersistenceException {
-        return myService.getProduct(usersItemSelection);
-        }
+//    private Products inventoryTracker (String usersItemSelection) throws PersistenceException {
+//        return myService.getProduct(usersItemSelection);
+//        }
 
     private void exit() {
         myView.exitMessage();

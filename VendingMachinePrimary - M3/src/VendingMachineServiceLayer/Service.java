@@ -20,4 +20,6 @@ public interface Service {
    
    List <Products> getAllProducts() throws PersistenceException;
     
+    void justWriteInventory(); 
+
 }

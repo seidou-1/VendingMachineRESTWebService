@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -32,8 +34,8 @@ public class DaoFileImpl implements Dao {
 
     @Override
     public Products getProduct(String productID) throws PersistenceException {
-        Products currentProduct = inventory.get(productID);
         loadInventory();
+        Products currentProduct = inventory.get(productID);
         return currentProduct;
     }
 
@@ -41,9 +43,19 @@ public class DaoFileImpl implements Dao {
     public List<Products> getAllProducts() throws PersistenceException {
         loadInventory();
         return new ArrayList<>(inventory.values());
-         
 
     }
+    
+    @Override
+    public void justWriteInventory() {
+        try {
+            writeInventory();
+        } catch (PersistenceException ex) {
+            System.out.println("Could not write to inventory test..");
+        }
+    }
+    
+    
 
     private void loadInventory() throws PersistenceException {
 

@@ -22,5 +22,5 @@ public interface Dao {
    
    List <Products> getAllProducts() throws PersistenceException;
    
-    
+   void justWriteInventory(); 
 }
