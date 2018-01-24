@@ -36,44 +36,37 @@ public class Change {
                             AND
         The selectedProduct
          */
-        while (sufficientFunds) {
-            String getCostOfItem = selectedProduct.getProductCost();
+        String getCostOfItem = selectedProduct.getProductCost();
 
-            //Getting the big decimal version of what the users money
-            BigDecimal usersCash = usersMoney;
+        //Getting the big decimal version of what the users money
+        BigDecimal usersCash = usersMoney;
 //                = new BigDecimal(usersMoney);
 
-            BigDecimal selectedProductConverted = new BigDecimal(selectedProduct.getProductCost());
+        BigDecimal selectedProductConverted = new BigDecimal(selectedProduct.getProductCost());
 
-            BigDecimal calculation = usersCash.subtract(selectedProductConverted);
+        BigDecimal calculation = usersCash.subtract(selectedProductConverted);
 
-            //This takes the calculaiton and converts it to a string
-            String convertertsBackToString = calculation.toString();
+        //This takes the calculaiton and converts it to a string
+        String convertertsBackToString = calculation.toString();
 
-            //Logic below to reduce intentory count:
- 
-            int inventoryRemaining = selectedProduct.getProductInventory();
-            inventoryRemaining--;
+        return convertertsBackToString;
 
-            //Replace with a try catch here:
-                    if (inventoryRemaining <= 0) {
-                        sufficientFunds = false;
-                        System.out.println("Out of stock");
-                    }
-                    
-            /*
+        /*
         Quarters nicks dimes calculation
         
         subtract inventory
         
         Add a while loop to check if money is enough and throw an error if not
-             */
-//        selectedProduct.getProductInventory()--;
-
-        return convertertsBackToString;
-
-        } // End of while loop
-
+         */
     }
 
 }
+
+//int inventoryRemaining = selectedProduct.getProductInventory();
+//            inventoryRemaining--;
+//
+//            //Replace with a try catch here:
+//                    if (inventoryRemaining <= 0) {
+//                        sufficientFunds = false;
+//                        System.out.println("Out of stock");
+//                    }
