@@ -143,11 +143,11 @@ public class Change {
         
 //        pennies = (int) remainingAmount.multiply(new BigDecimal("100")).doubleValue();        
 
-        double a = remainingAmount.doubleValue();
+//        double a = remainingAmount.doubleValue();
         
         pennies = (int) (remainingAmount.doubleValue() *(100));        
 
-        System.out.println("\n Your change is: ");
+//        System.out.println("\n Your change is: ");
 
         return calculation;
 //                

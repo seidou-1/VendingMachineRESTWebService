@@ -96,7 +96,7 @@ public class ServiceImpl implements Service {
         selectedProduct.setProductInventory(remainingInventory);//Set this back to the hashmap
         myDao.justWriteInventory();
         
-        System.out.println(selectedProduct.getProductName() + " \n Remaining Inventory: " + remainingInventory);
+        System.out.println(selectedProduct.getProductName() + " \n \n Remaining Inventory: " + remainingInventory);
 
         return remainingInventory;
 

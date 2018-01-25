@@ -72,7 +72,7 @@ public class Controller {
             printMenu();//First display the menu
 
             BigDecimal userInsert = userInsertCash(); //Gets the user's money
-            BigDecimal balance = new BigDecimal ("0.00");
+            BigDecimal balance = new BigDecimal("0.00");
 
             if (userInsert == null) { //As long as the user didn't type "exit"
                 keepGoing = false;
@@ -98,28 +98,28 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
             } else {
                 Products getProductSelection = productSelection(userSelectionID()); //gets the user's item selection
 
+                userInsert = userInsert.add(myChange.getUsersBalance());
+
                 if (checkIfMoneyIsEnough(userInsert, getProductSelection)) {
 
                     if (inventoryAvailability(userInsert, getProductSelection)) {
 
                         reduceInventory(getProductSelection); //Reduce the product inventory
-                        
-                        userInsert = userInsert.add(myChange.getUsersBalance());
-                        
-                        
+
                         userInsert = myChange.calculateChange(userInsert, getProductSelection); //Overwrites how much the user inputted initially
-                        
+
                         myChange.setUsersBalance(userInsert);
-                        
-                        displayCalculatedChange("Total change is $:  " 
-                        + myChange.getUsersBalance()
-                        + "Ten's: " + myChange.getTenDollars()
-                        + "\n Five's: " + myChange.getFiveDollars()
-                        + "\n Dollar's: " + myChange.getOneDollar()
-                        + "\n Quarter's: " + myChange.getQuarters()
-                        + "\n Dime's: " + myChange.getDimes() 
-                        + "\n Nickel's: " + myChange.getNickels() 
-                        + "\n Pennie's: " + myChange.getPennies());
+
+                                displayCalculatedChange("\n Total change is: $ "
+                                + myChange.getUsersBalance()
+                                + "\n Breakdown: "
+                                + "\n Ten's: " + myChange.getTenDollars()
+                                + "\n Five's: " + myChange.getFiveDollars()
+                                + "\n Dollar's: " + myChange.getOneDollar()
+                                + "\n Quarter's: " + myChange.getQuarters()
+                                + "\n Dime's: " + myChange.getDimes()
+                                + "\n Nickel's: " + myChange.getNickels()
+                                + "\n Pennie's: " + myChange.getPennies());
 //                        displayCalculatedChange(userInsert.toString());
                     }
 
