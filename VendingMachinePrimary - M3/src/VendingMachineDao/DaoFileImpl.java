@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import static java.lang.Integer.parseInt;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +33,8 @@ public class DaoFileImpl implements Dao {
 
     @Override
     public Products getProduct(String productID) throws PersistenceException {
-        Products currentProduct = inventory.get(productID);
         loadInventory();
+        Products currentProduct = inventory.get(productID);
         return currentProduct;
     }
 
@@ -41,9 +42,19 @@ public class DaoFileImpl implements Dao {
     public List<Products> getAllProducts() throws PersistenceException {
         loadInventory();
         return new ArrayList<>(inventory.values());
-         
 
     }
+    
+    @Override
+    public void justWriteInventory() {
+        try {
+            writeInventory();
+        } catch (PersistenceException ex) {
+            System.out.println("Could not write to inventory test..");
+        }
+    }
+    
+    
 
     private void loadInventory() throws PersistenceException {
 
@@ -70,7 +81,8 @@ public class DaoFileImpl implements Dao {
 
             Products currentProduct = new Products(currentTokens[0]);
             currentProduct.setProductName(currentTokens[1]);
-            currentProduct.setProductCost(currentTokens[2]);
+            //Whatever is being read converts from a String into a BigDecimal
+            currentProduct.setProductCost (new BigDecimal (currentTokens[2]));
             currentProduct.setProductInventory(parseInt(currentTokens[3]));
 
             inventory.put(currentProduct.getProductId(), currentProduct);
@@ -95,7 +107,8 @@ public class DaoFileImpl implements Dao {
 
             out.println(tempProducts.getProductId() + DELIMITER
                     + tempProducts.getProductName() + DELIMITER
-                    + tempProducts.getProductCost() + DELIMITER
+                    //Same. This converts from BigDecimal into a String
+                    + tempProducts.getProductCost().toString() + DELIMITER
                     + tempProducts.getProductInventory());
 
             out.flush();

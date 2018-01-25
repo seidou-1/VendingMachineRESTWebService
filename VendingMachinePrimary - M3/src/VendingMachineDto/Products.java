@@ -5,6 +5,8 @@
  */
 package VendingMachineDto;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author laptop
@@ -13,7 +15,7 @@ public class Products {
     
     private String productId;
     private String productName;
-    private String productCost;
+    private BigDecimal productCost;
     private int productInventory;
 
     public Products(String productId) {
@@ -39,21 +41,40 @@ public class Products {
         return productId;
     }
     
-    public String getProductCost() {
+    public BigDecimal getProductCost() {
         return productCost;
     }
 
-    public void setProductCost(String productCost) {
+    public void setProductCost(BigDecimal productCost) {
         this.productCost = productCost;
     }
 
     public int getProductInventory() {
         return productInventory;
     }
-
-    public void setProductInventory(int productInventory) {
-        this.productInventory = productInventory;
+    
+    /*
+    The below method takes the value of the productInventory and reduces
+    it by one
+    */
+    public void setProductInventory() {
+        this.productInventory -=1;
+//                productInventory = productInventory;
+        /*
+        call this.getProductInventory -=1
+        */
     }
+    
+    /*
+    Overloading the method here so i can use the int value and pass it to the Dao
+    Below is for the inventory text file
+    */
+    
+    public int setProductInventory(int productInventory) {
+        return this.productInventory = productInventory;
+    }
+    
+    
     
 }
 

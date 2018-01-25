@@ -21,7 +21,7 @@ import VendingMachineServiceLayer.*;
  */
 public class App {
     
-    public static void main(String[] args) throws PersistenceException {
+    public static void main(String[] args) throws PersistenceException, InventoryAvailabilityException, InsufficientFundsException {
        
         //Using this particular implementation of the Dao 
        Dao hashMap = new DaoFileImpl();

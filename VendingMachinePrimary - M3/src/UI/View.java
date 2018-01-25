@@ -22,7 +22,7 @@ public class View {
         this.myIO = myIO;
     }
 
-    public void printMenuAndGetSelection(List<Products> values) {
+    public void printMenuOnly(List<Products> values) {
 
         myIO.print("***Vending Machine Menu***");
 
@@ -60,6 +60,13 @@ public class View {
                 if (input.equalsIgnoreCase("exit")) {
                     validInput = false;
                     break;
+                } else {
+                    System.out.println("Invalid input. Try again. \n");
+                    /*
+                    If the user does not enter a string equivalent of a number and
+                    they did not enter "exit", they will be prompted with an invalid
+                    input message
+                    */
                 }
 
             }
@@ -84,5 +91,9 @@ public class View {
     public void displayCalculatedChange(String message){
         myIO.print(message);
         
+    }
+    
+    public void displayOutOfStock(){
+         myIO.print("¯\\_(ツ)_/¯\n");
     }
 }

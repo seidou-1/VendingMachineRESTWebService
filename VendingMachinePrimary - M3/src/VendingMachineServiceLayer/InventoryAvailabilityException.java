@@ -9,14 +9,14 @@ package VendingMachineServiceLayer;
  *
  * @author laptop
  */
-public class InsufficientFundsException extends Exception{
+public class InventoryAvailabilityException extends Exception{
     
-     public InsufficientFundsException (String message){
+     public InventoryAvailabilityException (String message){
         
         super (message);
     }
     
-    public InsufficientFundsException (String message, Throwable cause) {
+    public InventoryAvailabilityException (String message, Throwable cause) {
         
         super (message, cause);
                 
