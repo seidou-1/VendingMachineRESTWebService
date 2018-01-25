@@ -21,6 +21,54 @@ public class Change {
     And then break the change down into different coin amounts
      */
 //    boolean sufficientFunds = true;
+    private int tenDollars = 0,
+            fiveDollars = 0,
+            oneDollar = 0,
+            quarters = 0,
+            dimes = 0,
+            nickels = 0,
+            pennies = 0;
+    
+    private BigDecimal usersBalance = new BigDecimal ("0.00");
+
+    public BigDecimal getUsersBalance() {
+        return usersBalance;
+    }
+
+    public void setUsersBalance(BigDecimal usersBalance) {
+        this.usersBalance = usersBalance;
+    }
+
+    public int getTenDollars() {
+        return tenDollars;
+    }
+
+    public int getFiveDollars() {
+        return fiveDollars;
+    }
+
+    public int getOneDollar() {
+        return oneDollar;
+    }
+
+    public int getQuarters() {
+        return quarters;
+    }
+
+    public int getDimes() {
+        return dimes;
+    }
+
+    public int getNickels() {
+        return nickels;
+    }
+
+    public int getPennies() {
+        return pennies;
+    }
+    
+    
+
     public BigDecimal calculateChange(BigDecimal usersMoney, Products selectedProduct) {
         /*
         This takes in two variables:
@@ -56,25 +104,61 @@ public class Change {
 //        }
         //Here
 //                return "Your change is " + convertertsBackToString;
-
-          BigDecimal remainingAmount = calculation.multiply(new BigDecimal("100"));
+        BigDecimal remainingAmount = calculation;
 //          remainingAmount = remainingAmount % "100";
-          
-          if (remainingAmount.compareTo(Money.TENDOLLARS.getMula()) > 0){
-              //something
-          } else if (remainingAmount.compareTo(Money.FIVEDOLLARS.getMula())>0){
-              
-          } else if (remainingAmount.compareTo(Money.DOLLARS.getMula())>0){
-              
-          } else if (remainingAmount.compareTo(Money.QUARTERS.getMula())>0){
-              
-          } else if (remainingAmount.compareTo(Money.DIMES.getMula())>0){
-              
-          } else if (remainingAmount.compareTo(Money.NICKELS.getMula())>0){
-              
-          } else if (remainingAmount.compareTo(Money.PENNIES.getMula())>0){
-              
-          }
+
+        /*
+            Filling up as much of each of the denominations as possible.
+            i.e. how many times can i fill $10, $5, $1, etc..
+         */
+        while (remainingAmount.compareTo(new BigDecimal("10.00")) >= 0) {
+            tenDollars++;
+            remainingAmount = remainingAmount.subtract(new BigDecimal("10.00"));
+        }
+        while (remainingAmount.compareTo(new BigDecimal("5.00")) >= 0) {
+            fiveDollars++;
+            remainingAmount = remainingAmount.subtract(new BigDecimal("5.00"));
+        }
+
+        while (remainingAmount.compareTo(new BigDecimal("1.00")) >= 0) {
+            oneDollar++;
+            remainingAmount = remainingAmount.subtract(new BigDecimal("1.00"));
+        }
+
+        while (remainingAmount.compareTo(new BigDecimal("0.25")) >= 0) {
+            quarters++;
+            remainingAmount = remainingAmount.subtract(new BigDecimal("0.25"));
+
+        }
+
+        while (remainingAmount.compareTo(new BigDecimal("0.10")) >= 0) {
+            dimes++;
+            remainingAmount = remainingAmount.subtract(new BigDecimal("0.10"));
+
+        }
+        while (remainingAmount.compareTo(new BigDecimal("0.05")) >= 0) {
+            nickels++;
+            remainingAmount = remainingAmount.subtract(new BigDecimal("0.05"));
+        }
+        
+//        pennies = (int) remainingAmount.multiply(new BigDecimal("100")).doubleValue();        
+
+        double a = remainingAmount.doubleValue();
+        
+        pennies = (int) (remainingAmount.doubleValue() *(100));        
+
+        System.out.println("\n Your change is: ");
+
+        return calculation;
+//                
+//                while (remainingAmount.compareTo(Money.DIMES.getMula())>0){
+//            while (remainingAmount.compareTo(Money.DIMES.getMula())>0){
+//              
+//          } else if (remainingAmount.compareTo(Money.NICKELS.getMula())>0){
+//              
+//          } else if (remainingAmount.compareTo(Money.PENNIES.getMula())>0){
+//              
+//          }
 //          
 //        
 //        double dollarsAmount = remainingAmount /100;
@@ -90,10 +174,7 @@ public class Change {
 //        remainingAmount = remainingAmount %5;
 //        
 //        double penniesAmount = remainingAmount;
-
-
-        System.out.println("\n Your change is ");
-        return calculation;
+        
 
         /*
         Quarters nicks dimes calculation
@@ -102,9 +183,6 @@ public class Change {
         
         Add a while loop to check if money is enough and throw an error if not
          */
-        
-        
-        
 //        Scanner myScanner = new Scanner(System.in);
 //    
 //        System.out.println(input);//this is for the user to see what's going on 
@@ -112,15 +190,12 @@ public class Change {
 //        double numberConverted = Double.parseDouble(userInput); 
 //        System.out.println("The value you entered is: " + numberConverted);
 //        
-      
 //        remainingAmount = remainingAmount %1;
-        
 //        return remainingAmount
 //
 //        System.out.println("Total change = " + "$ " + dollarsAmount + "\n Quarters:" + quartersAmount + "\n Dimes: " + dimesAmount + "\n Nickels:" + nickelsAmount + "\n Pennies: " + penniesAmount);
 //        
 //        
-        
     }
 }
 //    
