@@ -22,7 +22,7 @@ public class View {
         this.myIO = myIO;
     }
 
-    public void printMenuAndGetSelection(List<Products> values) {
+    public void printMenuOnly(List<Products> values) {
 
         myIO.print("***Vending Machine Menu***");
 

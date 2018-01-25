@@ -65,7 +65,7 @@ public class ServiceImpl implements Service {
 
         try {
             if (selectedProduct.getProductInventory() == 0) {
-                throw new InventoryAvailabilityException("Out of stock! your $" + usersMoney + "has been refunded back to you");
+                throw new InventoryAvailabilityException("Out of stock! your $ " + usersMoney + "has been refunded back to you");
             } else {
                 return true;//Return true means i have enough inventory and will return true
             }
@@ -77,6 +77,20 @@ public class ServiceImpl implements Service {
 
     }
 //            System.out.println(e.);
+
+    @Override
+    public int reduceInventory(Products selectedProduct) {
+        //Should i load inventory first? Include a similar dao method?
+        int remainingInventory = selectedProduct.getProductInventory();
+        remainingInventory--;
+        myDao.justWriteInventory();
+        return remainingInventory;
+        
+    }
+    
+    
+
+
 }
 
 //Here

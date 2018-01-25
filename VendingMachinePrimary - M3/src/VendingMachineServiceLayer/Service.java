@@ -23,10 +23,12 @@ public interface Service {
    
 //   vreduceInventory ()
     
-    void justWriteInventory(); 
+    void justWriteInventory();
+    
+   int reduceInventory(Products selectedProduct); 
     
    boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException;
    
-   boolean inventoryAvailability (BigDecimal userMoney, Products selectedProduct);
+   boolean inventoryAvailability (BigDecimal userMoney, Products selectedProduct) throws InventoryAvailabilityException;
    
 }

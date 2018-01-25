@@ -9,6 +9,8 @@ import UI.View;
 import VendingMachineDao.PersistenceException;
 import VendingMachineDto.Change;
 import VendingMachineDto.Products;
+import VendingMachineServiceLayer.InsufficientFundsException;
+import VendingMachineServiceLayer.InventoryAvailabilityException;
 import VendingMachineServiceLayer.Service;
 import static java.lang.Integer.parseInt;
 import java.math.BigDecimal;
@@ -20,6 +22,8 @@ import java.util.List;
  */
 public class Controller {
 
+    boolean keepGoing = true;
+
     private Service myService;
     private View myView;
     private Change myChange;
@@ -30,50 +34,46 @@ public class Controller {
         this.myChange = myChange;
     }
 
-    public void run() throws PersistenceException {
-
-//        Products getTheUsersProduct = productSelection();
-        boolean keepGoing = true;
-
-        /*
-        First we need to get all the inventory list items via the service. Returning it as a list
-        and display it to the user
-         */
-//        List<Products> myList = myService.getAllProducts();
+    public void run() throws
+            PersistenceException,
+            InventoryAvailabilityException,
+            InsufficientFundsException {
 
         /*
-        Then i'm presenting that list to the user via the view 
-        and waiting for the user's input
+        1. First display the menu and display the products to the user
+        
+        2. Prompt the user insert money
+            Create a BigDecimal data type called userInsert. Assign that to
+            userInsertCash() which has logic that prompts the user to input 
+            cash through a big decimal prompt.
+        
+            That userInsertCash() has logic that checks if the user inputted 
+            a string equivalent of a number
+
+            If so:
+            It will accept the users input money as a BigDecimal equivalent to string 
+
+            If not:
+            It will reprompt the user to try again
+
+            If the user's BigString input is "exit" the BigString value becomes null and 
+            the program exits right away
+        
+        3. Get the user's item selection
+        4. Check if the item is in stock
+        5. Check if the user inserted enough money
+        6. Buy the item
+            
+            
 
          */
-//        String menuSelection = myView.printMenuAndGetSelection(myList);
         while (keepGoing) {
 
-//            myView.printMenuAndGetSelection(myList);
-//
-//            switch (userInsert) {
-//                case :
-//                    "Exit";
-//                    break;
-//            }
             printMenu();//First display the menu
 
-            BigDecimal userInsert = userInsertCash();
-//Prompting the user to input cash through a big decimal prompt
-/*
-Big Decimal checks if the user inputted a string equivalent of a number
+            BigDecimal userInsert = userInsertCash(); //Gets the user's money
 
-If so:
-It will accept the users input as a string
-
-If not:
-It will reprompt the user to try again
-
-If the user's BigString input is "exit" the BigString value becomes null and 
-the program exits
-             */
-
-            if (userInsert == null) {
+            if (userInsert == null) { //As long as the user didn't type "exit"
                 keepGoing = false;
                 exit();
                 break;
@@ -92,27 +92,31 @@ the user inserted as well as the cost of the item
 In order to get what the user inserted, i pass the above product Selection variable to it
 and as far as the money they inputted, that would be the Big Decimal userInsert variable
 "BigDecimal userInsert = userInsertCash();"
-*/
-            } else {
-                /*
-                        Program reads from right to left.
-                        It calls userSelectionID() first and assigns that to the
-                        userSelection variable.
                  */
-                String userSelection = userSelectionID();
-                
-                Products getProductSelection = productSelection(userSelection);
+            } else {
+                Products getProductSelection = productSelection(userSelectionID()); //gets the user's item selection
 
-                //calculateChange takes a Product data type. So i took that the user slection
-                //was and inserted it into a Products getProductSelection variable
-                //and then pass that variable into the calculateChange class
-                String changeCalculated = myChange.calculateChange(userInsert, getProductSelection);
-                
-                displayCalculatedChange(/*"Your change is " +*/ changeCalculated);
-                
-                inventoryReducer(userSelection);
-                
+                if (checkIfMoneyIsEnough(userInsert, getProductSelection)) {
+                    
+                    if (inventoryAvailability(userInsert, getProductSelection)) {
+                        
+                        reduceInventory(getProductSelection); //Reduce the product inventory
+                        
+                        String changeCalculated = myChange.calculateChange(userInsert, getProductSelection); //
 
+                        displayCalculatedChange(/*"Your change is " +*/changeCalculated);
+                    }
+
+                }
+
+//            {
+                //obtains the user's productID selection and assigns it as a BigData data type
+                /*
+                 calculateChange takes a Product data type. So i took that the user slection
+                 was and inserted it into a Products getProductSelection variable
+                 and then pass that variable into the calculateChange class
+                 */
+//                reduceInventory(userSelection);
             }
 
         }
@@ -138,77 +142,94 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
         return myView.userSelectionID();
     }
 
-    //This method returns the product based on the user's ID input
     private Products productSelection(String userSelectionID) throws PersistenceException {
-        
-     return myService.getProduct(userSelectionID);
-        
-        }
-        
-        /*
-        Here i am capturing what the user inputted as the selection
-        and getting the product ID that matches the users input
-         */
-    
-    /*
-    This method reduces the inventory of the item the users selected
-    */
-    private void inventoryReducer (String userSelectionID) throws PersistenceException { 
-    //Should this be an int return instead?
-    /*
-    The purpose of this class is to reduce the inventory count of the item
-    the user selected
-    */
 
-                    
-        //Got the users SelectionID and stored it into a Products object
-        //                      ServiceLayer, Method,  Paramater
-        Products usersProduct = myService.getProduct(userSelectionID);
-        
-        /*
-        If the inventory of the product is <=0, subtract 1
-        */
-        if (usersProduct.getProductInventory()<=0) {
-             
-            myView.displayOutOfStock();
-        
-        } else {
-            
-            int inventoryCount = usersProduct.getProductInventory();
-            inventoryCount--;
-            
-            /*
-            At this point it's just floating in memory. So i have to
-            set the inventory value back into the object
-            */
-            usersProduct.setProductInventory(inventoryCount);
-            myService.justWriteInventory();
-//            return "Item Remaining Inventory: " + inventoryCount;
-            System.out.println(usersProduct.getProductName() + " Remaining Inventory: " + inventoryCount);
-        }
-        
-        /*
-        Here i am capturing what the user inputted as the selection
-        and getting the product ID that matches the users input
-         */
-        
+        return myService.getProduct(userSelectionID);
+
     }
-    
-//    private Products inventoryTracker (String usersItemSelection) throws PersistenceException {
-//        return myService.getProduct(usersItemSelection);
-//        }
 
     private void exit() {
         myView.exitMessage();
     }
 
-    //This method prints the menu and returns the products from the service layer as well
     private void printMenu() throws PersistenceException {
-        myView.printMenuAndGetSelection(myService.getAllProducts());
+        myView.printMenuOnly(myService.getAllProducts());
     }
 
     private void displayCalculatedChange(String message) throws PersistenceException {
         myView.displayCalculatedChange(message);
     }
 
+    public boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException {
+        try {
+
+            if (selectedProduct.getProductCost().compareTo(userMoney) > 0) {
+                //If evaluates to true and throws the exception
+                throw new InsufficientFundsException("Error: You don't have enough dough bro\"\n");
+
+            } else {
+                return true;
+            }
+
+        } catch (InsufficientFundsException e) {
+            /*
+            This is telling the catch to grab an exception of type InsufficientFundsException
+            this instantiates the class using the letter e
+             */
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean inventoryAvailability(BigDecimal usersMoney, Products selectedProduct) throws InventoryAvailabilityException {
+
+        return myService.inventoryAvailability(usersMoney, selectedProduct);
+    }
+
+    public int reduceInventory(Products selectedProduct) {
+        //Should i load inventory first? Include a similar dao method?
+        return myService.reduceInventory(selectedProduct);
+
+    }
+
+//      private void inventoryReducer (String userSelectionID) throws PersistenceException { 
+//    //Should this be an int return instead?
+//    /*
+//    The purpose of this class is to reduce the inventory count of the item
+//    the user selected
+//    */
+//
+//                    
+//        //Got the users SelectionID and stored it into a Products object
+//        //                      ServiceLayer, Method,  Paramater
+//        Products usersProduct = myService.getProduct(userSelectionID);
+//        
+//        /*
+//        If the inventory of the product is <=0, subtract 1
+//        */
+//        if (usersProduct.getProductInventory()<=0) {
+//             
+//            myView.displayOutOfStock();
+//        
+//        } else {
+//            
+//            int inventoryCount = usersProduct.getProductInventory();
+//            inventoryCount--;
+//            
+//            /*
+//            At this point it's just floating in memory. So i have to
+//            set the inventory value back into the object
+//            */
+//            usersProduct.setProductInventory(inventoryCount);
+//            myService.justWriteInventory();
+////            return "Item Remaining Inventory: " + inventoryCount;
+//            System.out.println(usersProduct.getProductName() + " Remaining Inventory: " + inventoryCount);
+//        }
+//        
+//        /*
+//        Here i am capturing what the user inputted as the selection
+//        and getting the product ID that matches the users input
+//         */
+//        
+//    }
 }
