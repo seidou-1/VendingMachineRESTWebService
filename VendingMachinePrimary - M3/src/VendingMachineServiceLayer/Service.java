@@ -7,6 +7,7 @@ package VendingMachineServiceLayer;
 
 import VendingMachineDao.PersistenceException;
 import VendingMachineDto.Products;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,5 +22,9 @@ public interface Service {
    List <Products> getAllProducts() throws PersistenceException;
     
     void justWriteInventory(); 
-
+    
+   String checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException;
+   
+   String inventoryAvailability (String userMoney, Products selectedProduct);
+   
 }

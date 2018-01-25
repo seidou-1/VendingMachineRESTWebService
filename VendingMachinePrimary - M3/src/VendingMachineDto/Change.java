@@ -21,7 +21,7 @@ public class Change {
     
     And then break the change down into different coin amounts
      */
-    boolean sufficientFunds = true;
+//    boolean sufficientFunds = true;
 
     public String calculateChange(BigDecimal usersMoney, Products selectedProduct) {
         /*
@@ -38,31 +38,23 @@ public class Change {
                             AND
         The selectedProduct
          */
-
         
-        if (selectedProduct.getProductInventory()==0) {
-
-            String refund = usersMoney.toPlainString();
-            return "Out of stock! your $" + refund + " has been refunded back to you";
-            
-        } //Here
+//        BigDecimal usersMoneyConverted = new BigDecimal(usersMoney);
         
-        String getCostOfItem = selectedProduct.getProductCost();
+        
+        
+        BigDecimal getCostOfItem = selectedProduct.getProductCost();
 
         //Getting the big decimal version of what the users money
         BigDecimal usersCash = usersMoney;
 //                = new BigDecimal(usersMoney);
 
-        BigDecimal selectedProductConverted = new BigDecimal(selectedProduct.getProductCost());
+//        BigDecimal selectedProductConverted = new BigDecimal(selectedProduct.getProductCost());
 
-        
-        //Here
-//        
-        
-          BigDecimal calculation = usersCash.subtract(selectedProductConverted);
+        BigDecimal calculation = usersCash.subtract(getCostOfItem);
 
         //This takes the calculaiton and converts it to a string
-        String convertertsBackToString = calculation.toString();
+        String convertertsBackToString = calculation.toString(); //Why do i have to convertBackToString
         
         /*
         Logic here that talks to the controller to check if 
@@ -86,8 +78,11 @@ public class Change {
         Add a while loop to check if money is enough and throw an error if not
          */
     }
-
 }
+//    
+//    public String checkIfMoneyIsEnough (BigDecimal userMoney, Products selectedProduct){
+//
+//}
 
 //int inventoryRemaining = selectedProduct.getProductInventory();
 //            inventoryRemaining--;

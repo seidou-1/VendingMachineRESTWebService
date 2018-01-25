@@ -5,6 +5,8 @@
  */
 package VendingMachineDto;
 
+import java.math.BigDecimal;
+
 /**
  *
  * @author laptop
@@ -13,7 +15,7 @@ public class Products {
     
     private String productId;
     private String productName;
-    private String productCost;
+    private BigDecimal productCost;
     private int productInventory;
 
     public Products(String productId) {
@@ -39,11 +41,11 @@ public class Products {
         return productId;
     }
     
-    public String getProductCost() {
+    public BigDecimal getProductCost() {
         return productCost;
     }
 
-    public void setProductCost(String productCost) {
+    public void setProductCost(BigDecimal productCost) {
         this.productCost = productCost;
     }
 
