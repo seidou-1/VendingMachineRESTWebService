@@ -27,6 +27,6 @@ public interface Service {
     
    boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException;
    
-   boolean inventoryAvailability (String userMoney, Products selectedProduct);
+   boolean inventoryAvailability (BigDecimal userMoney, Products selectedProduct);
    
 }
