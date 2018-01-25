@@ -65,7 +65,7 @@ public class ServiceImpl implements Service {
 
         try {
             if (selectedProduct.getProductInventory() == 0) {
-                throw new InventoryAvailabilityException("Out of stock! your $ " + usersMoney + "has been refunded back to you");
+                throw new InventoryAvailabilityException("\n Out of stock! your $ " + usersMoney + " has been refunded back to you \n" + " ¯\\_(ツ)_/¯ \n");
             } else {
                 return true;//Return true means i have enough inventory and will return true
             }
@@ -80,12 +80,39 @@ public class ServiceImpl implements Service {
 
     @Override
     public int reduceInventory(Products selectedProduct) {
-        //Should i load inventory first? Include a similar dao method?
+
+        /*
+        Two ways of doing this. First way is calling the get product inventory of the user's
+        selectedProduct argumen
+        
+        And then subtracting 1 from that value
+        
+        And then writing it back to the file
+        */
         int remainingInventory = selectedProduct.getProductInventory();
         remainingInventory--;
+
+
+        selectedProduct.setProductInventory(remainingInventory);//Set this back to the hashmap
         myDao.justWriteInventory();
-        return remainingInventory;
         
+        System.out.println(selectedProduct.getProductName() + " \n Remaining Inventory: " + remainingInventory);
+
+        return remainingInventory;
+
+
+        /*
+        Option 2 below is overloading the setInventory setter in my dto
+        that second overloaded method gets the inventory and just subtracts 1 from it
+        
+        I call it here and then just write back to the inventory
+        */
+
+//        selectedProduct.setProductInventory();//Set this back to the hashmap
+//        myDao.justWriteInventory();
+//
+//        return selectedProduct.getProductInventory();
+
     }
     
     

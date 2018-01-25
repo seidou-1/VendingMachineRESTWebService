@@ -92,43 +92,28 @@ the user inserted as well as the cost of the item
 In order to get what the user inserted, i pass the above product Selection variable to it
 and as far as the money they inputted, that would be the Big Decimal userInsert variable
 "BigDecimal userInsert = userInsertCash();"
+                
+                //ADD CODE IN HERE SOMEWHERE TO DISPLAY THE USER'S BALANCE
                  */
             } else {
                 Products getProductSelection = productSelection(userSelectionID()); //gets the user's item selection
 
                 if (checkIfMoneyIsEnough(userInsert, getProductSelection)) {
-                    
-                    if (inventoryAvailability(userInsert, getProductSelection)) {
-                        
-                        reduceInventory(getProductSelection); //Reduce the product inventory
-                        
-                        String changeCalculated = myChange.calculateChange(userInsert, getProductSelection); //
 
-                        displayCalculatedChange(/*"Your change is " +*/changeCalculated);
+                    if (inventoryAvailability(userInsert, getProductSelection)) {
+
+                        reduceInventory(getProductSelection); //Reduce the product inventory
+
+                        userInsert = myChange.calculateChange(userInsert, getProductSelection); //Overwrites how much the user inputted initially
+
+                        displayCalculatedChange(userInsert.toString());
                     }
 
                 }
 
-//            {
-                //obtains the user's productID selection and assigns it as a BigData data type
-                /*
-                 calculateChange takes a Product data type. So i took that the user slection
-                 was and inserted it into a Products getProductSelection variable
-                 and then pass that variable into the calculateChange class
-                 */
-//                reduceInventory(userSelection);
             }
 
         }
-
-//        if (parseInt(menuSelection) == myList.size()+ 1) {
-//            
-//            myView.exitMessage();
-//        } else {
-//            
-//            //method to allow user to purchase items based on (menuSelection) return
-//        }
-//
     }
 
     /*
