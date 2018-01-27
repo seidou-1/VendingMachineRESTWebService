@@ -20,11 +20,7 @@ public interface Service {
    Products getProduct(String productID) throws PersistenceException;
    
    List <Products> getAllProducts() throws PersistenceException;
-   
-//   vreduceInventory ()
-    
-    void justWriteInventory();
-    
+
    int reduceInventory(Products selectedProduct); 
     
    boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException;
