@@ -9,6 +9,7 @@ import UI.View;
 import VendingMachineDao.PersistenceException;
 import VendingMachineDto.Change;
 import VendingMachineDto.Products;
+import VendingMachineServiceLayer.DataValidationException;
 import VendingMachineServiceLayer.InsufficientFundsException;
 import VendingMachineServiceLayer.InventoryAvailabilityException;
 import VendingMachineServiceLayer.Service;
@@ -37,7 +38,8 @@ public class Controller {
     public void run() throws
             PersistenceException,
             InventoryAvailabilityException,
-            InsufficientFundsException {
+            InsufficientFundsException,
+            DataValidationException {
 
         /*
         1. First display the menu and display the products to the user
@@ -127,8 +129,8 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
         return myView.userInsertCash();
     }
 
-    private String userSelectionID() {
-        return myView.userSelectionIDAllCaps();
+    private String userSelectionID() throws DataValidationException{
+        return myView.userSelectionIDAllCapsFaultTolerant();
 //                .userSelectionID();
     }
 

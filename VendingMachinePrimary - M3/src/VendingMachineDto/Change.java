@@ -52,7 +52,7 @@ public class Change {
             tempString += loopThroughMoney(enums);
         } 
         
-        return "Total change is: $ " + usersBalance + "\n" + "Breakdown: \n" + tempString; //This wil display the quanity of each enum
+        return "Total change is: $" + usersBalance + "" + "Denomination Breakdown: \n" + tempString; //This wil display the quanity of each enum
 
     }
 

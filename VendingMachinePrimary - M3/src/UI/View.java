@@ -6,6 +6,7 @@
 package UI;
 
 import VendingMachineDto.Products;
+import VendingMachineServiceLayer.DataValidationException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -34,15 +35,13 @@ public class View {
             );
         }
         myIO.print(values.size() + 1 + " Exit \n");
-        
-        //Display user's current balance
-        
 
+        //Display user's current balance
     }
-    
-    public void displayUsersBalance(BigDecimal usersBalance){
-        myIO.print("Current balance: " + usersBalance + "\n"); 
-        
+
+    public void displayUsersBalance(BigDecimal usersBalance) {
+        myIO.print("Current balance: " + usersBalance + "\n");
+
     }
 
     public void exitMessage() {
@@ -92,16 +91,42 @@ public class View {
     }
 
     public String userSelectionID() {
-        
+
         return myIO.readString("Select an item i.e. A1");
     }
-    
-    public String userSelectionIDAllCaps(){
-        
+
+    public String userSelectionIDAllCaps() {
         String upperCase = myIO.readString("Select an item i.e. A1");
         return upperCase.toUpperCase();
-        
+    }
 
+    public String userSelectionIDAllCapsFaultTolerant() throws DataValidationException {
+        boolean validInput = false;
+        String upperCase = "";
+        do {
+
+            try {
+                upperCase = myIO.readString("Select an item i.e. A1");
+
+                if (upperCase.equalsIgnoreCase("a1") 
+                    || upperCase.equalsIgnoreCase("b1") 
+                    || upperCase.equalsIgnoreCase("c1")){
+                 
+                    validInput = true;
+                    
+                    return upperCase.toUpperCase();
+                    
+                }else {
+                    validInput = false;
+                    throw new DataValidationException("Select one of the options above, try again. \n");
+                        }
+            } catch (DataValidationException e) {
+                System.out.println(e.getMessage());
+            }
+
+        } while (!validInput);
+
+        return upperCase.toUpperCase();
     }
 
     public void displayCalculatedChange(String message) {
