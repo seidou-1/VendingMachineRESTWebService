@@ -33,7 +33,7 @@ public class View {
                     + myProducts.getProductInventory()
             );
         }
-        myIO.print(values.size() + 1 + " Exit ");
+        myIO.print(values.size() + 1 + " Exit \n");
         
         //Display user's current balance
         
@@ -41,7 +41,7 @@ public class View {
     }
     
     public void displayUsersBalance(BigDecimal usersBalance){
-        myIO.print("Current balance: " + usersBalance); 
+        myIO.print("Current balance: " + usersBalance + "\n"); 
         
     }
 
@@ -56,7 +56,7 @@ public class View {
         boolean validInput = true;
         //
         do {
-            String input = myIO.readString("\n Please insert money or select Exit");
+            String input = myIO.readString("Please insert money or select Exit");
 
             try { //This will catch a number format exception
 
@@ -69,7 +69,7 @@ public class View {
                     validInput = false;
                     break;
                 } else {
-                    System.out.println("Invalid input. Try again. \n");
+                    System.out.println("Invalid input. Try again.\n");
                     /*
                     If the user does not enter a string equivalent of a number and
                     they did not enter "exit", they will be prompted with an invalid
