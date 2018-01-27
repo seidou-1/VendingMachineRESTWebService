@@ -75,139 +75,72 @@ public class Change {
         1. the money the user puts in
         2. the product they selected
          */
-
-        //call the view class userInsertCash() method (for how much money they inserted)
-        //call the view class userSelectionID() method (for which product they selected)
-        //subtract the cost of the item from the amount of money they inserted
+ 
+        
         /*
-        I have to create a big decimal version of both the usersMoney 
-                            AND
-        The selectedProduct
-         */
-//        BigDecimal usersMoneyConverted = new BigDecimal(usersMoney);
+        This takes what the user inputted and looks up the product cost of it and 
+        assigns it to a BigDecimal
+        */
         BigDecimal getCostOfItem = selectedProduct.getProductCost();
 
-        //Getting the big decimal version of what the users money
+        //This takes the usersMoney argument and assigns it to a BigDecimal variable
         BigDecimal usersCash = usersMoney;
-//                = new BigDecimal(usersMoney);
 
-//        BigDecimal selectedProductConverted = new BigDecimal(selectedProduct.getProductCost());
+        //This takes the cash the user inserted and subtracts it from the product cost
         BigDecimal calculation = usersCash.subtract(getCostOfItem);
 
-        //This takes the calculaiton and converts it to a string
-//        String convertertsBackToString = calculation.toString(); //Why do i have to convertBackToString
-        /*
-        Logic here that talks to the controller to check if 
-         */
-//        } else {
-//            System.out.println("Out of stock! " + usersMoney + " has been refunded to you");
-//        }
-        //Here
-//                return "Your change is " + convertertsBackToString;
-        BigDecimal remainingAmount = calculation;
-//          remainingAmount = remainingAmount % "100";
+        //Created anoter BigDecimal and assigned it to calcualtion
 
+        BigDecimal remainingAmount = calculation;
+        
         /*
             Filling up as much of each of the denominations as possible.
             i.e. how many times can i fill $10, $5, $1, etc..
          */
-        while (remainingAmount.compareTo(new BigDecimal("10.00")) >= 0) {
+        while (remainingAmount.compareTo(Money.TENDOLLARS.getMula()) >= 0) {
             tenDollars++;
             remainingAmount = remainingAmount.subtract(new BigDecimal("10.00"));
         }
-        while (remainingAmount.compareTo(new BigDecimal("5.00")) >= 0) {
+        while (remainingAmount.compareTo(Money.FIVEDOLLARS.getMula()) >= 0) {
             fiveDollars++;
-            remainingAmount = remainingAmount.subtract(new BigDecimal("5.00"));
+            remainingAmount = remainingAmount.subtract(Money.FIVEDOLLARS.Mula);
         }
 
-        while (remainingAmount.compareTo(new BigDecimal("1.00")) >= 0) {
+        while (remainingAmount.compareTo(Money.DOLLARS.getMula()) >= 0) {
             oneDollar++;
-            remainingAmount = remainingAmount.subtract(new BigDecimal("1.00"));
+            remainingAmount = remainingAmount.subtract(Money.DOLLARS.Mula);
         }
 
-        while (remainingAmount.compareTo(new BigDecimal("0.25")) >= 0) {
+        while (remainingAmount.compareTo(Money.QUARTERS.getMula()) >= 0) {
             quarters++;
-            remainingAmount = remainingAmount.subtract(new BigDecimal("0.25"));
-
+            remainingAmount = remainingAmount.subtract(Money.QUARTERS.Mula);
         }
 
-        while (remainingAmount.compareTo(new BigDecimal("0.10")) >= 0) {
+        while (remainingAmount.compareTo(Money.DIMES.getMula()) >= 0) {
             dimes++;
-            remainingAmount = remainingAmount.subtract(new BigDecimal("0.10"));
-
+            remainingAmount = remainingAmount.subtract(Money.DIMES.Mula);
         }
-        while (remainingAmount.compareTo(new BigDecimal("0.05")) >= 0) {
+        while (remainingAmount.compareTo(Money.NICKELS.getMula()) >= 0) {
             nickels++;
-            remainingAmount = remainingAmount.subtract(new BigDecimal("0.05"));
+            remainingAmount = remainingAmount.subtract(Money.NICKELS.Mula);
         }
         
-//        pennies = (int) remainingAmount.multiply(new BigDecimal("100")).doubleValue();        
+        pennies = (int) remainingAmount.multiply(new BigDecimal("100")).doubleValue();        
+  
+//        pennies = (int) (remainingAmount.doubleValue() *(100));        
 
-//        double a = remainingAmount.doubleValue();
-        
-        pennies = (int) (remainingAmount.doubleValue() *(100));        
+        return calculation; 
 
-//        System.out.println("\n Your change is: ");
-
-        return calculation;
-//                
-//                while (remainingAmount.compareTo(Money.DIMES.getMula())>0){
-//            while (remainingAmount.compareTo(Money.DIMES.getMula())>0){
-//              
-//          } else if (remainingAmount.compareTo(Money.NICKELS.getMula())>0){
-//              
-//          } else if (remainingAmount.compareTo(Money.PENNIES.getMula())>0){
-//              
-//          }
-//          
-//        
-//        double dollarsAmount = remainingAmount /100;
-//        remainingAmount = remainingAmount % 100;
-//        
-//        double quartersAmount = remainingAmount /25;
-//        remainingAmount = remainingAmount %25;
-//        
-//        double dimesAmount = remainingAmount /10;
-//        remainingAmount = remainingAmount %10;
-//        
-//        double nickelsAmount = remainingAmount /5;
-//        remainingAmount = remainingAmount %5;
-//        
-//        double penniesAmount = remainingAmount;
-        
-
-        /*
-        Quarters nicks dimes calculation
-        
-        subtract inventory
-        
-        Add a while loop to check if money is enough and throw an error if not
-         */
-//        Scanner myScanner = new Scanner(System.in);
-//    
-//        System.out.println(input);//this is for the user to see what's going on 
-//        String userInput = myScanner.nextLine();
-//        double numberConverted = Double.parseDouble(userInput); 
-//        System.out.println("The value you entered is: " + numberConverted);
-//        
-//        remainingAmount = remainingAmount %1;
-//        return remainingAmount
-//
-//        System.out.println("Total change = " + "$ " + dollarsAmount + "\n Quarters:" + quartersAmount + "\n Dimes: " + dimesAmount + "\n Nickels:" + nickelsAmount + "\n Pennies: " + penniesAmount);
-//        
-//        
     }
-}
+    
+//    BigDecimal moneyCalculation(BigDecimal dough, Money enums){
+//        
+//        
+//    while (dough.compareTo(enums.Mula) >= 0) {
+//            fiveDollars++;
+//            dough = dough.subtract(enums.Mula);
+//        }
 //    
-//    public String checkIfMoneyIsEnough (BigDecimal userMoney, Products selectedProduct){
-//
-//}
+//    }
+}
 
-//int inventoryRemaining = selectedProduct.getProductInventory();
-//            inventoryRemaining--;
-//
-//            //Replace with a try catch here:
-//                    if (inventoryRemaining <= 0) {
-//                        sufficientFunds = false;
-//                        System.out.println("Out of stock");
-//                    }

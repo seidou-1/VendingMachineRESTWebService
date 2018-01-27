@@ -15,21 +15,18 @@ import java.util.List;
  * @author laptop
  */
 public interface Service {
-    
-    
-   Products getProduct(String productID) throws PersistenceException;
-   
-   List <Products> getAllProducts() throws PersistenceException;
-   
+
+    Products getProduct(String productID) throws PersistenceException;
+
+    List<Products> getAllProducts() throws PersistenceException;
+
 //   public void justWriteInventory() throws PersistenceException;
 //   vreduceInventory ()
-    
-    void justWriteInventory();
-    
-   int reduceInventory(Products selectedProduct); 
-    
-   boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException;
-   
-   boolean inventoryAvailability (BigDecimal userMoney, Products selectedProduct) throws InventoryAvailabilityException;
-   
+
+    int reduceInventory(Products selectedProduct);
+
+    boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException;
+
+    boolean inventoryAvailability(BigDecimal userMoney, Products selectedProduct) throws InventoryAvailabilityException;
+
 }

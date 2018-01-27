@@ -70,16 +70,18 @@ public class Controller {
         while (keepGoing) {
 
             printMenu();//First display the menu
+            myView.displayUsersBalance(myChange.getUsersBalance()); //Calls the view class
+
 
             BigDecimal userInsert = userInsertCash(); //Gets the user's money
-            BigDecimal balance = new BigDecimal("0.00");
+//            BigDecimal balance = new BigDecimal("0.00");
 
             if (userInsert == null) { //As long as the user didn't type "exit"
                 keepGoing = false;
                 exit();
                 break;
 
-                /*
+ /*
 If the user did not type exit, that means they passed the BigString requirements
 
 And now...
@@ -94,32 +96,33 @@ In order to get what the user inserted, i pass the above product Selection varia
 and as far as the money they inputted, that would be the Big Decimal userInsert variable
 "BigDecimal userInsert = userInsertCash();"
                 
-                 */
+ */
             } else {
                 Products getProductSelection = productSelection(userSelectionID()); //gets the user's item selection
 
-                userInsert = userInsert.add(myChange.getUsersBalance());
+                userInsert = userInsert.add(myChange.getUsersBalance());//Taking what the $ the user inserted and adding that to their change balance
 
-                if (checkIfMoneyIsEnough(userInsert, getProductSelection)) {
+                if (checkIfMoneyIsEnough(userInsert, getProductSelection)) { //If the user has enough money
 
-                    if (inventoryAvailability(userInsert, getProductSelection)) {
+                    if (inventoryAvailability(userInsert, getProductSelection)) { //And if the product is in inventory (added a usersMoney variable so i can refund them that amoutn if out of stock)
 
-                        reduceInventory(getProductSelection); //Reduce the product inventory
+                        reduceInventory(getProductSelection); //If the above two conditions pass, reduce the product inventory
 
-                        userInsert = myChange.calculateChange(userInsert, getProductSelection); //Overwrites how much the user inputted initially
+                        userInsert = myChange.calculateChange(userInsert, getProductSelection); //Overwrites how much the user inputted initially with their new change
 
-                        myChange.setUsersBalance(userInsert);
+                        myChange.setUsersBalance(userInsert); //The user's balance now is overwritten with
 
                                 displayCalculatedChange("\n Total change is: $ "
                                 + myChange.getUsersBalance()
-                                + "\n Breakdown: "
+                                + "\n \n Breakdown: "
                                 + "\n Ten's: " + myChange.getTenDollars()
                                 + "\n Five's: " + myChange.getFiveDollars()
                                 + "\n Dollar's: " + myChange.getOneDollar()
                                 + "\n Quarter's: " + myChange.getQuarters()
                                 + "\n Dime's: " + myChange.getDimes()
                                 + "\n Nickel's: " + myChange.getNickels()
-                                + "\n Pennie's: " + myChange.getPennies());
+                                + "\n Pennie's: " + myChange.getPennies()
+                                + "\n");
 //                        displayCalculatedChange(userInsert.toString());
                     }
 
@@ -131,14 +134,15 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
     }
 
     /*
-    These two methods below match the view methods
+    The first two methods below match the view methods
      */
     private BigDecimal userInsertCash() {
         return myView.userInsertCash();
     }
 
     private String userSelectionID() {
-        return myView.userSelectionID();
+        return myView.userSelectionIDAllCaps();
+//                .userSelectionID();
     }
 
     private Products productSelection(String userSelectionID) throws PersistenceException {

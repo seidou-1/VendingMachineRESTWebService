@@ -34,11 +34,6 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void justWriteInventory() {
-        myDao.justWriteInventory();
-    }
-
-    @Override
     public boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException {
         try {
 
