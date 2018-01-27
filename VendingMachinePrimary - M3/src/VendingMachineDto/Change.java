@@ -20,16 +20,10 @@ public class Change {
     
     And then break the change down into different coin amounts
      */
-//    boolean sufficientFunds = true;
-    private int tenDollars = 0,
-            fiveDollars = 0,
-            oneDollar = 0,
-            quarters = 0,
-            dimes = 0,
-            nickels = 0,
-            pennies = 0;
+
     
-    private BigDecimal usersBalance = new BigDecimal ("0.00");
+    private BigDecimal usersBalance = new BigDecimal("0.00");
+    private BigDecimal usersBalanceAfterBreakdown;
 
     public BigDecimal getUsersBalance() {
         return usersBalance;
@@ -39,108 +33,79 @@ public class Change {
         this.usersBalance = usersBalance;
     }
 
-    public int getTenDollars() {
-        return tenDollars;
-    }
 
-    public int getFiveDollars() {
-        return fiveDollars;
-    }
-
-    public int getOneDollar() {
-        return oneDollar;
-    }
-
-    public int getQuarters() {
-        return quarters;
-    }
-
-    public int getDimes() {
-        return dimes;
-    }
-
-    public int getNickels() {
-        return nickels;
-    }
-
-    public int getPennies() {
-        return pennies;
-    }
-    
-    
-
-    public BigDecimal calculateChange(BigDecimal usersMoney, Products selectedProduct) {
-        /*
-        This takes in two variables:
-        1. the money the user puts in
-        2. the product they selected
-         */
- 
+    public String calculateChange(BigDecimal usersMoney, Products selectedProduct) {
         
-        /*
-        This takes what the user inputted and looks up the product cost of it and 
-        assigns it to a BigDecimal
-        */
+        String tempString = "";
+        
         BigDecimal getCostOfItem = selectedProduct.getProductCost();
 
-        //This takes the usersMoney argument and assigns it to a BigDecimal variable
         BigDecimal usersCash = usersMoney;
 
-        //This takes the cash the user inserted and subtracts it from the product cost
-        BigDecimal calculation = usersCash.subtract(getCostOfItem);
+        usersBalanceAfterBreakdown = usersCash.subtract(getCostOfItem);
 
-        //Created anoter BigDecimal and assigned it to calcualtion
-
-        BigDecimal remainingAmount = calculation;
+        for (Money enums : Money.values()) {
+            /*
+            This will output a string each time and display the denominations
+            as well as the quantity of each denomination
+             */
+            tempString += loopThroughMoney(enums);
+        } 
         
-        /*
-            Filling up as much of each of the denominations as possible.
-            i.e. how many times can i fill $10, $5, $1, etc..
-         */
-        while (remainingAmount.compareTo(Money.TENDOLLARS.getMula()) >= 0) {
-            tenDollars++;
-            remainingAmount = remainingAmount.subtract(new BigDecimal("10.00"));
-        }
-        while (remainingAmount.compareTo(Money.FIVEDOLLARS.getMula()) >= 0) {
-            fiveDollars++;
-            remainingAmount = remainingAmount.subtract(Money.FIVEDOLLARS.Mula);
-        }
-
-        while (remainingAmount.compareTo(Money.DOLLARS.getMula()) >= 0) {
-            oneDollar++;
-            remainingAmount = remainingAmount.subtract(Money.DOLLARS.Mula);
-        }
-
-        while (remainingAmount.compareTo(Money.QUARTERS.getMula()) >= 0) {
-            quarters++;
-            remainingAmount = remainingAmount.subtract(Money.QUARTERS.Mula);
-        }
-
-        while (remainingAmount.compareTo(Money.DIMES.getMula()) >= 0) {
-            dimes++;
-            remainingAmount = remainingAmount.subtract(Money.DIMES.Mula);
-        }
-        while (remainingAmount.compareTo(Money.NICKELS.getMula()) >= 0) {
-            nickels++;
-            remainingAmount = remainingAmount.subtract(Money.NICKELS.Mula);
-        }
-        
-        pennies = (int) remainingAmount.multiply(new BigDecimal("100")).doubleValue();        
-  
-//        pennies = (int) (remainingAmount.doubleValue() *(100));        
-
-        return calculation; 
+        return "Total change is: $ " + usersBalance + "Breakdown: \n" + tempString; //This wil display the quanity of each enum
 
     }
-    
-//    BigDecimal moneyCalculation(BigDecimal dough, Money enums){
-//        
-//        
-//    while (dough.compareTo(enums.Mula) >= 0) {
-//            fiveDollars++;
-//            dough = dough.subtract(enums.Mula);
-//        }
+
+    public String loopThroughMoney(Money enums) {
+
+        int tempQuantity = 0; //This variable will be used to return the value at the end
+        while (usersBalanceAfterBreakdown.compareTo(enums.Mula) >= 0) {
+            /*
+            Dynamically take in the reamining balance
+            as well as the enums
+             */
+            tempQuantity++;
+            usersBalanceAfterBreakdown = usersBalanceAfterBreakdown.subtract(enums.Mula);
+        }
+        return enums + " : " + tempQuantity + "\n";
+
 //    
+
+////        while (remainingAmount.compareTo(Money.TENDOLLARS.getMula()) >= 0) {
+////            tenDollars++;
+////            remainingAmount = remainingAmount.subtract(new BigDecimal("10.00"));
+////        }
+////        while (remainingAmount.compareTo(Money.FIVEDOLLARS.getMula()) >= 0) {
+////            fiveDollars++;
+////            remainingAmount = remainingAmount.subtract(Money.FIVEDOLLARS.Mula);
+////        }
+////
+////        while (remainingAmount.compareTo(Money.DOLLARS.getMula()) >= 0) {
+////            oneDollar++;
+////            remainingAmount = remainingAmount.subtract(Money.DOLLARS.Mula);
+////        }
+////
+////        while (remainingAmount.compareTo(Money.QUARTERS.getMula()) >= 0) {
+////            quarters++;
+////            remainingAmount = remainingAmount.subtract(Money.QUARTERS.Mula);
+////        }
+////
+////        while (remainingAmount.compareTo(Money.DIMES.getMula()) >= 0) {
+////            dimes++;
+////            remainingAmount = remainingAmount.subtract(Money.DIMES.Mula);
+////        }
+////        while (remainingAmount.compareTo(Money.NICKELS.getMula()) >= 0) {
+////            nickels++;
+////            remainingAmount = remainingAmount.subtract(Money.NICKELS.Mula);
+////        }
+////        
+////        pennies = (int) remainingAmount.multiply(new BigDecimal("100")).doubleValue();        
+////  
+////        pennies = (int) (remainingAmount.doubleValue() *(100));        
+//        return calculation;
+//
 //    }
+    }
 }
+//    
 

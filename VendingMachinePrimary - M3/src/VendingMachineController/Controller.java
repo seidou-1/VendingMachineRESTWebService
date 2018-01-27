@@ -72,7 +72,6 @@ public class Controller {
             printMenu();//First display the menu
             myView.displayUsersBalance(myChange.getUsersBalance()); //Calls the view class
 
-
             BigDecimal userInsert = userInsertCash(); //Gets the user's money
 //            BigDecimal balance = new BigDecimal("0.00");
 
@@ -81,7 +80,7 @@ public class Controller {
                 exit();
                 break;
 
- /*
+                /*
 If the user did not type exit, that means they passed the BigString requirements
 
 And now...
@@ -96,7 +95,7 @@ In order to get what the user inserted, i pass the above product Selection varia
 and as far as the money they inputted, that would be the Big Decimal userInsert variable
 "BigDecimal userInsert = userInsertCash();"
                 
- */
+                 */
             } else {
                 Products getProductSelection = productSelection(userSelectionID()); //gets the user's item selection
 
@@ -108,22 +107,10 @@ and as far as the money they inputted, that would be the Big Decimal userInsert 
 
                         reduceInventory(getProductSelection); //If the above two conditions pass, reduce the product inventory
 
-                        userInsert = myChange.calculateChange(userInsert, getProductSelection); //Overwrites how much the user inputted initially with their new change
+                        myChange.setUsersBalance(userInsert.subtract(getProductSelection.getProductCost())); //The user's balance now is overwritten with
 
-                        myChange.setUsersBalance(userInsert); //The user's balance now is overwritten with
+                        displayCalculatedChange(myChange.calculateChange(userInsert, getProductSelection));
 
-                                displayCalculatedChange("\n Total change is: $ "
-                                + myChange.getUsersBalance()
-                                + "\n \n Breakdown: "
-                                + "\n Ten's: " + myChange.getTenDollars()
-                                + "\n Five's: " + myChange.getFiveDollars()
-                                + "\n Dollar's: " + myChange.getOneDollar()
-                                + "\n Quarter's: " + myChange.getQuarters()
-                                + "\n Dime's: " + myChange.getDimes()
-                                + "\n Nickel's: " + myChange.getNickels()
-                                + "\n Pennie's: " + myChange.getPennies()
-                                + "\n");
-//                        displayCalculatedChange(userInsert.toString());
                     }
 
                 }

@@ -13,10 +13,14 @@ import java.math.BigDecimal;
  */
 public enum Money {
     
-
+    
+    HUNDREDDOLLARS (new BigDecimal ("100.00")),
+    FIFTYDOLLARS (new BigDecimal ("50.00")),
+    TWENTYDOLLARS (new BigDecimal ("50.00")), 
     TENDOLLARS (new BigDecimal ("10.00")),
     FIVEDOLLARS (new BigDecimal ("5.00")),
-    DOLLARS (new BigDecimal ("1.00")),
+    ONEDOLLARS (new BigDecimal ("1.00")),
+    HALFDOLLARS (new BigDecimal ("0.50")),
     QUARTERS (new BigDecimal ("0.25")),
     DIMES (new BigDecimal ("0.10")),
     NICKELS (new BigDecimal ("0.05")),
