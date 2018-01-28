@@ -102,19 +102,19 @@ public class View {
 
     public String userSelectionIDAllCapsFaultTolerant() throws DataValidationException {
         boolean validInput = false;
-        String upperCase = "";
+        String userInput = "";
         do {
 
             try {
-                upperCase = myIO.readString("Select an item i.e. A1");
+                userInput = myIO.readString("Select an item i.e. A1");
 
-                if (upperCase.equalsIgnoreCase("a1") 
-                    || upperCase.equalsIgnoreCase("b1") 
-                    || upperCase.equalsIgnoreCase("c1")){
+                if (userInput.equalsIgnoreCase("a1") 
+                    || userInput.equalsIgnoreCase("a2") 
+                    || userInput.equalsIgnoreCase("a3")){
                  
                     validInput = true;
                     
-                    return upperCase.toUpperCase();
+                    return userInput;
                     
                 }else {
                     validInput = false;
@@ -126,7 +126,7 @@ public class View {
 
         } while (!validInput);
 
-        return upperCase.toUpperCase();
+        return userInput;
     }
 
     public void displayCalculatedChange(String message) {

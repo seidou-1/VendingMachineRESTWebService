@@ -16,7 +16,7 @@ public enum Money {
     
     HUNDREDDOLLARS (new BigDecimal ("100.00")),
     FIFTYDOLLARS (new BigDecimal ("50.00")),
-    TWENTYDOLLARS (new BigDecimal ("50.00")), 
+    TWENTYDOLLARS (new BigDecimal ("20.00")), 
     TENDOLLARS (new BigDecimal ("10.00")),
     FIVEDOLLARS (new BigDecimal ("5.00")),
     ONEDOLLARS (new BigDecimal ("1.00")),
