@@ -114,7 +114,7 @@ public class View {
                  
                     validInput = true;
                     
-                    return userInput;
+                    return userInput.toUpperCase();
                     
                 }else {
                     validInput = false;
