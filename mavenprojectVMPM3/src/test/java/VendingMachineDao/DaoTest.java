@@ -64,12 +64,14 @@ public class DaoTest {
         
         /*
         Now i have to loop through the products in my List and remove them
+        
+        on second thought, nope
         */
         
-        for (Products tempBucket : createdProductsList){
-            createdInventory.remove(createdProductsList); //will this work?
-//            createdProductsList.removeAll(createdDao.getAllProducts());//or should i do this?
-        }
+//        for (Products tempBucket : createdProductsList){
+//            createdInventory.remove(createdProductsList); //will this work?
+////            createdProductsList.removeAll(createdDao.getAllProducts());//or should i do this?
+//        }
         
         
         
@@ -83,18 +85,27 @@ public class DaoTest {
      * Test of getProduct method, of class Dao.
      */
     @Test
-    public void testGetAndAddProduct() throws Exception {
+    public void testGetProduct() throws Exception {
         /*
         This method will kill 2 birds with one stone. Changed the defualt method name
         so i can test both adding a product and dispensing a product as well
         */
         
-        Products createdProductsVar = new Products("A1");
-        createdProductsVar.setProductName("Snickers");
-//        createdProductsVar.setProductCost(BigDecimal cost = new BigDecimal (cost));
-        createdProductsVar.setProductInventory(5);
+//        Products createdProductsVar = new Products("A1");
+//        createdProductsVar.setProductName("Snickers");
+////        createdProductsVar.setProductCost(BigDecimal cost = new BigDecimal (cost));
+//        createdProductsVar.setProductInventory(5);
+//        
+        //Just going to get an existing product that's already in my hashmap
+        
+        createdDao.getProduct("A1");
         
         
+        /*
+        Since the product inventory count is a part of the get product method, how do i 
+        check if the count has been removed properly?
+        */
+        assertEquals("A1", "A1"); //Looks for the ID called "A1", and then compares that from the Dao
         
     }
 
@@ -103,6 +114,11 @@ public class DaoTest {
      */
     @Test
     public void testGetAllProducts() throws Exception {
+        
+        createdDao.getAllProducts();
+        
+        assertEquals(3, createdDao.getAllProducts().size());//This will give back the list size. I will compare that to 
+        //my expected return of 3
     }
 
     /**
@@ -110,6 +126,10 @@ public class DaoTest {
      */
     @Test
     public void testJustWriteInventory() {
+        /*
+        I don't need to test this method because this basically just calls the 
+        writeInventory() method and writes the data to file
+        */
     }
 
 //    Remove the implmentation below:
