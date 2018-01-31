@@ -6,6 +6,7 @@
 package VendingMachineDto;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  *
@@ -72,6 +73,50 @@ public class Products {
     
     public int setProductInventory(int productInventory) {
         return this.productInventory = productInventory;
+    }
+    
+    
+    
+    
+    /*
+    Inserted code for hashmap and equals below for unit testing later on
+    */
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 13 * hash + Objects.hashCode(this.productId);
+        hash = 13 * hash + Objects.hashCode(this.productName);
+        hash = 13 * hash + Objects.hashCode(this.productCost);
+        hash = 13 * hash + this.productInventory;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Products other = (Products) obj;
+        if (this.productInventory != other.productInventory) {
+            return false;
+        }
+        if (!Objects.equals(this.productId, other.productId)) {
+            return false;
+        }
+        if (!Objects.equals(this.productName, other.productName)) {
+            return false;
+        }
+        if (!Objects.equals(this.productCost, other.productCost)) {
+            return false;
+        }
+        return true;
     }
     
     

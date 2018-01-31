@@ -5,14 +5,10 @@
  */
 package _VendingMachine;
 
-import UI.UserIO;
-import UI.UserIOImpl;
-import UI.View;
 import VendingMachineController.Controller;
-import VendingMachineDao.Dao;
-import VendingMachineDao.DaoFileImpl;
 import VendingMachineDao.PersistenceException;
-import VendingMachineDto.Change;
+import VendingMachineDao.VendingMachineAuditDao;
+import VendingMachineDao.VendingMachineAuditDaoFileImpl;
 import VendingMachineServiceLayer.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -43,6 +39,9 @@ public class App {
 //       Controller theController = new Controller (theService, theView, theChange);
 //       
 //       theController.run();
+
+    VendingMachineAuditDao myAuditDao = new VendingMachineAuditDaoFileImpl();
+
         ApplicationContext ctx
                 = new ClassPathXmlApplicationContext("applicationContext.xml");
         Controller controller

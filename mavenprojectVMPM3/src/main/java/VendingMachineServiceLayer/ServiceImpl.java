@@ -7,6 +7,7 @@ package VendingMachineServiceLayer;
 
 import VendingMachineDao.Dao;
 import VendingMachineDao.PersistenceException;
+import VendingMachineDao.VendingMachineAuditDao;
 import VendingMachineDto.Products;
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,14 +18,23 @@ import java.util.List;
  */
 public class ServiceImpl implements Service {
 
-    Dao myDao;
+    private Dao myDao;
+    private VendingMachineAuditDao myAuditDao;
 
-    public ServiceImpl(Dao myDao) {
+    public ServiceImpl(Dao myDao, VendingMachineAuditDao myAuditDao) {
         this.myDao = myDao;
+        this.myAuditDao = myAuditDao;
+
     }
 
     @Override
     public Products getProduct(String productID) throws PersistenceException {
+        
+        /*
+        Shold this just be:
+        auditDao.writeAuditEntry("Student " + student.getStudentId() + " CREATED.");
+        */
+        myAuditDao.writeAuditEntry(myDao.getProduct(productID).getProductName() + " has been dispensed");
         return myDao.getProduct(productID);
     }
 
@@ -49,7 +59,7 @@ public class ServiceImpl implements Service {
             /*
             This is telling the catch to grab an exception of type InsufficientFundsException
             this instantiates the class using the letter e
-            */
+             */
             System.out.println(e.getMessage());
             return false;
         }
@@ -83,14 +93,13 @@ public class ServiceImpl implements Service {
         And then subtracting 1 from that value
         
         And then writing it back to the file
-        */
+         */
         int remainingInventory = selectedProduct.getProductInventory();
         remainingInventory--;
 
-
         selectedProduct.setProductInventory(remainingInventory);//Set this back to the hashmap
         myDao.justWriteInventory();
-        
+
         System.out.println(selectedProduct.getProductName() + " Remaining Inventory: " + remainingInventory + "\n");
 
         return remainingInventory;
@@ -101,17 +110,12 @@ public class ServiceImpl implements Service {
         that second overloaded method gets the inventory and just subtracts 1 from it
         
         I call it here and then just write back to the inventory
-        */
-
+         */
 //        selectedProduct.setProductInventory();//Set this back to the hashmap
 //        myDao.justWriteInventory();
 //
 //        return selectedProduct.getProductInventory();
-
     }
-    
-    
-
 
 }
 

@@ -9,8 +9,8 @@ package VendingMachineDao;
  *
  * @author laptop
  */
-public interface VendingMachineAuditDao throws PersistenceException {
-
-
+public interface VendingMachineAuditDao {
+    
+    public void writeAuditEntry(String entry) throws PersistenceException;
     
 }
