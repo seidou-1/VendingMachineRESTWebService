@@ -35,7 +35,7 @@ public class VendingMachineDaoStubImpl implements Dao{
     Map<String, Products> createdInventory = new HashMap<>();
 
     
-    VendingMachineDaoStubImpl(){
+    public VendingMachineDaoStubImpl(){
         
         /*
         The purpose of this is to have stubbed versions of the Dao 
@@ -44,11 +44,6 @@ public class VendingMachineDaoStubImpl implements Dao{
         So i'm adding a snickers bar to the hashmap
         */
         
-        onlyProduct = new Products ("A1");
-        onlyProduct.setProductName("Snickers");
-        onlyProduct.setProductCost(new BigDecimal ("1.50"));
-        
-        createdInventory.put("A1", onlyProduct); //Used a hashmap put method here since i don't have an add method
         
     }
 
@@ -60,8 +55,9 @@ public class VendingMachineDaoStubImpl implements Dao{
 
     @Override
     public List<Products> getAllProducts() throws PersistenceException {
-        
+       
         return listProductsList;
+        
                 
     }
 

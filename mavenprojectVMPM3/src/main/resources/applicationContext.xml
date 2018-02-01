@@ -16,9 +16,9 @@
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
  
     <!-- Bean definitions go here -->
-    <bean id="userIO" class="VendingMachine.UserIOImpl"/>
+    <bean id="userIO" class="UI.UserIOImpl"/>
    
-    <bean id="theView" class="VendingMachine.View">
+    <bean id="theView" class="UI.View">
         <constructor-arg ref="userIO"/>
     </bean>
    
@@ -29,10 +29,12 @@
           class="VendingMachineDao.VendingMachineAuditDaoFileImpl"/>
     
     <bean id="theService" 
-          class="VendingMachine.ServiceLayerImpl">
+          class="VendingMachineServiceLayer.ServiceImpl">
         <constructor-arg ref="hashMap"/>
-        <!--<constructor-arg ref="auditDao"/>-->           
+        <constructor-arg ref="auditDao"/>           
     </bean>
+   
+   <bean id = "theChange" class="VendingMachineDto.Change"/>
    
     <bean id="controller" 
           class="VendingMachineController.Controller">
@@ -41,11 +43,11 @@
         <constructor-arg ref="theChange"/>
     </bean>
     
-    <bean id = "theChange" class="VendingMachine.Change"/>
+    
     
     <!-- Logging advice xml content below -->
     
-    <bean id="loggingAdvice" class="VendingMachine.Advice.LoggingAdvice">
+    <bean id="loggingAdvice" class="_VendingMachine.Advice.LoggingAdvice">
         <constructor-arg ref="auditDao"/>
     </bean>
     
@@ -54,6 +56,7 @@
         
     <aop:config>
         <aop:aspect ref="loggingAdvice"> 
+            
             <aop:after-returning 
                 method="createAuditEntry" 
                 pointcut="execution(* VendingMachineServiceLayer.Service.getProduct(..))"
@@ -67,7 +70,7 @@
             
             <aop:after-returning
                 method="createAuditEntry"
-                pointcut="execution(* VendingMachineServiceLayer.Service.inventoryAvailability(..))"
+                pointcut="execution(* VendingMachineServiceLayer.Service.checkIfMoneyIsEnough(..))"
 
             />
             

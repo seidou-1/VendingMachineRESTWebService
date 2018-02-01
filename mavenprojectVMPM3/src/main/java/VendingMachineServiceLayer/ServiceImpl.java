@@ -31,10 +31,15 @@ public class ServiceImpl implements Service {
     public Products getProduct(String productID) throws PersistenceException {
         
         /*
-        Shold this just be:
+        Should this just be?:
         auditDao.writeAuditEntry("Student " + student.getStudentId() + " CREATED.");
         */
-        myAuditDao.writeAuditEntry(myDao.getProduct(productID).getProductName() + " has been dispensed");
+        
+        /*
+        After doing AOP, i can now comment out the manual auditDao entry below:
+        */
+        
+//        myAuditDao.writeAuditEntry(myDao.getProduct(productID).getProductName() + " has been dispensed");
         return myDao.getProduct(productID);
     }
 

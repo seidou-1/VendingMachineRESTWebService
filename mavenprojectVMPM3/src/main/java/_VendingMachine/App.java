@@ -49,10 +49,8 @@ public class App {
 
     VendingMachineAuditDao myAuditDao = new VendingMachineAuditDaoFileImpl();
 
-        ApplicationContext ctx
-                = new ClassPathXmlApplicationContext("applicationContext.xml");
-        Controller controller
-                = ctx.getBean("controller", Controller.class);
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        Controller controller = ctx.getBean("controller", Controller.class);
         controller.run();
 
     }

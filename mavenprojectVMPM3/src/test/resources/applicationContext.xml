@@ -16,68 +16,15 @@
           http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
  
     <!-- Bean definitions go here -->
-    <bean id="userIO" class="VendingMachine.UserIOImpl"/>
-   
-    <bean id="theView" class="VendingMachine.View">
-        <constructor-arg ref="userIO"/>
-    </bean>
-   
-    <bean id="hashMap" 
-          class="VendingMachineDao.DaoFileImpl"/>
-   
-    <bean id="auditDao" 
-              class="VendingMachineDao.VendingMachineAuditDaoFileImpl"/>
-        
-    <bean id="theService" 
-          class="VendingMachine.ServiceLayerImpl">
-        <constructor-arg ref="hashMap"/>
-        <!--<constructor-arg ref="auditDao"/>-->           
-    </bean>
-   
-    <bean id="controller" 
-          class="VendingMachineController.Controller">
-        <constructor-arg ref="theService"/>
-        <constructor-arg ref="theView"/>
-        <constructor-arg ref="theChange"/>
-    </bean>
     
-    <bean id = "theChange" class="VendingMachine.Change"/>
-    
-    <!-- Logging advice xml content below -->
-    
-    <bean id="loggingAdvice" class="VendingMachine.Advice.LoggingAdvice">
-        <constructor-arg ref="auditDao"/>
+    <bean id="hashMap"class="VendingMachineDao.DaoFileImpl"/>
+   
+    <bean id="VendingMachineDaoStub" class="VendingMachineDao.VendingMachineDaoStubImpl"/>
+   
+    <bean id="VendingMachineauditDaoStub" class="VendingMachineDao.VendingMachineAuditDaoStubImpl"/>
+   
+    <bean id="VendingMachineService" class="VendingMachineServiceLayer.ServiceImpl">
+        <constructor-arg ref="VendingMachineDaoStub"/>
+        <constructor-arg ref="VendingMachineauditDaoStub"/>           
     </bean>
-    
-    <!-- aop Logging advice xml below as well -->
-
-        
-    <aop:config>
-        <aop:aspect ref="loggingAdvice"> 
-            <aop:after-returning 
-                method="createAuditEntry" 
-                pointcut="execution(* VendingMachineServiceLayer.Service.getProduct(..))"
-            />
-         
-            <aop:after-returning
-                method="createAuditEntry"
-                pointcut="execution(* VendingMachineServiceLayer.Service.inventoryAvailability(..))"
-
-            />
-            
-            <aop:after-returning
-                method="createAuditEntry"
-                pointcut="execution(* VendingMachineServiceLayer.Service.inventoryAvailability(..))"
-
-            />
-            
-            <aop:after-returning
-                method="createAuditEntry"
-                pointcut="execution(* VendingMachineServiceLayer.Service.reduceInventory(..))"
-
-            />
-           
-        </aop:aspect>
-    </aop:config>
-
 </beans>
