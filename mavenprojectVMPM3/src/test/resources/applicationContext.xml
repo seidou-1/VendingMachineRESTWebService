@@ -25,9 +25,9 @@
     <bean id="hashMap" 
           class="VendingMachineDao.DaoFileImpl"/>
    
-        <bean id="auditDao" 
-          class="VendingMachineDao.VendingMachineAuditDaoFileImpl"/>
-    
+    <bean id="auditDao" 
+              class="VendingMachineDao.VendingMachineAuditDaoFileImpl"/>
+        
     <bean id="theService" 
           class="VendingMachine.ServiceLayerImpl">
         <constructor-arg ref="hashMap"/>

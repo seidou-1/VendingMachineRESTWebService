@@ -5,7 +5,11 @@
  */
 package VendingMachineServiceLayer;
 
+import VendingMachineDao.Dao;
 import VendingMachineDao.PersistenceException;
+import VendingMachineDao.VendingMachineAuditDao;
+import VendingMachineDao.VendingMachineAuditDaoStubImpl;
+import VendingMachineDao.VendingMachineDaoStubImpl;
 import VendingMachineDto.Products;
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,7 +18,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -22,12 +25,19 @@ import static org.junit.Assert.*;
  */
 public class ServiceTest {
     
+    private Service createdService;
+    
     /*
-    Create a constructor to assign the dao to the VendingMachineDaoStubImpl created 
+    Create a constructor below to assign the dao to the VendingMachineDaoStubImpl created 
     in the step before
     */
     
     public ServiceTest() {
+      Dao createdDao = new VendingMachineDaoStubImpl();
+      VendingMachineAuditDao createdAuditDao = new VendingMachineAuditDaoStubImpl();
+      
+      createdService = new ServiceImpl(createdDao, createdAuditDao);
+      
     }
     
     @BeforeClass
@@ -81,27 +91,27 @@ public class ServiceTest {
     public void testInventoryAvailability() throws Exception {
     }
 
-    public class ServiceImpl implements Service {
-
-        public Products getProduct(String productID) throws PersistenceException {
-            return null;
-        }
-
-        public List<Products> getAllProducts() throws PersistenceException {
-            return null;
-        }
-
-        public int reduceInventory(Products selectedProduct) {
-            return 0;
-        }
-
-        public boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException {
-            return false;
-        }
-
-        public boolean inventoryAvailability(BigDecimal userMoney, Products selectedProduct) throws InventoryAvailabilityException {
-            return false;
-        }
-    }
+//    public class ServiceImpl implements Service {
+//
+//        public Products getProduct(String productID) throws PersistenceException {
+//            return null;
+//        }
+//
+//        public List<Products> getAllProducts() throws PersistenceException {
+//            return null;
+//        }
+//
+//        public int reduceInventory(Products selectedProduct) {
+//            return 0;
+//        }
+//
+//        public boolean checkIfMoneyIsEnough(BigDecimal userMoney, Products selectedProduct) throws InsufficientFundsException {
+//            return false;
+//        }
+//
+//        public boolean inventoryAvailability(BigDecimal userMoney, Products selectedProduct) throws InventoryAvailabilityException {
+//            return false;
+//        }
+//    }
     
 }
