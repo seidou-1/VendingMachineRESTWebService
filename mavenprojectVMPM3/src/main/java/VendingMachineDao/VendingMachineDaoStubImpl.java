@@ -36,6 +36,14 @@ public class VendingMachineDaoStubImpl implements Dao{
 
     
     VendingMachineDaoStubImpl(){
+        
+        /*
+        The purpose of this is to have stubbed versions of the Dao 
+        so the Service Layer can have something to go off of 
+        
+        So i'm adding a snickers bar to the hashmap
+        */
+        
         onlyProduct = new Products ("A1");
         onlyProduct.setProductName("Snickers");
         onlyProduct.setProductCost(new BigDecimal ("1.50"));
@@ -46,17 +54,21 @@ public class VendingMachineDaoStubImpl implements Dao{
 
     @Override
     public Products getProduct(String productID) throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        return createdInventory.get(productID);
     }
 
     @Override
     public List<Products> getAllProducts() throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return listProductsList;
+                
     }
 
     @Override
     public void justWriteInventory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Do nothing
+        
     }
     
 }

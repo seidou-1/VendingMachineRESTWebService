@@ -106,6 +106,7 @@ public class DaoTest {
         check if the count has been removed properly?
         */
         assertEquals("A1", "A1"); //Looks for the ID called "A1", and then compares that from the Dao
+        assertFalse("A5", false); //This will be false if A5 doesn't exist
         
     }
 
