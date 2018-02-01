@@ -23,25 +23,61 @@
     </bean>
    
     <bean id="hashMap" 
-         class="VendingMachine.DaoFileImpl"/>
+          class="VendingMachine.DaoFileImpl"/>
    
-<!--    <bean id="auditDao" 
-         class="com.sg.classroster.dao.ClassRosterAuditDaoFileImpl"/>
-   -->
+    <!--    <bean id="auditDao" 
+          class="com.sg.classroster.dao.ClassRosterAuditDaoFileImpl"/>
+    -->
     <bean id="theService" 
-         class="VendingMachine.ServiceLayerImpl">
+          class="VendingMachine.ServiceLayerImpl">
         <constructor-arg ref="hashMap"/>
         <!--<constructor-arg ref="auditDao"/>-->           
     </bean>
    
     <bean id="controller" 
-         class="com.sg.classroster.controller.ClassRosterController">
+          class="VendingMachineController.Controller">
         <constructor-arg ref="theService"/>
         <constructor-arg ref="theView"/>
         <constructor-arg ref="theChange"/>
     </bean>
     
     <bean id = "theChange" class="VendingMachine.Change"/>
+    
+    <!-- Logging advice xml content below -->
+    
+    <bean id="loggingAdvice" class="VendingMachine.Advice.LoggingAdvice">
+        <constructor-arg ref="auditDao"/>
+    </bean>
+    
+    <!-- aop Logging advice xml below as well -->
+
         
-   
+    <aop:config>
+        <aop:aspect ref="loggingAdvice"> 
+            <aop:after-returning 
+                method="createAuditEntry" 
+                pointcut="execution(* VendingMachineServiceLayer.Service.getProduct(..))"
+            />
+         
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* VendingMachineServiceLayer.Service.inventoryAvailability(..))"
+
+            />
+            
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* VendingMachineServiceLayer.Service.inventoryAvailability(..))"
+
+            />
+            
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* VendingMachineServiceLayer.Service.reduceInventory(..))"
+
+            />
+           
+        </aop:aspect>
+    </aop:config>
+
 </beans>

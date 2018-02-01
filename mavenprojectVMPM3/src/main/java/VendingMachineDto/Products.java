@@ -119,8 +119,21 @@ public class Products {
         return true;
     }
     
+    /*
+    Adding the toString method on the bottom here to make it easy to write the string representation
+    of the Products object
     
+    The @Override annotation for this method 
+    is used to override the default implementation of the toString method 
+    supplied by the base class Object.
+    */
     
+        @Override
+        public String toString(){
+            return "ID: " + productId + " |Product Name: " + productName + " |Product Cost: " + productCost
+            + " |Product Inventory Count: " + productInventory;
+            
+        }
 }
 
 
