@@ -67,7 +67,14 @@ public class View {
                 if (input.equalsIgnoreCase("exit")) {
                     validInput = false;
                     break;
-                } else {
+//                } else if (userInput.intValue()<1) {
+//                    validInput = false;
+//                    System.out.println("Invalid amount. Try again.\n");
+
+                }
+                
+                else {
+                    validInput = true;
                     System.out.println("Invalid input. Try again.\n");
                     /*
                     If the user does not enter a string equivalent of a number and

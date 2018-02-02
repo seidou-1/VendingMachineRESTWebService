@@ -5,6 +5,8 @@
  */
 package VendingMachineServiceLayer;
 
+import VendingMachineDao.Dao;
+import VendingMachineDao.VendingMachineAuditDao;
 import VendingMachineDto.Products;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -26,7 +28,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ServiceTest {
 
+    private Dao myDao;
+    private VendingMachineAuditDao myAuditDao;
     private Service createdService;
+
+    public ServiceTest(Dao myDao, VendingMachineAuditDao myAuditDao) {
+        this.myDao = myDao;
+        this.myAuditDao = myAuditDao;
+
+    }
 
     List<Products> listProductsList = new ArrayList<>();
     Map<String, Products> createdInventory = new HashMap<>();
@@ -69,7 +79,7 @@ public class ServiceTest {
 //            createdInventory.remove(listProductsList); //will this work?
 //            createdProductsList.removeAll(createdDao.getAllProducts());//or should i do this?
 //        }
-        
+
     }
 
     @After
@@ -91,7 +101,6 @@ public class ServiceTest {
 ////        
 ////        assertEquals("A1", snickers.getProductId());
 //    }
-
     /**
      * Test of getAllProducts method, of class Service.
      */
@@ -130,7 +139,6 @@ public class ServiceTest {
 //    @Test
 //    public void testInventoryAvailability() throws Exception {
 //    }
-
 //    public class ServiceImpl implements Service {
 //
 //        public Products getProduct(String productID) throws PersistenceException {
