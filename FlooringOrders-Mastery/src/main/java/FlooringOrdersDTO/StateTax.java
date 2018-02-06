@@ -13,14 +13,16 @@ import java.math.BigDecimal;
  */
 public enum StateTax {
 
-    OH(new BigDecimal("6.25")),
-    PA(new BigDecimal("6.75")),
-    MI(new BigDecimal("5.75")),
-    IN(new BigDecimal("6.00"));
+    OH("OH", new BigDecimal("6.25")),
+    PA("PA", new BigDecimal("6.75")),
+    MI("MI", new BigDecimal("5.75")),
+    IN("IN", new BigDecimal("6.00"));
 
+    String stateAbbreviation;
     BigDecimal statesTax;
-
-    StateTax(BigDecimal statesTax) {
+    
+    StateTax(String stateAbbreviation, BigDecimal statesTax) {
+        this.stateAbbreviation = stateAbbreviation;
         this.statesTax = statesTax;
     }
     

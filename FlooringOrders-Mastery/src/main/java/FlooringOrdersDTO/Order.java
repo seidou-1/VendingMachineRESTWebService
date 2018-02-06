@@ -29,6 +29,11 @@ public class Order {
     private StateTax taxClass; //Enum. I can get the State and the tax rate
     
     
+    public Order(int orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+    
+    
     public StateTax getTaxClass() {
         return taxClass;
     }
@@ -36,7 +41,13 @@ public class Order {
     public void setTaxClass(String taxClass) {
         this.taxClass = StateTax.valueOf(taxClass.toUpperCase());
     }
-
+    
+    /*
+    if you have an enum that has multiple properties (i.e. OH("OH", new BigDecimal("6.25")))
+    and you create a dto where the data type is that enum, 
+    how would you create setters for each of the properties of that enum?
+    */
+    
     public ProductCosts getProductClass() {
         return productClass;
     }
@@ -57,15 +68,13 @@ public class Order {
         return taxCharged;
     }
 
-    public void setTaxCharged(BigDecimal taxCharged) {
-        this.taxCharged = taxCharged;
-    }
+    public void setTaxCharged(BigDecimal theStateAbbreviation) {
+        this.taxCharged = StateTax.valueOf(theStateAbbreviation);
+    } 
     
-
-
-    public Order(int orderNumber) {
-        this.orderNumber = orderNumber;
-    }
+//        public void setTaxCharged(BigDecimal taxCharged) {
+//        this.taxCharged = taxCharged;
+//    } 
 
     public int getOrderNumber() {
         return orderNumber;

@@ -14,12 +14,13 @@ import java.math.BigDecimal;
 public enum ProductCosts {
     
 //  Material, Cost Per Sq Ft, Labor Cost Per Sq Ft
-    CARPET (new BigDecimal ("2.25"), new BigDecimal ("2.10")),
-    LAMINATE (new BigDecimal ("1.75"), new BigDecimal ("2.10")),
-    TILE ( new BigDecimal ("3.50"), new BigDecimal ("4.15")),
-    WOOD (new BigDecimal ("5.15"), new BigDecimal ("4.75"));
+    CARPET ("CARPET", new BigDecimal ("2.25"), new BigDecimal ("2.10")),
+    LAMINATE ("LAMINATE", new BigDecimal ("1.75"), new BigDecimal ("2.10")),
+    TILE ("TILE", new BigDecimal ("3.50"), new BigDecimal ("4.15")),
+    WOOD ("WOOD", new BigDecimal ("5.15"), new BigDecimal ("4.75"));
     
     //Below will be used for constructors
+        String productName;
         BigDecimal costPerSqFt;
         BigDecimal laborCostPerSqFt;
     
@@ -27,8 +28,9 @@ public enum ProductCosts {
     To pass values to enums, you need to create a Constructor
     The constructor will serve as the setter
     */
-    ProductCosts (BigDecimal costPerSqFt, BigDecimal laborCostPerSqFt){
+    ProductCosts (String productName, BigDecimal costPerSqFt, BigDecimal laborCostPerSqFt){
         
+        this.productName = productName;
         this.costPerSqFt = costPerSqFt;
         this.laborCostPerSqFt = laborCostPerSqFt;
     }
@@ -44,6 +46,10 @@ public enum ProductCosts {
     
     public BigDecimal getlaborCostPerSqFt(){
         return laborCostPerSqFt;
+    }
+    
+    public String getProductName(){
+        return productName;
     }
     
     

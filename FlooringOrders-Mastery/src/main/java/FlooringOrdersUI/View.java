@@ -56,21 +56,39 @@ public class View {
 
     }
 
-    public Order setUsersOrder() {
+    public Order setUsersOrder(int orderNumber) {
         String name = myIO.readString("Enter first and last name");
         BigDecimal area = myIO.readBigDecimal(new BigDecimal("Enter your Sq. Footage"));
         String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
 
-        Order currentOrder = new Order(currentOrder.setOrderNumber()); //Trying to auto set the order#
+        Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
 //        Product currentProduct = new Product(); //Instantiating product 
 
         currentOrder.setArea(area);
-        currentOrder.setState(state);
-        currentOrder.setProductClass(currentProduct);//How do i set the product?
-//        currentProduct.setProductType(product);
-
+        currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
+        currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
+        
+        //Option A but the view does too much:
+//        CalculatedTotals myTotal = new CalculatedTotals();
+//        
+//        myTotal.calculateTotals(currentOrder);
+        
+        //Option B
+        currentOrder.calculateTotals();
+        
         return currentOrder;
+        
+        
+        
+//        currentOrder.setTaxCharged(state);
+        
+        //Is there a way to set the State of the Dto by getting the enum value
+        //Set the tax charged
+        //Set the material cost
+        //Set the labor cost
+        //Set the grandTotal
+        
 
     }
 
