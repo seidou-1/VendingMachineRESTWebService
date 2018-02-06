@@ -29,4 +29,6 @@ public class App {
     Service myService = new ServiceImpl(myDao);//This takes a particular Dao implmenetation
     
     Controller myController = new Controller (myView, myService); //This constructor takes a view and a service
+    
+    myController.run();
 }

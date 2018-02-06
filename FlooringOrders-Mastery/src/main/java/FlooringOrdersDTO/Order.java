@@ -28,7 +28,6 @@ public class Order {
     private ProductCosts productClass; //Enum. I can get the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
     private StateTax taxClass; //Enum. I can get the State and the tax rate
     
-    
     public Order(int orderNumber) {
         this.orderNumber = orderNumber;
     }
@@ -40,12 +39,17 @@ public class Order {
 
     public void setTaxClass(String taxClass) {
         this.taxClass = StateTax.valueOf(taxClass.toUpperCase());
+        //Kills 3 birds with one stone
     }
     
     /*
     if you have an enum that has multiple properties (i.e. OH("OH", new BigDecimal("6.25")))
     and you create a dto where the data type is that enum, 
     how would you create setters for each of the properties of that enum?
+    
+    Can i use one setter that can split into 3?
+    
+    Or do i need to create multiple setters for each of the properties of the enum?
     */
     
     public ProductCosts getProductClass() {
@@ -68,8 +72,8 @@ public class Order {
         return taxCharged;
     }
 
-    public void setTaxCharged(BigDecimal theStateAbbreviation) {
-        this.taxCharged = StateTax.valueOf(theStateAbbreviation);
+    public void setTaxCharged(BigDecimal taxCharged) {
+        this.taxCharged = taxCharged;
     } 
     
 //        public void setTaxCharged(BigDecimal taxCharged) {
@@ -119,23 +123,7 @@ public class Order {
     public void setLaborCost(BigDecimal laborCost) {
         this.laborCost = laborCost;
     }
-
-    
-
-//     public Tax getTaxClass() {
-//        return taxClass;
-//    }
-//
-//    public void setTaxClass(Tax taxClass) {
-//        this.taxClass = taxClass;
-//    }
-//    public Product getProductClass() {
-//        return productClass;
-//    }
-//
-//    public void setProductClass(Product productClass) {
-//        this.productClass = productClass;
-//    }
+ 
     public LocalDate getDate() {
         return date;
     }
@@ -144,4 +132,23 @@ public class Order {
         this.date = date;
     }
 
+    
+        public void calculateTotals (){ //Setter pretty much
+         
+        BigDecimal totalTax = 
+                
+        (area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
+        .multiply(taxClass.getStatesTax()));
+        
+        this.taxCharged=(totalTax); //Here i'm setting the totalTax to the taxCharged
+        
+        BigDecimal grandTotal2 =
+        (area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))        
+        .add(totalTax);  
+
+        this.grandTotal = (grandTotal2); //Here i'm stting the grandTotal to the grandTotal of my Enum
+            
+    }
+    
+    
 }

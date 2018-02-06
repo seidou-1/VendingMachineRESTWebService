@@ -32,6 +32,8 @@ public interface Service {
     
 //        Order dispalyOrder(LocalDate date, String orderNumber);
 
+    public int getOrderNumber();
+
    
     
 }

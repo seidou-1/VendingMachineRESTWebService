@@ -30,14 +30,15 @@ public class DaoFileImpl implements Dao{
     
     Map<Integer, Order> inventory = new HashMap<>(); 
     
-
+//    int orderNumber = 0;
+    
     @Override
     public  List<Order> displayAllOrders() {
        return new ArrayList<>(inventory.values());
     }
 
     @Override
-    public Order addOrder(int orderNumber, Order order) {
+    public Order addOrder(int orderNumber, Order order) {//Remove orderNumber later
         Order newOrder =inventory.put(order.getOrderNumber(), order);
         return newOrder;
     }
@@ -66,42 +67,47 @@ public class DaoFileImpl implements Dao{
         return removedOrder;
     }
     
+//    private int incrementOrderNumber(){
+//        orderNumber++;
+//        return orderNumber;
+//    }
+    
 //    @Override
 //    public Order dispalyOrder(LocalDate date, String orderNumber) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
     
-    private void loadCollection() throws PersistenceException{
-        Scanner scanner;
-        
-        try {
-        scanner = new Scanner(new BufferedReader(new FileReader(ORDERS_FILE)));
-    } catch (FileNotFoundException e) {
-        throw new PersistenceException("Could not load Orders from memory ", e);
-    }
-        
-        String currentLine;
-        
-        String[] currentTokens;
-        
-        while (scanner.hasNext()){
-            
-            currentLine = scanner.nextLine();
-            
-            currentTokens = currentLine.split(DELIMITER);
-            
-            Order currentOrder = new Order(parseInt(currentTokens[0]));//Order#
-            
-            currentOrder.setCustomerName(currentTokens[1]);
-            currentOrder.setState(currentTokens[1]);
-            currentOrder.setTaxClass(currentTokens[1]);
-            
-            /*
-            
-            */
-            
-        }
-        
-    }
+//    private void loadCollection() throws PersistenceException{
+//        Scanner scanner;
+//        
+//        try {
+//        scanner = new Scanner(new BufferedReader(new FileReader(ORDERS_FILE)));
+//    } catch (FileNotFoundException e) {
+//        throw new PersistenceException("Could not load Orders from memory ", e);
+//    }
+//        
+//        String currentLine;
+//        
+//        String[] currentTokens;
+//        
+//        while (scanner.hasNext()){
+//            
+//            currentLine = scanner.nextLine();
+//            
+//            currentTokens = currentLine.split(DELIMITER);
+//            
+//            Order currentOrder = new Order(parseInt(currentTokens[0]));//Order#
+//            
+//            currentOrder.setCustomerName(currentTokens[1]);
+////            currentOrder.setState(currentTokens[1]);
+//            currentOrder.setTaxClass(currentTokens[1]);
+//            
+//            /*
+//            
+//            */
+//            
+//        }
+//        
+//    }
     
 }

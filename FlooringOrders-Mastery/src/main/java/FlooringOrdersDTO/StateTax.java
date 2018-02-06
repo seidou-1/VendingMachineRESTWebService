@@ -19,7 +19,7 @@ public enum StateTax {
     IN("IN", new BigDecimal("6.00"));
 
     String stateAbbreviation;
-    BigDecimal statesTax;
+    BigDecimal statesTax; 
     
     StateTax(String stateAbbreviation, BigDecimal statesTax) {
         this.stateAbbreviation = stateAbbreviation;
@@ -28,6 +28,10 @@ public enum StateTax {
     
     public BigDecimal getStatesTax(){
         return statesTax;
+    }
+    
+     public String getStateAbbreviation() {
+        return stateAbbreviation;
     }
 
 }

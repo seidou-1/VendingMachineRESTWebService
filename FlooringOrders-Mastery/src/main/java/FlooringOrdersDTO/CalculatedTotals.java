@@ -41,19 +41,21 @@ public class CalculatedTotals {
         (area.multiply(costPerSqFt)).add((area.multiply(laborCostPerSqFt)))        
         .add(totalTax);  
 
-        usersOrder.setGrandTotal(grandTotal); //Here i'm stting the grandTotal to the grandTotal of my Enum
+        usersOrder.setGrandTotal(grandTotal); //Here i'm setting the grandTotal to the grandTotal of my Enum
         
         
         //user's product selection * their area * their state
         
-        return "Order Number: " + orderNumber
-                + " Name: " + name
-                + " Area: " + area
-                + " State Tax: " + usersStateTax
-                + " Cost Per Sq. Ft: " + costPerSqFt
-                + " Labor Cost per Sq. Ft: " + laborCostPerSqFt
-                + " Total Tax: " + totalTax
-                + " Grand Total: " + grandTotal;
+        return grandTotal.toString();
+                
+//                "Order Number: " + orderNumber
+//                + " Name: " + name
+//                + " Area: " + area
+//                + " State Tax: " + usersStateTax
+//                + " Cost Per Sq. Ft: " + costPerSqFt
+//                + " Labor Cost per Sq. Ft: " + laborCostPerSqFt
+//                + " Total Tax: " + totalTax
+//                + " Grand Total: " + grandTotal;
            
                 
     }

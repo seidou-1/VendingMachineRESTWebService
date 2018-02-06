@@ -30,11 +30,12 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public Order addOrder(Order orderNumber) {
-//        Order newOrder = inventory
-        
+    public Order addOrder(Order order) { 
+        return myDao.addOrder(order.getOrderNumber(), order);
+
     }
     
+    @Override
     public int getOrderNumber (){
         return myDao.displayAllOrders().size()+1;
     }

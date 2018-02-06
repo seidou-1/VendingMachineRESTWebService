@@ -6,8 +6,8 @@
 package FlooringOrdersUI;
 
 import FlooringOrdersDTO.Order;
-import FlooringOrdersDTO.Product;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  *
@@ -105,6 +105,19 @@ public class View {
 
     public void exitBanner() {
         myIO.print("GoodBye!!");
+    }
+
+    public boolean areYouSure() {
+        boolean userSelection = false;
+        int usersChoice = myIO.readInt("Are you sure ['1' for yes, '2' for no]", 1, 2); //refactor later to ignore uppercase
+        if (usersChoice == 1) {
+            userSelection = true; 
+        } //Automatically returns false if they select 2
+        return userSelection;
+    }
+
+    public void thankYouBanner() {
+        myIO.print("Thank you!!");
     }
 
 }

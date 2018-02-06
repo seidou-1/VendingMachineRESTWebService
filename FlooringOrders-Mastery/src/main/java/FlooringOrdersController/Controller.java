@@ -5,6 +5,7 @@
  */
 package FlooringOrdersController;
 
+import FlooringOrdersDTO.Order;
 import FlooringOrdersServiceLayer.Service;
 import FlooringOrdersUI.View;
 
@@ -33,7 +34,7 @@ public class Controller {
             case 1:
                 //display orders
             case 2:
-                //add an order
+                addOrder();
             case 3:
                 //edit an order
             case 4:
@@ -60,10 +61,20 @@ public class Controller {
     private void exitBanner(){
         myView.exitBanner();
     }
+
+    private void addOrder() { //add exception
+        Order placement = myView.setUsersOrder(myService.getOrderNumber());//Prompts the user to input info
+        boolean usersChoice = myView.areYouSure();//Returns boolean true or false
+        if (usersChoice) {
+            myService.addOrder(placement);
+        } else {
+            myView.thankYouBanner();
+        }
+    }
     
-    private void displayAllOrders {
-    return myService.
-}
+//    private void displayAllOrders {
+////    return myService.
+//}
 
     
 }

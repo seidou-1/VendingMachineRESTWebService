@@ -9,6 +9,6 @@ package FlooringOrdersDAO;
  *
  * @author laptop
  */
-public class DaoLoadFileImpl implements Dao{
+public class DaoLoadFileImpl {
     
 }
