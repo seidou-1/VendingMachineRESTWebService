@@ -64,6 +64,8 @@ public class Controller {
 
     private void addOrder() { //add exception
         Order placement = myView.setUsersOrder(myService.getOrderNumber());//Prompts the user to input info
+        //Display current order
+        myView.displayCurrentOrder(placement);
         boolean usersChoice = myView.areYouSure();//Returns boolean true or false
         if (usersChoice) {
             myService.addOrder(placement);
@@ -78,7 +80,11 @@ public class Controller {
 
     private void editOrder() {
         //Have the user input the date and order number
-        //
+        //display order that matches that filter
+        //if the user types enter, no changes made
+        //if the user enters something, the value of that field is changed
+        
+        myView.enterDateAndOrderNumber();
     }
 
     

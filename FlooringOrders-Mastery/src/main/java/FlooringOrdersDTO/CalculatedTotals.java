@@ -6,6 +6,7 @@
 package FlooringOrdersDTO;
 
 import java.math.BigDecimal;
+import static java.math.RoundingMode.HALF_UP;
 
 /**
  *
@@ -33,13 +34,13 @@ public class CalculatedTotals {
         BigDecimal totalTax = 
                 
         (area.multiply(costPerSqFt)).add((area.multiply(laborCostPerSqFt)))
-        .multiply(usersStateTax);
+        .multiply(usersStateTax).setScale(2, HALF_UP);
         
         usersOrder.setTaxCharged(totalTax); //Here i'm setting the totalTax to the taxCharged
         
         BigDecimal grandTotal =
         (area.multiply(costPerSqFt)).add((area.multiply(laborCostPerSqFt)))        
-        .add(totalTax);  
+        .add(totalTax).setScale(2, HALF_UP);  
 
         usersOrder.setGrandTotal(grandTotal); //Here i'm setting the grandTotal to the grandTotal of my Enum
         

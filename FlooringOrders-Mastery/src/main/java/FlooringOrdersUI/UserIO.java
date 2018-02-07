@@ -6,6 +6,7 @@
 package FlooringOrdersUI;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  *
@@ -19,7 +20,7 @@ public interface UserIO {
 
     double readDouble(String prompt, double min, double max);
     
-    BigDecimal readBigDecimal (BigDecimal prompt);
+    BigDecimal readBigDecimal (String prompt);
 
     float readFloat(String prompt);
 
@@ -34,5 +35,7 @@ public interface UserIO {
     long readLong(String prompt, long min, long max);
 
     String readString(String prompt);
+
+    public void readLocalDate(LocalDate usersDate);
 
 }

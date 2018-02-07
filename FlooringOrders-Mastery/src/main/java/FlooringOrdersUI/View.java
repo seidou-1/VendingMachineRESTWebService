@@ -58,13 +58,13 @@ public class View {
 
     public Order setUsersOrder(int orderNumber) {
         String name = myIO.readString("Enter first and last name");
-        BigDecimal area = myIO.readBigDecimal(new BigDecimal("Enter your Sq. Footage"));
+        BigDecimal area = myIO.readBigDecimal("Enter your Sq. Footage");
         String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
 
         Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
 //        Product currentProduct = new Product(); //Instantiating product 
-
+        currentOrder.setCustomerName(name);
         currentOrder.setArea(area);
         currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
         currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
@@ -112,6 +112,36 @@ public class View {
 
     public void thankYouBanner() {
         myIO.print("Thank you!!");
+    }
+
+    public void displayCurrentOrder(Order placement) {
+
+        System.out.println("Order Number: " + placement.getOrderNumber()
+                + " Name: "
+                + placement.getCustomerName()
+                + " Area: "
+                + placement.getArea()
+                + " Material: "
+                + placement.getProductClass().getProductName()
+                + " Cost Per Sq. Ft: "
+                + placement.getProductClass().getCostPerSqFt()
+                + " Labor Cost Per Sq. Ft: "
+                + placement.getProductClass().getlaborCostPerSqFt()
+                + " State: "
+                + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
+                + " State Tax: "
+                + placement.getTaxClass().getStatesTax()
+                + " Tax Charged: "
+                + placement.getTaxCharged()
+                + " Grand Total: "
+                + placement.getGrandTotal());
+
+    }
+
+    public LocalDate getUsersDate() {
+        myIO.readLocalDate();
+        
+        return 
     }
 
 }

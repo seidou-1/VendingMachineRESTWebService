@@ -52,6 +52,7 @@ public class DaoFileImpl implements Dao{
 4. if the user does want to make changes, allow them to type it in for that field
 */
         
+        
         List<Order> orderDate = inventory.values()
                 .stream()
                 .filter(s -> s.getDate().equals(date)) //Also add filter ofr orderNumber?

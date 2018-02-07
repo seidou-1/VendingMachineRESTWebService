@@ -6,6 +6,7 @@
 package FlooringOrdersDTO;
 
 import java.math.BigDecimal;
+import static java.math.RoundingMode.HALF_UP;
 import java.time.LocalDate;
 
 /**
@@ -17,22 +18,21 @@ public class Order {
     private int orderNumber;
     private String customerName;
     private BigDecimal area;
- 
+
     private BigDecimal materialCost;
     private BigDecimal laborCost;
     private BigDecimal taxCharged;
     private BigDecimal grandTotal;
 
     private LocalDate date;
-    
+
     private ProductCosts productClass; //Enum. I can get the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
     private StateTax taxClass; //Enum. I can get the State and the tax rate
-    
+
     public Order(int orderNumber) {
         this.orderNumber = orderNumber;
     }
-    
-    
+
     public StateTax getTaxClass() {
         return taxClass;
     }
@@ -41,7 +41,7 @@ public class Order {
         this.taxClass = StateTax.valueOf(taxClass.toUpperCase());
         //Kills 3 birds with one stone
     }
-    
+
     /*
     if you have an enum that has multiple properties (i.e. OH("OH", new BigDecimal("6.25")))
     and you create a dto where the data type is that enum, 
@@ -50,8 +50,7 @@ public class Order {
     Can i use one setter that can split into 3?
     
     Or do i need to create multiple setters for each of the properties of the enum?
-    */
-    
+     */
     public ProductCosts getProductClass() {
         return productClass;
     }
@@ -66,7 +65,7 @@ public class Order {
 
     public void setGrandTotal(BigDecimal grandTotal) {
         this.grandTotal = grandTotal;
-    } 
+    }
 
     public BigDecimal getTaxCharged() {
         return taxCharged;
@@ -74,12 +73,11 @@ public class Order {
 
     public void setTaxCharged(BigDecimal taxCharged) {
         this.taxCharged = taxCharged;
-    } 
-    
+    }
+
 //        public void setTaxCharged(BigDecimal taxCharged) {
 //        this.taxCharged = taxCharged;
 //    } 
-
     public int getOrderNumber() {
         return orderNumber;
 
@@ -87,8 +85,8 @@ public class Order {
 
     public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
-    } 
-    
+    }
+
     public String getCustomerName() {
         return customerName;
     }
@@ -123,7 +121,7 @@ public class Order {
     public void setLaborCost(BigDecimal laborCost) {
         this.laborCost = laborCost;
     }
- 
+
     public LocalDate getDate() {
         return date;
     }
@@ -132,23 +130,43 @@ public class Order {
         this.date = date;
     }
 
-    
-        public void calculateTotals (){ //Setter pretty much
-         
-        BigDecimal totalTax = 
-                
-        (area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
-        .multiply(taxClass.getStatesTax()));
-        
-        this.taxCharged=(totalTax); //Here i'm setting the totalTax to the taxCharged
-        
-        BigDecimal grandTotal2 =
-        (area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))        
-        .add(totalTax);  
+    public void calculateTotals() { //Setter pretty much
+
+        BigDecimal totalTax
+                = (area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
+                        .multiply(taxClass.getStatesTax()).setScale(2, HALF_UP));
+
+        this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
+
+        BigDecimal grandTotal2
+                = (area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
+                        .add(totalTax).setScale(2, HALF_UP);
 
         this.grandTotal = (grandTotal2); //Here i'm stting the grandTotal to the grandTotal of my Enum
-            
+
     }
     
-    
+    public String orderInStrings(){ 
+        return
+        "\n Order Number: " + this.orderNumber
+                + ", Name: "
+                + this.customerName
+                + ", Area: "
+                + this.area
+                + ", Material: "
+                + this.productClass.getProductName()
+                + ", Cost Per Sq. Ft: "
+                + this.productClass.getCostPerSqFt()
+                + ", Labor Cost Per Sq. Ft: "
+                + this.productClass.getlaborCostPerSqFt()
+                + ", State: "
+                + this.taxClass.getStateAbbreviation() //Can also just print out just TaxClass
+                + ", State Tax: "
+                + this.taxClass.getStatesTax()
+                + ", Tax Charged: "
+                + this.taxCharged
+                + ", Grand Total: "
+                + this.grandTotal;
+    } 
+
 }

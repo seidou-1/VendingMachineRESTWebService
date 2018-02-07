@@ -6,6 +6,9 @@
 package FlooringOrdersUI;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -34,9 +37,10 @@ public class UserIOImpl implements UserIO {
     }
 
     @Override
-    public BigDecimal readBigDecimal(BigDecimal prompt) {
+    public BigDecimal readBigDecimal(String prompt) {
         System.out.println(prompt);
-        BigDecimal userInput = myScanner.nextBigDecimal();
+        BigDecimal userInput = new BigDecimal (myScanner.nextLine());
+        //Add try catch logic later
         return userInput;
     }
 
@@ -162,4 +166,13 @@ public class UserIOImpl implements UserIO {
         return userInput;
     }
 
+    @Override
+    public void readLocalDate(LocalDate usersDate) { //takes a string
+        System.out.println(usersDate);
+        userInput = myScanner.nextLine();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        LocalDate localDate = LocalDate.parse(userInput, format);
+    }
+
 }
+ 
