@@ -19,16 +19,20 @@ import FlooringOrdersUI.View;
  * @author laptop
  */
 public class App {
-    
-    UserIO myUserIO = new UserIOImpl();
-    
-    View myView = new View(myUserIO);//The view takes a particular IOimplementation
-    
-    Dao myDao = new DaoFileImpl();
-    
-    Service myService = new ServiceImpl(myDao);//This takes a particular Dao implmenetation
-    
-    Controller myController = new Controller (myView, myService); //This constructor takes a view and a service
-    
-    myController.run();
+
+    public static void main(String[] args) {
+
+        UserIO myUserIO = new UserIOImpl();
+
+        View myView = new View(myUserIO);//The view takes a particular IOimplementation
+
+        Dao myDao = new DaoFileImpl();
+
+        Service myService = new ServiceImpl(myDao);//This takes a particular Dao implmenetation
+
+        Controller myController = new Controller(myView, myService); //This constructor takes a view and a service
+
+        myController.run();
+    }
+
 }

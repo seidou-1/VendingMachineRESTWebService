@@ -12,9 +12,9 @@ import java.util.Scanner;
  *
  * @author laptop
  */
-public class UserIOImpl implements UserIO{
-    
-     Scanner myScanner = new Scanner(System.in);
+public class UserIOImpl implements UserIO {
+
+    Scanner myScanner = new Scanner(System.in);
     String userInput;
     double number;
 
@@ -32,9 +32,9 @@ public class UserIOImpl implements UserIO{
         number = Integer.parseInt(userInput); //The value that is read in should be the return value of the method
         return number;
     }
-    
+
     @Override
-    public BigDecimal readBigDecimal(BigDecimal prompt){
+    public BigDecimal readBigDecimal(BigDecimal prompt) {
         System.out.println(prompt);
         BigDecimal userInput = myScanner.nextBigDecimal();
         return userInput;
@@ -161,5 +161,5 @@ public class UserIOImpl implements UserIO{
         userInput = myScanner.nextLine();
         return userInput;
     }
-    
+
 }

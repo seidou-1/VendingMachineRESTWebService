@@ -36,7 +36,7 @@ public class Controller {
             case 2:
                 addOrder();
             case 3:
-                //edit an order
+                editOrder();
             case 4:
                 //remove an order
             case 5:
@@ -75,6 +75,11 @@ public class Controller {
 //    private void displayAllOrders {
 ////    return myService.
 //}
+
+    private void editOrder() {
+        //Have the user input the date and order number
+        //
+    }
 
     
 }

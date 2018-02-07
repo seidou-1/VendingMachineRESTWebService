@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class View {
 
-    private UserIO myIO;
+    UserIO myIO;
 
     public View(UserIO myIO) {
         this.myIO = myIO;
@@ -39,16 +39,16 @@ public class View {
         for (Order bucket : List) {
 
             myIO.print(
-                    "Order Number: " +
-                    bucket.getOrderNumber() + " Name: "
+                    "Order Number: "
+                    + bucket.getOrderNumber() + " Name: "
                     + bucket.getCustomerName() + " Area: "
                     + bucket.getArea() + " State: "
                     + bucket.getTaxClass() + " State Tax: " //The actual state i.e. OH
                     + bucket.getTaxClass().getStatesTax() + " Product: " //Gets the corresponding tax for OH
-                    + bucket.getProductClass()+ " Cost Per Sq. Ft: "
+                    + bucket.getProductClass() + " Cost Per Sq. Ft: "
                     + bucket.getProductClass().getCostPerSqFt() + " Labor Cost Per Sq Ft: "
                     + bucket.getProductClass().getlaborCostPerSqFt() + " Total Tax: "
-                    + bucket.getTaxCharged()+ " Grand Total: "
+                    + bucket.getTaxCharged() + " Grand Total: "
                     + bucket.getGrandTotal()
             );
 
@@ -68,28 +68,22 @@ public class View {
         currentOrder.setArea(area);
         currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
         currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
-        
+
         //Option A but the view does too much:
 //        CalculatedTotals myTotal = new CalculatedTotals();
 //        
 //        myTotal.calculateTotals(currentOrder);
-        
         //Option B
         currentOrder.calculateTotals();
-        
+
         return currentOrder;
-        
-        
-        
+
 //        currentOrder.setTaxCharged(state);
-        
         //Is there a way to set the State of the Dto by getting the enum value
         //Set the tax charged
         //Set the material cost
         //Set the labor cost
         //Set the grandTotal
-        
-
     }
 
     public String confirmSelection() {
@@ -111,7 +105,7 @@ public class View {
         boolean userSelection = false;
         int usersChoice = myIO.readInt("Are you sure ['1' for yes, '2' for no]", 1, 2); //refactor later to ignore uppercase
         if (usersChoice == 1) {
-            userSelection = true; 
+            userSelection = true;
         } //Automatically returns false if they select 2
         return userSelection;
     }
