@@ -5,6 +5,7 @@
  */
 package FlooringOrdersUI;
 
+import FlooringOrdersServiceLayer.InvalidDateException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -36,14 +37,50 @@ public class UserIOImpl implements UserIO {
         return number;
     }
 
+//    @Override
+//    public BigDecimal readBigDecimal(String prompt) {
+//        /*
+//        Adding code in this method to ensure a propert big decimal
+//        was inputted
+//         */
+//
+//        BigDecimal convertToBD = null;
+//
+//        boolean validInput = true;
+//
+//        do {
+//
+//            this.readString(prompt);
+//
+//            try {
+//
+////                System.out.println(prompt);
+////                myScanner.nextLine();
+//                convertToBD = new BigDecimal(prompt);
+//
+//                //Add try catch logic later
+//            } catch (NumberFormatException e) {
+//                validInput = false;
+//                System.out.println("Invalid number format. Try again. \n");
+//
+//            }
+//        } while (validInput);
+//        return convertToBD;
+//
+//    }
+
     @Override
     public BigDecimal readBigDecimal(String prompt) {
+        /*
+        Adding code in this method to ensure a propert big decimal
+        was inputted
+        */
         System.out.println(prompt);
-        BigDecimal userInput = new BigDecimal (myScanner.nextLine());
+        BigDecimal userInput = new BigDecimal(myScanner.nextLine());
         //Add try catch logic later
         return userInput;
     }
-
+    
     @Override
     public double readDouble(String prompt, double min, double max) { //Display a prompt to the user and read in an integer between a max value and a min value.
         boolean valid;
@@ -167,12 +204,27 @@ public class UserIOImpl implements UserIO {
     }
 
     @Override
-    public void readLocalDate(LocalDate usersDate) { //takes a string
+    public LocalDate readLocalDate(String usersDate) /*throws InvalidDateException*/ { //takes a string
+
+//        do {
+//            try {
         System.out.println(usersDate);
+
         userInput = myScanner.nextLine();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        LocalDate localDate = LocalDate.parse(userInput, format);
+        LocalDate usersDateParsed = LocalDate.parse(userInput, format);
+
+//                if (usersDate.matches(format)) { //change this
+//
+//                    throw new InvalidDateException("Invalid date format, try again");
+//
+//                }
+//            } catch (InvalidDateException e) {
+//                System.out.println(e.getMessage());
+//            }
+//
+//        }
+        return usersDateParsed;
     }
 
 }
- 

@@ -33,8 +33,9 @@ public class DaoFileImpl implements Dao{
 //    int orderNumber = 0;
     
     @Override
-    public  List<Order> displayAllOrders() {
-       return new ArrayList<>(inventory.values());
+    public  List<Order> displayAllOrders () {
+//        loadInventory();
+        return new ArrayList<>(inventory.values());
     }
 
     @Override

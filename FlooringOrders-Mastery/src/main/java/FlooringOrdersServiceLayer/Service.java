@@ -15,9 +15,12 @@ import java.util.List;
  */
 public interface Service {
     
-    List <Order> displayAllOrders ();
+    List <Order> displayAllOrders (String date);
     
-    Order addOrder(Order orderNumber);
+    Order addOrder(Order orderNumber) throws
+            DataValidationException,
+            InvalidDateException //should i do a method that checks date in my readDate?
+             ;
     /*
     Add an order will ask the user for each piece of order data. 
     At the end, it will display a summary of the data entered and 
@@ -26,13 +29,22 @@ public interface Service {
     returned to the main menu.
     */
     
-    Order editOrder (LocalDate date, String orderNumber);
+    Order editOrder (Order order) throws
+            DataValidationException,
+            InvalidDateException
+            
+            ;
     
-    Order removeOrder (LocalDate date, String orderNumber);
+    Order removeOrder (LocalDate date, int orderNumber);
     
 //        Order dispalyOrder(LocalDate date, String orderNumber);
 
     public int getOrderNumber();
+
+//    public void checkIfOrderNumberExists(String toString, int usersOrderNumber);
+    
+    public List <Order> checkIfOrderNumberExists(String date, int orderNumber) throws OrderNotFoundException;
+
 
    
     

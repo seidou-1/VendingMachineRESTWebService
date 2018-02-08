@@ -5,6 +5,7 @@
  */
 package FlooringOrdersUI;
 
+import FlooringOrdersServiceLayer.InvalidDateException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -36,6 +37,6 @@ public interface UserIO {
 
     String readString(String prompt);
 
-    public void readLocalDate(LocalDate usersDate);
+    LocalDate readLocalDate(String usersDate) /*throws InvalidDateException*/;
 
 }

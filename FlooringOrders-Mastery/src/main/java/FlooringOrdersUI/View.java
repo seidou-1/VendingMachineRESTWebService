@@ -7,6 +7,7 @@ package FlooringOrdersUI;
 
 import FlooringOrdersDTO.Order;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -86,6 +87,40 @@ public class View {
         //Set the grandTotal
     }
 
+    public Order setUsersOrderForEditing(Order order) {
+        String ifItsEmpty = "";
+
+        String nameSetter = (myIO.readString("What is the First and Last Name? ") + order.getCustomerName() + "");
+        String areaSetter = (myIO.readBigDecimal("What is the Sq. Ft?").toString() + order.getArea() + "");
+        String stateSetter = (myIO.readString("What is the State?") + order.getTaxClass().getStateAbbreviation() + "");
+        String productSetter = (myIO.readString("What is the Product?") + order.getProductClass().getProductName() + "");
+
+        if (nameSetter.equals(ifItsEmpty)) {
+            order.setCustomerName(nameSetter);
+//            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
+        }
+        
+        if (areaSetter.equals(ifItsEmpty)){
+            order.setArea(new BigDecimal(areaSetter));
+        //Add code to validate a real BigDecimal valueis inputted
+
+        }
+        
+        if (stateSetter.equals(ifItsEmpty)){
+            order.setTaxClass(stateSetter);
+    //Add code to validate state inputted is a state that exists i enum
+
+        }
+        
+        if (productSetter.equals(ifItsEmpty)){
+        //Add code to validate product inputted is a productthat exists i enum
+
+            order.setProductClass(productSetter);
+        }
+        
+        return order;
+    }
+
     public String confirmSelection() {
         return myIO.readString("Are you sure? Y/N");
         /*
@@ -138,10 +173,18 @@ public class View {
 
     }
 
-    public LocalDate getUsersDate() {
-        myIO.readLocalDate();
-        
-        return 
+    public LocalDate getUsersDate() { //Pass a paramater here?
+        return myIO.readLocalDate("Enter a date in the format MM/dd/yyyy");
+
+    }
+
+    public int getUsersOrderNumber() {
+        return myIO.readInt("Enter order number");
+    }
+    
+    public void displayErrorMessage(String errorMessage){
+        myIO.print("=== ERROR ===");
+        myIO.print(errorMessage);
     }
 
 }

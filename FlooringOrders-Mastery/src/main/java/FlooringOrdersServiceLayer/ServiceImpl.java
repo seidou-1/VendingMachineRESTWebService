@@ -8,48 +8,109 @@ package FlooringOrdersServiceLayer;
 import FlooringOrdersDAO.Dao;
 import FlooringOrdersDTO.Order;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author laptop
  */
 public class ServiceImpl implements Service {
-    
+
     private Dao myDao;
-    
-    
-    
-    public ServiceImpl(Dao myDao){
+
+    public ServiceImpl(Dao myDao) {
         this.myDao = myDao;
     }
 
     @Override
-    public List<Order> displayAllOrders() {
+    public List<Order> displayAllOrders(String date) {
+
         return myDao.displayAllOrders();
     }
 
     @Override
-    public Order addOrder(Order order) { 
+    public Order addOrder(Order order) throws DataValidationException {
+        validateOrderData(order);
         return myDao.addOrder(order.getOrderNumber(), order);
 
     }
-    
+
     @Override
-    public int getOrderNumber (){
-        return myDao.displayAllOrders().size()+1;
+    public int getOrderNumber() {
+        return myDao.displayAllOrders().size() + 1;
     }
 
     @Override
-    public Order editOrder(LocalDate date, String orderNumber) {
+    public Order editOrder(Order order) throws DataValidationException {
+//        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy"); 
+//        LocalDate usersDateParsed = LocalDate.parse(date, format);
+
+        return myDao.addOrder(order.getOrderNumber(), order);
+        
+        
+        //Display the order
+        //Allow them to edit
+        //Validate the edit meets the business logic
+        //
+        
+    }
+    
+//    Order filterOrderByDateAndOrderNumber (LocalDate date, int orderNumber){
+//        //Add a filter here to filter by date and order number
+//    }
+
+    @Override
+    public Order removeOrder(LocalDate date, int orderNumber) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Order removeOrder(LocalDate date, String orderNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    //Exceptions logic below:
+    private void validateOrderData(Order order) throws DataValidationException {
+
+        if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
+                || order.getArea() == null || order.getArea().toString().trim().length() == 0 //How do i check state since it's an enum?
+                //How do i also check product since it's an enum?
+                ) {
+
+            throw new DataValidationException("ERROR: All fields need to be inputted [Name, Area, State, and Product]");
+        }
     }
-    
-    
-    
+
+    private void validateDateFormat(LocalDate date) throws InvalidDateException {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        
+ 
+    }
+
+    private List <Order> checkIfOrderDateExists(String date) throws OrderNotFoundException {
+
+        List<Order> tempList = myDao.displayAllOrders() //Calling the dao which gets everything
+                .stream() //let the service layer do the filtering
+                .filter(s -> s.getDate().toString().equals(date))
+                .collect(Collectors.toList());
+
+        if (tempList.isEmpty()) { //Order doesn't exist
+//            exists = false;
+            throw new OrderNotFoundException("There is no order for this date");
+        }
+        //Order does exist
+        return tempList;
+    }
+
+    @Override
+    public List <Order> checkIfOrderNumberExists(String date, int orderNumber) throws OrderNotFoundException {
+        List<Order> orderList = checkIfOrderDateExists(date)
+                .stream()
+                .filter(s -> s.getOrderNumber() == orderNumber)
+                .collect(Collectors.toList());
+
+        if (orderList.isEmpty()){ //true
+            throw new OrderNotFoundException ("No such order number exists");
+        }
+        
+        return orderList;
+    }
+
 }
