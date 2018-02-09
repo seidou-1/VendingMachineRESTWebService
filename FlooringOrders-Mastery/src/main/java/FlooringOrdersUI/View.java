@@ -96,8 +96,8 @@ public class View {
 
         String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
         String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea())  + "" );
-        String stateSetter = (myIO.readString("What is the State? " + order.getTaxClass().getStateAbbreviation() + ""));
-        String productSetter = (myIO.readString("What is the Product? " + order.getProductClass().getProductName() + ""));
+        String stateSetter = (myIO.readString("What is the State? " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
+        String productSetter = (myIO.readString("What is the Product? " + order.getProductClass()/*.getProductName()*/ + ""));
 
         //Asks if the name needs to be changed
         if (nameSetter.trim().length()!=0) {
@@ -166,7 +166,7 @@ public class View {
                 + placement.getProductClass().getProductName()
                 + " Cost Per Sq. Ft: "
                 + placement.getProductClass().getCostPerSqFt()
-                + " Labor Cost Per Sq. Ft: "
+                + " \n Labor Cost Per Sq. Ft: "
                 + placement.getProductClass().getlaborCostPerSqFt()
                 + " State: "
                 + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass

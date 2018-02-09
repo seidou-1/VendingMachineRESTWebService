@@ -84,8 +84,8 @@ public class ServiceImpl implements Service {
         
  
     }
-
-    private List <Order> checkIfOrderDateExists(LocalDate date) throws OrderNotFoundException {
+    @Override
+    public List <Order> checkIfOrderDateExists(LocalDate date) throws OrderNotFoundException {
         //do a try catch here with a do while
         List<Order> tempList = myDao.displayAllOrders() //Calling the dao which gets everything
                 .stream() //let the service layer do the filtering

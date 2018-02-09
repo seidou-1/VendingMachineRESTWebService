@@ -155,7 +155,7 @@ public class UserIOImpl implements UserIO {
 
             if (numberConverted >= min && numberConverted <= max) {
                 valid = true;
-                System.out.println(/*"Great! you inputted "*/"" + userInput);
+//                System.out.println(/*"Great! you inputted "*/"" + userInput);
             } else {
                 System.out.println("Try again. Pick a valid number between " + min + " and " + max);
                 valid = false;
