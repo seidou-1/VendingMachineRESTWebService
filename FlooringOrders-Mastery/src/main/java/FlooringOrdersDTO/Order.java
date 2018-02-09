@@ -146,27 +146,27 @@ public class Order {
 
     }
     
-    public String orderInStrings(){ 
-        return
-        "\n Order Number: " + this.orderNumber
-                + ", Name: "
-                + this.customerName
-                + ", Area: "
-                + this.area
-                + ", Material: "
-                + this.productClass.getProductName()
-                + ", Cost Per Sq. Ft: "
-                + this.productClass.getCostPerSqFt()
-                + ", Labor Cost Per Sq. Ft: "
-                + this.productClass.getlaborCostPerSqFt()
-                + ", State: "
-                + this.taxClass.getStateAbbreviation() //Can also just print out just TaxClass
-                + ", State Tax: "
-                + this.taxClass.getStatesTax()
-                + ", Tax Charged: "
-                + this.taxCharged
-                + ", Grand Total: "
-                + this.grandTotal;
-    } 
+//    public String orderInStrings(){ 
+//        return
+//        "\n Order Number: " + this.orderNumber
+//                + ", Name: "
+//                + this.customerName
+//                + ", Area: "
+//                + this.area
+//                + ", Material: "
+//                + this.productClass.getProductName()
+//                + ", Cost Per Sq. Ft: "
+//                + this.productClass.getCostPerSqFt()
+//                + ", Labor Cost Per Sq. Ft: "
+//                + this.productClass.getlaborCostPerSqFt()
+//                + ", State: "
+//                + this.taxClass.getStateAbbreviation() //Can also just print out just TaxClass
+//                + ", State Tax: "
+//                + this.taxClass.getStatesTax()
+//                + ", Tax Charged: "
+//                + this.taxCharged
+//                + ", Grand Total: "
+//                + this.grandTotal;
+//    } 
 
 }

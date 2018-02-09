@@ -6,6 +6,7 @@
 package FlooringOrdersServiceLayer;
 
 import FlooringOrdersDAO.Dao;
+import FlooringOrdersDAO.PersistenceException;
 import FlooringOrdersDTO.Order;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -63,11 +64,11 @@ public class ServiceImpl implements Service {
 
     @Override
     public Order removeOrder(LocalDate date, int orderNumber) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return myDao.removeOrder(date, orderNumber);
     }
 
     //Exceptions logic below:
-    private void validateOrderData(Order order) throws DataValidationException {
+    public void validateOrderData(Order order) throws DataValidationException {
 
         if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
                 || order.getArea() == null || order.getArea().toString().trim().length() == 0 //How do i check state since it's an enum?
@@ -84,11 +85,11 @@ public class ServiceImpl implements Service {
  
     }
 
-    private List <Order> checkIfOrderDateExists(String date) throws OrderNotFoundException {
-
+    private List <Order> checkIfOrderDateExists(LocalDate date) throws OrderNotFoundException {
+        //do a try catch here with a do while
         List<Order> tempList = myDao.displayAllOrders() //Calling the dao which gets everything
                 .stream() //let the service layer do the filtering
-                .filter(s -> s.getDate().toString().equals(date))
+                .filter(s -> s.getDate()/*.toString()*/.equals(date/*.toString()*/))
                 .collect(Collectors.toList());
 
         if (tempList.isEmpty()) { //Order doesn't exist
@@ -100,7 +101,11 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public List <Order> checkIfOrderNumberExists(String date, int orderNumber) throws OrderNotFoundException {
+    public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws OrderNotFoundException {
+        /*
+        This method calls the above method first
+        Later on refactor to check both at the same time
+        */
         List<Order> orderList = checkIfOrderDateExists(date)
                 .stream()
                 .filter(s -> s.getOrderNumber() == orderNumber)
@@ -112,5 +117,13 @@ public class ServiceImpl implements Service {
         
         return orderList;
     }
+        
+        @Override
+        public void justSaveToFile() throws PersistenceException{
+            
+            myDao.justSaveToFile();
+            
+        }
+
 
 }

@@ -62,13 +62,15 @@ public class View {
         BigDecimal area = myIO.readBigDecimal("Enter your Sq. Footage");
         String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
-
+        LocalDate date = LocalDate.now();
+        
         Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
 //        Product currentProduct = new Product(); //Instantiating product 
         currentOrder.setCustomerName(name);
         currentOrder.setArea(area);
         currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
         currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
+        currentOrder.setDate(date);
 
         //Option A but the view does too much:
 //        CalculatedTotals myTotal = new CalculatedTotals();
@@ -89,34 +91,34 @@ public class View {
 
     public Order setUsersOrderForEditing(Order order) {
         String ifItsEmpty = "";
+        
+        //Below overloaded method doesn't take in the order.get stuff
 
-        String nameSetter = (myIO.readString("What is the First and Last Name? ") + order.getCustomerName() + "");
-        String areaSetter = (myIO.readBigDecimal("What is the Sq. Ft?").toString() + order.getArea() + "");
-        String stateSetter = (myIO.readString("What is the State?") + order.getTaxClass().getStateAbbreviation() + "");
-        String productSetter = (myIO.readString("What is the Product?") + order.getProductClass().getProductName() + "");
+        String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
+        String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea())  + "" );
+        String stateSetter = (myIO.readString("What is the State? " + order.getTaxClass().getStateAbbreviation() + ""));
+        String productSetter = (myIO.readString("What is the Product? " + order.getProductClass().getProductName() + ""));
 
-        if (nameSetter.equals(ifItsEmpty)) {
+        //Asks if the name needs to be changed
+        if (nameSetter.trim().length()!=0) {
             order.setCustomerName(nameSetter);
 //            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
-        }
+        } else {order.setCustomerName(order.getCustomerName());}
         
-        if (areaSetter.equals(ifItsEmpty)){
-            order.setArea(new BigDecimal(areaSetter));
-        //Add code to validate a real BigDecimal valueis inputted
-
-        }
+        //Asks if the Area needs to be changed
+        if (areaSetter.trim().length()!=0){ //If they enter information
+            order.setArea(new BigDecimal(areaSetter)); //Set it to what they entered
+        } else {order.setArea(order.getArea());} //otherwise set it to the orignal value
         
-        if (stateSetter.equals(ifItsEmpty)){
+        //Asks if the State needs to be changed
+        if (stateSetter.trim().length()!=0){
             order.setTaxClass(stateSetter);
-    //Add code to validate state inputted is a state that exists i enum
-
-        }
+        } else {order.setTaxClass(order.getTaxClass().getStateAbbreviation());}
         
-        if (productSetter.equals(ifItsEmpty)){
-        //Add code to validate product inputted is a productthat exists i enum
-
+        //Asks if the Product needs to be changed
+        if (productSetter.trim().length()!=0){ 
             order.setProductClass(productSetter);
-        }
+        } else {order.setProductClass(order.getProductClass().getProductName());}
         
         return order;
     }
@@ -130,6 +132,10 @@ public class View {
 
     public void displayCreateSuccessBanner() {
         myIO.readString("Order successfully created. Hit enter to continue");
+    }
+    
+    public void displayEditedSuccessfullyBanner(){
+        myIO.readString("Your order has been successfully edited. Hit enter to continue");
     }
 
     public void exitBanner() {
@@ -146,7 +152,7 @@ public class View {
     }
 
     public void thankYouBanner() {
-        myIO.print("Thank you!!");
+        myIO.readString("Thank you!! Press enter to continue");
     }
 
     public void displayCurrentOrder(Order placement) {
@@ -165,7 +171,7 @@ public class View {
                 + " State: "
                 + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
                 + " State Tax: "
-                + placement.getTaxClass().getStatesTax()
+                + placement.getTaxClass().getStatesTax().multiply(new BigDecimal("100"))
                 + " Tax Charged: "
                 + placement.getTaxCharged()
                 + " Grand Total: "
@@ -174,8 +180,9 @@ public class View {
     }
 
     public LocalDate getUsersDate() { //Pass a paramater here?
-        return myIO.readLocalDate("Enter a date in the format MM/dd/yyyy");
-
+         LocalDate usersDate = myIO.readLocalDate("Enter a date in the format MM/dd/yyyy");
+         return usersDate;
+         
     }
 
     public int getUsersOrderNumber() {
@@ -185,6 +192,14 @@ public class View {
     public void displayErrorMessage(String errorMessage){
         myIO.print("=== ERROR ===");
         myIO.print(errorMessage);
+    }
+
+    public void displayRemovedSuccessfullyBanner() {
+        myIO.readString("Order successfully removed. Press enter to continue.");
+    }
+
+    public void displayWorkedSavedSuccessfullyBanner() {
+        myIO.readString("Work successfully saved.Press enter to continue. ");
     }
 
 }

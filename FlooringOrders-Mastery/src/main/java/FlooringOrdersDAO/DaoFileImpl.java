@@ -9,7 +9,11 @@ import FlooringOrdersDTO.Order;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import static java.lang.Integer.parseInt;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,52 +68,82 @@ public class DaoFileImpl implements Dao{
     
 
     @Override
-    public Order removeOrder(LocalDate date, String orderNumber) {
+    public Order removeOrder(LocalDate date, int orderNumber) {
         Order removedOrder = inventory.remove(orderNumber); //Add code to remove based on date
         return removedOrder;
     }
     
-//    private int incrementOrderNumber(){
-//        orderNumber++;
-//        return orderNumber;
-//    }
+    @Override
+    public void justSaveToFile(){
+     try {
+            writeInventory();
+        } catch (PersistenceException ex) {
+            System.out.println("Could not write to inventory test..");
+        }
+    }
     
-//    @Override
-//    public Order dispalyOrder(LocalDate date, String orderNumber) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
+    private void loadInventory() throws PersistenceException{
+      Scanner scanner;
+      
+      try {
+            scanner = new Scanner (new BufferedReader(new FileReader(ORDERS_FILE))); 
+      } catch (FileNotFoundException e) {
+          throw new PersistenceException("Could not load inventory from file", e);
+      }
+      
+      String currentLine;
+      String[] currentTokens;
+      
+      while (scanner.hasNextLine()){
+          currentLine = scanner.nextLine();
+          
+          currentTokens = currentLine.split(DELIMITER);
+          
+          Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
+          
+          currentOrder.setCustomerName(currentTokens[1]); //Name
+          
+          currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
+          
+          currentOrder.setTaxCharged(new BigDecimal(currentTokens[3])); //Tax
+          
+          currentOrder.setProductClass(currentTokens[4]); //Material-Product
+          
+          currentOrder.setDate(LocalDate.parse(currentTokens[5]));//Date
+          
+          inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
+      }
+          scanner.close();
+        
+    }
     
-//    private void loadCollection() throws PersistenceException{
-//        Scanner scanner;
-//        
-//        try {
-//        scanner = new Scanner(new BufferedReader(new FileReader(ORDERS_FILE)));
-//    } catch (FileNotFoundException e) {
-//        throw new PersistenceException("Could not load Orders from memory ", e);
-//    }
-//        
-//        String currentLine;
-//        
-//        String[] currentTokens;
-//        
-//        while (scanner.hasNext()){
-//            
-//            currentLine = scanner.nextLine();
-//            
-//            currentTokens = currentLine.split(DELIMITER);
-//            
-//            Order currentOrder = new Order(parseInt(currentTokens[0]));//Order#
-//            
-//            currentOrder.setCustomerName(currentTokens[1]);
-////            currentOrder.setState(currentTokens[1]);
-//            currentOrder.setTaxClass(currentTokens[1]);
-//            
-//            /*
-//            
-//            */
-//            
-//        }
-//        
-//    }
-    
+    private void writeInventory() throws PersistenceException {
+          PrintWriter out;
+          
+          try {
+               out = new PrintWriter(new FileWriter(ORDERS_FILE));
+          } catch (IOException e) {
+              throw new PersistenceException("Error - cannot save intentory data.", e);
+          }
+          
+          List <Order> inventory = this.displayAllOrders();
+          
+          for (Order tempBucket : inventory){
+              
+              out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
+                      
+                      + tempBucket.getCustomerName() + DELIMITER //Name
+                      
+                      + tempBucket.getArea() + DELIMITER //Area
+                      
+                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax should i get the ".getStatesTax()" also?
+                      
+                      + tempBucket.getProductClass().getProductName() + DELIMITER //Material
+                      
+                      + tempBucket.getDate());  //Date
+               
+                    out.flush(); 
+          }
+            out.close();
+    } 
 }

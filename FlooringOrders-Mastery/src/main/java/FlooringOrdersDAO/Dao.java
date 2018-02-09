@@ -29,7 +29,9 @@ public interface Dao {
     
     List <Order> editOrder (LocalDate date, int orderNumber);
     
-    Order removeOrder (LocalDate date, String orderNumber);
+    Order removeOrder (LocalDate date, int orderNumber);
+    
+    void justSaveToFile();
     
 //        Order dispalyOrder(LocalDate date, String orderNumber);
 

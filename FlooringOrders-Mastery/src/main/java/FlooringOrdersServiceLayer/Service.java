@@ -5,6 +5,7 @@
  */
 package FlooringOrdersServiceLayer;
 
+import FlooringOrdersDAO.PersistenceException;
 import FlooringOrdersDTO.Order;
 import java.time.LocalDate;
 import java.util.List;
@@ -43,9 +44,9 @@ public interface Service {
 
 //    public void checkIfOrderNumberExists(String toString, int usersOrderNumber);
     
-    public List <Order> checkIfOrderNumberExists(String date, int orderNumber) throws OrderNotFoundException;
+    public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws OrderNotFoundException;
 
-
+    public void justSaveToFile() throws PersistenceException;
    
     
 }

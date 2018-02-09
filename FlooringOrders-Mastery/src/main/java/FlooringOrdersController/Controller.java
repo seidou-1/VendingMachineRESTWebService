@@ -5,6 +5,7 @@
  */
 package FlooringOrdersController;
 
+import FlooringOrdersDAO.PersistenceException;
 import FlooringOrdersDTO.Order;
 import FlooringOrdersServiceLayer.DataValidationException;
 import FlooringOrdersServiceLayer.InvalidDateException;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author laptop
  */
 public class Controller {
-
+    
     private View myView;
     private Service myService;
 
@@ -28,16 +29,16 @@ public class Controller {
         this.myView = myView;
         this.myService = myService;
     }
-
+    
     public void run() {
         boolean keepGoing = true;
 //        int menuSelection = 1;
 
         try {
-
+            
             while (keepGoing) {
                 switch (printMenuAndGetSelection()) {
-
+                    
                     case 1:
                     //display orders
                     case 2:
@@ -47,32 +48,35 @@ public class Controller {
                         editOrder();
                         break;
                     case 4:
-                    //remove an order
+                        removeOrder();
                     case 5:
-                    //save an order
+                        saveCurrentWork();
                     case 6:
                         exitBanner();
                         keepGoing = false;
                         break;
-
+                    
                 }
             }
-
-        } catch (DataValidationException | OrderNotFoundException | InvalidDateException e) {
+            
+        } catch (DataValidationException 
+                | OrderNotFoundException 
+                | InvalidDateException 
+                | PersistenceException e) {
             myView.displayErrorMessage(e.getMessage());
         }
     }
 
     //Methods below
     private int printMenuAndGetSelection() {
-
+        
         return myView.printMenuAndGetSelection();
     }
+    
+    private void displayOrders()
 
-    private void exitBanner() {
-        myView.exitBanner();
-    }
-
+   
+    
     private void addOrder() throws
             DataValidationException,
             InvalidDateException {
@@ -80,31 +84,55 @@ public class Controller {
         //Display current order
         myView.displayCurrentOrder(placement);
         boolean usersChoice = myView.areYouSure();//Returns boolean true or false
-        if (usersChoice) {
-            myService.addOrder(placement);
+        if (usersChoice) { //if boolean returns true - meaning yes 
+            myService.addOrder(placement); //add the order
             myView.displayCreateSuccessBanner();
         } else {
             myView.thankYouBanner();
         }
-    }
-
-//    private void displayAllOrders {
-////    return myService.
-//}
+    } 
+    
     private void editOrder() throws OrderNotFoundException {
-        LocalDate usersDate = myView.getUsersDate(); //Have the user input the date 
-        int usersOrderNumber = myView.getUsersOrderNumber();//Have the user enter the order number
+        LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
+        int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
         //Returns the list or an exception gets thrown:
-        Order tempOrder = myService.checkIfOrderNumberExists(usersDate.toString(), usersOrderNumber).get(0); //THis auto checks the order method first
+        Order validatedOrder = myService.checkIfOrderNumberExists(usersDate, usersOrderNumber).get(0); //THis auto checks the order method first
         //If this doesn't throw an exception, only one order element will be returned in the index slot 0 (as a single order)
 
         //if the user types enter, no changes made
         //if the user enters something, the value of that field is changed
-        myView.setUsersOrderForEditing(tempOrder); //maybe?
-
+        Order currentOrder = myView.setUsersOrderForEditing(validatedOrder); //maybe?
+        
+        myView.displayCurrentOrder(currentOrder);
         //Call Service method to validate correct big data format is inputted
         //Or have it in the UserIO to validate correct big data format is inputted
+        
+        myView.displayEditedSuccessfullyBanner();
     }
-
+    
+    private void removeOrder() throws OrderNotFoundException {
+        
+        LocalDate usersDate = myView.getUsersDate(); //get the date from the user
+        int usersOrderNumber = myView.getUsersOrderNumber(); //get the order from the user
+        
+        Order validatedOrder = myService.checkIfOrderNumberExists(usersDate, usersOrderNumber).get(0);
+        
+        Order removeTheOrder = myService.removeOrder(usersDate, usersOrderNumber);
+        
+        myView.displayRemovedSuccessfullyBanner();
+        
+    }
+    
+     
+    private void exitBanner() {
+        myView.exitBanner();
+    }
+    
+    private void saveCurrentWork() throws PersistenceException { 
+        myService.justSaveToFile();
+        myView.displayWorkedSavedSuccessfullyBanner();
+    
+    }
+    
 }
