@@ -24,6 +24,8 @@ public class ServiceImpl implements Service {
     public ServiceImpl(Dao myDao) {
         this.myDao = myDao;
     }
+    
+    //.........
 
     @Override
     public List<Order> displayAllOrders(String date) {
@@ -99,6 +101,11 @@ public class ServiceImpl implements Service {
         //Order does exist
         return tempList;
     }
+    
+    //Testing
+//    public Map<Integer, List<Order> > checkIfOrderDateExistsAsAmap(){
+//        
+//    }
 
     @Override
     public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws OrderNotFoundException {

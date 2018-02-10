@@ -80,11 +80,15 @@ public class Controller {
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
 //        int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
-        //Returns the list or an exception gets thrown:
-        Order validatedOrder = myService.checkIfOrderDateExists(usersDate).get(0); //THis auto checks the order method first
+        //I have a method that auto filters based on date - checkIfOrderDateExists()
+        //This returns a list: 
+        List <Order> validatedOrder = myService.checkIfOrderDateExists(usersDate); //THis auto checks the order method first
         
+        //Now i have to create a view that takes in a List of data type Order
+        //Print out the list with each value
         
-        myView.displayCurrentOrder(validatedOrder);
+        myView.displayAllOrders(validatedOrder);
+//        myView.displayAllOrdersAsAlist(validatedOrder);
 
         
     }
@@ -93,7 +97,9 @@ public class Controller {
             DataValidationException,
             InvalidDateException {
         Order placement = myView.setUsersOrder(myService.getOrderNumber());//Prompts the user to input info
-        //Display current order
+        //Display current order. Taking one order and displaying it
+
+        //Get a list and filter it to display the current order
         myView.displayCurrentOrder(placement);
         boolean usersChoice = myView.areYouSure();//Returns boolean true or false
         if (usersChoice) { //if boolean returns true - meaning yes 
@@ -111,10 +117,13 @@ public class Controller {
         //Returns the list or an exception gets thrown:
         Order validatedOrder = myService.checkIfOrderNumberExists(usersDate, usersOrderNumber).get(0); //THis auto checks the order method first
         //If this doesn't throw an exception, only one order element will be returned in the index slot 0 (as a single order)
+        
+//        List <Order> check =                        myView.displayAllOrders(validatedOrder);
 
         //if the user types enter, no changes made
         //if the user enters something, the value of that field is changed
         Order currentOrder = myView.setUsersOrderForEditing(validatedOrder); //maybe?
+        
 
         myView.displayCurrentOrder(currentOrder);
         //Call Service method to validate correct big data format is inputted

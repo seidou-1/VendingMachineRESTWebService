@@ -36,11 +36,15 @@ public class View {
 
     }
 
-    public void displayAllOrders(List<Order> List) {
+    public void displayAllOrders(List<Order> List) {//This actually displays a single order - refactor later
         for (Order bucket : List) {
 
             myIO.print(
-                    "Order Number: "
+                    "\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                    +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                    +
+                    "\br Order Number: "
                     + bucket.getOrderNumber() + " Name: "
                     + bucket.getCustomerName() + " Area: "
                     + bucket.getArea() + " State: "
@@ -51,11 +55,106 @@ public class View {
                     + bucket.getProductClass().getlaborCostPerSqFt() + " Total Tax: "
                     + bucket.getTaxCharged() + " Grand Total: "
                     + bucket.getGrandTotal()
+                    +"\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                    +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
             );
 
         }
 
     }
+    
+    public void displayCurrentOrder(Order placement) {
+
+        System.out.println(
+                
+               "\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+               +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+               +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+               + 
+                "Order Number: " + placement.getOrderNumber()
+                + " Name: "
+                + placement.getCustomerName()
+                + " Area: "
+                + placement.getArea()
+                + " Material: "
+                + placement.getProductClass().getProductName()
+                + " Cost Per Sq. Ft: "
+                + placement.getProductClass().getCostPerSqFt()
+                + " \n Labor Cost Per Sq. Ft: "
+                + placement.getProductClass().getlaborCostPerSqFt()
+                + " State: "
+                + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
+                + " State Tax: "
+                + placement.getTaxClass().getStatesTax().multiply(new BigDecimal("100"))
+                + " Tax Charged: "
+                + placement.getTaxCharged()
+                + " Grand Total: "
+                + placement.getGrandTotal()
+                +"\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+        
+                );
+
+    }
+    
+    public void displayAllOrdersAsAlist (List <Order> theOrders) {
+        for (Order bucket : theOrders){
+            
+            myIO.print(
+            
+            "Order number: "
+            + bucket.getCustomerName()
+                    + bucket.getArea()
+                    + bucket.getDate()
+            
+            
+            
+            
+            
+            
+            
+            );
+            
+             
+            
+        }
+
+    //This takes in a list and prints out each element with the properties
+//        LocalDate.stream()
+//                .forEach(s -> );
+//        
+//        dells.stream()
+//               .forEach(s -> System.out.println(s.getName()));
+//
+//        
+//        
+        
+    }
+    /*
+    I'm setting the DTO with what the user inputted
+    I should set it to the enum version. The set should be the get of the enum
+    
+    Because if i just set it to what the user types in, it doesn't match the case sensitive
+    
+    i.e. user types in "pa" and in the DTO, it gets the value of it and converts it to uppercase
+    
+    The .. i'm setting it by the the enum name, not by the setter (String).
+    
+    i should set it by the setter (String)
+    
+    ................
+    
+    im setting the String name of the enum 
+    
+    Set:
+    1. im typing in the name as "in"
+    2. then i'm sending that to the DTO to convert it to "IN"
+    
+    Edit:
+    1. getting "IN"
+    */
 
     public Order setUsersOrder(int orderNumber) {
         String name = myIO.readString("Enter first and last name");
@@ -71,6 +170,10 @@ public class View {
         currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
         currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
         currentOrder.setDate(date);
+        
+        
+//        currentOrder.setTaxClass(currentOrder.getTaxClass().getStateAbbreviation());
+
 
         //Option A but the view does too much:
 //        CalculatedTotals myTotal = new CalculatedTotals();
@@ -96,8 +199,8 @@ public class View {
 
         String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
         String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea())  + "" );
-        String stateSetter = (myIO.readString("What is the State? " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
-        String productSetter = (myIO.readString("What is the Product? " + order.getProductClass()/*.getProductName()*/ + ""));
+        String stateSetter = (myIO.readString("Current State: " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
+        String productSetter = (myIO.readString("Current Product: " + order.getProductClass()/*.getProductName()*/ + ""));
 
         //Asks if the name needs to be changed
         if (nameSetter.trim().length()!=0) {
@@ -155,29 +258,9 @@ public class View {
         myIO.readString("Thank you!! Press enter to continue");
     }
 
-    public void displayCurrentOrder(Order placement) {
-
-        System.out.println("Order Number: " + placement.getOrderNumber()
-                + " Name: "
-                + placement.getCustomerName()
-                + " Area: "
-                + placement.getArea()
-                + " Material: "
-                + placement.getProductClass().getProductName()
-                + " Cost Per Sq. Ft: "
-                + placement.getProductClass().getCostPerSqFt()
-                + " \n Labor Cost Per Sq. Ft: "
-                + placement.getProductClass().getlaborCostPerSqFt()
-                + " State: "
-                + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
-                + " State Tax: "
-                + placement.getTaxClass().getStatesTax().multiply(new BigDecimal("100"))
-                + " Tax Charged: "
-                + placement.getTaxCharged()
-                + " Grand Total: "
-                + placement.getGrandTotal());
-
-    }
+    
+    
+    //Enhanced for loop method to display all
 
     public LocalDate getUsersDate() { //Pass a paramater here?
          LocalDate usersDate = myIO.readLocalDate("Enter a date in the format MM/dd/yyyy");

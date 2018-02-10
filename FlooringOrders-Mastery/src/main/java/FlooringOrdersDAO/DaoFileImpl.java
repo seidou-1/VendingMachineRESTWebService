@@ -41,6 +41,17 @@ public class DaoFileImpl implements Dao{
 //        loadInventory();
         return new ArrayList<>(inventory.values());
     }
+//    
+//    //Testing:
+//        public Map<Integer, List<Order> > checkIfOrderDateExistsAsAmap(LocalDate date ){
+//            return inventory.values()
+//                      .stream()
+//                .filter(s -> s.getDate().equals(date)) //Also add filter ofr orderNumber?
+//                .collect(Collectors
+////                        .toMap(keyMapper, valueMapper).toList());
+//                 
+//        }
+
 
     @Override
     public Order addOrder(int orderNumber, Order order) {//Remove orderNumber later
