@@ -87,7 +87,7 @@ public class ServiceImpl implements Service {
  
     }
     @Override
-    public List <Order> checkIfOrderDateExists(LocalDate date) throws OrderNotFoundException {
+    public List <Order> checkIfOrderDateExists(LocalDate date) throws OrderDateNotFoundException {
         //do a try catch here with a do while
         List<Order> tempList = myDao.displayAllOrders() //Calling the dao which gets everything
                 .stream() //let the service layer do the filtering
@@ -96,7 +96,7 @@ public class ServiceImpl implements Service {
 
         if (tempList.isEmpty()) { //Order doesn't exist
 //            exists = false;
-            throw new OrderNotFoundException("There is no order for this date");
+            throw new OrderDateNotFoundException("There is no order for this date");
         }
         //Order does exist
         return tempList;
@@ -108,7 +108,9 @@ public class ServiceImpl implements Service {
 //    }
 
     @Override
-    public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws OrderNotFoundException {
+    public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws 
+            OrderDateNotFoundException,
+            OrderNumberNotFoundException{
         /*
         This method calls the above method first
         Later on refactor to check both at the same time
@@ -119,11 +121,37 @@ public class ServiceImpl implements Service {
                 .collect(Collectors.toList());
 
         if (orderList.isEmpty()){ //true
-            throw new OrderNotFoundException ("No such order number exists");
+            throw new OrderDateNotFoundException ("No such order number exists");
         }
         
         return orderList;
     }
+    
+//    
+//     do {
+//            try {
+//                List<Order> orderList = checkIfOrderDateExists(date)
+//                        .stream()
+//                        .filter(s -> s.getOrderNumber() == orderNumber)
+//                        .collect(Collectors.toList());
+//
+//                if (orderList.isEmpty()) { //true
+//                    proper = false;
+//                    throw new OrderDateNotFoundException("No such order number exists. Try again.");
+//                } else {
+//                    return orderList;
+//
+//                }
+//
+//            } catch (OrderDateNotFoundException e) {
+//                System.out.println(e);
+//
+//            }
+//        } while (!proper);
+//            return orderList; //why??
+//
+//        
+//    }
         
         @Override
         public void justSaveToFile() throws PersistenceException{

@@ -9,13 +9,13 @@ package FlooringOrdersServiceLayer;
  *
  * @author laptop
  */
-public class OrderNotFoundException extends Exception {
-     public OrderNotFoundException (String message){
+public class OrderDateNotFoundException extends Exception {
+     public OrderDateNotFoundException (String message){
         
         super (message);
     }
     
-    public OrderNotFoundException (String message, Throwable cause) {
+    public OrderDateNotFoundException (String message, Throwable cause) {
         
         super (message, cause);
                 

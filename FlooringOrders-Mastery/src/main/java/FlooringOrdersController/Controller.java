@@ -9,7 +9,8 @@ import FlooringOrdersDAO.PersistenceException;
 import FlooringOrdersDTO.Order;
 import FlooringOrdersServiceLayer.DataValidationException;
 import FlooringOrdersServiceLayer.InvalidDateException;
-import FlooringOrdersServiceLayer.OrderNotFoundException;
+import FlooringOrdersServiceLayer.OrderDateNotFoundException;
+import FlooringOrdersServiceLayer.OrderNumberNotFoundException;
 import FlooringOrdersServiceLayer.Service;
 import FlooringOrdersUI.View;
 import java.time.LocalDate;
@@ -63,7 +64,8 @@ public class Controller {
             }
 
         } catch (DataValidationException
-                | OrderNotFoundException
+                | OrderDateNotFoundException 
+                | OrderNumberNotFoundException
                 | InvalidDateException
                 | PersistenceException e) {
             myView.displayErrorMessage(e.getMessage());
@@ -76,7 +78,7 @@ public class Controller {
         return myView.printMenuAndGetSelection();
     }
 
-    private void displayOrders() throws OrderNotFoundException {
+    private void displayOrders() throws OrderDateNotFoundException {
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
 //        int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
@@ -110,7 +112,7 @@ public class Controller {
         }
     }
 
-    private void editOrder() throws OrderNotFoundException {
+    private void editOrder() throws OrderDateNotFoundException, OrderNumberNotFoundException {
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
         int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
@@ -132,17 +134,26 @@ public class Controller {
         myView.displayEditedSuccessfullyBanner();
     }
 
-    private void removeOrder() throws OrderNotFoundException {
+    private void removeOrder() throws 
+            OrderDateNotFoundException,
+            OrderNumberNotFoundException {
 
         LocalDate usersDate = myView.getUsersDate(); //get the date from the user
         int usersOrderNumber = myView.getUsersOrderNumber(); //get the order from the user
 
         Order validatedOrder = myService.checkIfOrderNumberExists(usersDate, usersOrderNumber).get(0);
+        
+        myView.displayCurrentOrder(validatedOrder);
 
-        Order removeTheOrder = myService.removeOrder(usersDate, usersOrderNumber);
-
-        myView.displayRemovedSuccessfullyBanner();
-
+        
+        boolean usersChoice = myView.areYouSure();//Returns boolean true or false
+        
+        if (usersChoice) { //if boolean returns true - meaning yes 
+            Order removeTheOrder = myService.removeOrder(usersDate, usersOrderNumber); 
+            myView.displayRemovedSuccessfullyBanner(); 
+        } else {
+            myView.thankYouBanner();
+        } 
     }
 
     private void exitBanner() {
@@ -154,5 +165,6 @@ public class Controller {
         myView.displayWorkedSavedSuccessfullyBanner();
 
     }
+
 
 }

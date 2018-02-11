@@ -44,9 +44,11 @@ public interface Service {
 
 //    public void checkIfOrderNumberExists(String toString, int usersOrderNumber);
     
-    public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws OrderNotFoundException;
+    public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws 
+            OrderNumberNotFoundException,
+            OrderDateNotFoundException;
     
-    public List<Order> checkIfOrderDateExists (LocalDate date) throws OrderNotFoundException;
+    public List<Order> checkIfOrderDateExists (LocalDate date) throws OrderDateNotFoundException;
 
     public void justSaveToFile() throws PersistenceException;
    

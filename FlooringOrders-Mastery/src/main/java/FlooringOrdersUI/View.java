@@ -40,24 +40,35 @@ public class View {
         for (Order bucket : List) {
 
             myIO.print(
-                    "\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
-                    +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
-                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+//                    "\nr~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                    "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°-- --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+//
+//                    +"\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~"
                     +
-                    "\br Order Number: "
-                    + bucket.getOrderNumber() + " Name: "
-                    + bucket.getCustomerName() + " Area: "
-                    + bucket.getArea() + " State: "
-                    + bucket.getTaxClass() + " State Tax: " //The actual state i.e. OH
-                    + bucket.getTaxClass().getStatesTax() + " Product: " //Gets the corresponding tax for OH
-                    + bucket.getProductClass() + " Cost Per Sq. Ft: "
-                    + bucket.getProductClass().getCostPerSqFt() + " Labor Cost Per Sq Ft: "
-                    + bucket.getProductClass().getlaborCostPerSqFt() + " Total Tax: "
-                    + bucket.getTaxCharged() + " Grand Total: "
+                    "\n Order Number: "
+                    + bucket.getOrderNumber() 
+                    + " | Name: "
+                    + bucket.getCustomerName() 
+                    + " | Area: "
+                    + bucket.getArea() + " Sq. Ft. " 
+                    + " | State: "
+                    + bucket.getTaxClass()  
+                    + " | State Tax: %" //The actual state i.e. OH
+                    + bucket.getTaxClass().getStatesTax() 
+                    + " | Product: " //Gets the corresponding tax for OH
+                    + bucket.getProductClass() 
+                    + " | Cost Per Sq. Ft: $"
+                    + bucket.getProductClass().getCostPerSqFt() 
+                    + " | Labor Cost Per Sq Ft: $"
+                    + bucket.getProductClass().getlaborCostPerSqFt() 
+                    + " | Tax Charged (cost * State tax rate %): $"
+                    + bucket.getTaxCharged() 
+                    + " | Grand Total: $"
                     + bucket.getGrandTotal()
-                    +"\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
-                    +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
-                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+//                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                    + "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+
+//                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
             );
 
         }
@@ -68,32 +79,33 @@ public class View {
 
         System.out.println(
                 
-               "\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
-               +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
-               +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+//               "\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                "\nOrder Summary: \n"
+             + "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°-- --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+//               +"\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~"
                + 
-                "Order Number: " + placement.getOrderNumber()
+              "\n Order Number: " + placement.getOrderNumber()
                 + " Name: "
                 + placement.getCustomerName()
-                + " Area: "
-                + placement.getArea()
-                + " Material: "
+                + " | Area: "
+                + placement.getArea() + " Sq. Ft. "
+                + " | Material: "
                 + placement.getProductClass().getProductName()
-                + " Cost Per Sq. Ft: "
+                + " | Cost Per Sq. Ft: $"
                 + placement.getProductClass().getCostPerSqFt()
-                + " \n Labor Cost Per Sq. Ft: "
+                + " | Labor Cost Per Sq. Ft: $"
                 + placement.getProductClass().getlaborCostPerSqFt()
-                + " State: "
+                + " | State: "
                 + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
-                + " State Tax: "
+                + " | State Tax: %"
                 + placement.getTaxClass().getStatesTax().multiply(new BigDecimal("100"))
-                + " Tax Charged: "
+                + " | Tax Charged (cost * State tax rate %): $"
                 + placement.getTaxCharged()
-                + " Grand Total: "
+                + " | Grand Total: $"
                 + placement.getGrandTotal()
-                +"\br~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
-                +" --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
-                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+//                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"
+                + "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+//                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"
         
                 );
 
@@ -158,7 +170,7 @@ public class View {
 
     public Order setUsersOrder(int orderNumber) {
         String name = myIO.readString("Enter first and last name");
-        BigDecimal area = myIO.readBigDecimal("Enter your Sq. Footage");
+        BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)");
         String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
         LocalDate date = LocalDate.now();
@@ -196,7 +208,7 @@ public class View {
         String ifItsEmpty = "";
         
         //Below overloaded method doesn't take in the order.get stuff
-
+        myIO.print("Type in changes or hit enter to keep it as is\n");
         String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
         String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea())  + "" );
         String stateSetter = (myIO.readString("Current State: " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
@@ -226,12 +238,12 @@ public class View {
         return order;
     }
 
-    public String confirmSelection() {
-        return myIO.readString("Are you sure? Y/N");
-        /*
-        Pass this response to a switch statement to persist or not
-         */
-    }
+//    public String confirmSelection() {
+//        return myIO.readString("Are you sure you want to enter this order in? Y/N");
+//        /*
+//        Pass this response to a switch statement to persist or not
+//         */
+//    }
 
     public void displayCreateSuccessBanner() {
         myIO.readString("Order successfully created. Hit enter to continue");
@@ -247,7 +259,7 @@ public class View {
 
     public boolean areYouSure() {
         boolean userSelection = false;
-        int usersChoice = myIO.readInt("Are you sure ['1' for yes, '2' for no]", 1, 2); //refactor later to ignore uppercase
+        int usersChoice = myIO.readInt("Are you sure you sure you want to commit? ['1' for yes, '2' for no]", 1, 2); //refactor later to ignore uppercase
         if (usersChoice == 1) {
             userSelection = true;
         } //Automatically returns false if they select 2

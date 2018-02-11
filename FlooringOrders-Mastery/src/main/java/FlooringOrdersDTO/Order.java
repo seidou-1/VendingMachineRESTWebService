@@ -6,6 +6,7 @@
 package FlooringOrdersDTO;
 
 import java.math.BigDecimal;
+import static java.math.BigDecimal.ROUND_UNNECESSARY;
 import static java.math.RoundingMode.HALF_UP;
 import java.time.LocalDate;
 
@@ -133,16 +134,23 @@ public class Order {
     public void calculateTotals() { //Setter pretty much
 
         BigDecimal totalTax
-                = (area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
-                        .multiply(taxClass.getStatesTax()).setScale(2, HALF_UP));
+                = ((area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
+                        .multiply(taxClass.getStatesTax())).setScale(2, HALF_UP));
 
         this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
+        //Tax rate for that state is i.e. 6.25%
+        //Now the tax is (area * cost per sq ft) + (area * labor cost per sq ft) * tax rate for that state i.e. 6.25%
+         
+        
 
-        BigDecimal grandTotal2
-                = (area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
-                        .add(totalTax).setScale(2, HALF_UP);
+        BigDecimal totalCost
+                = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
+                        .add(totalTax)).setScale(2, HALF_UP));
+        
+        //Grand total is 
+//        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
 
-        this.grandTotal = (grandTotal2); //Here i'm stting the grandTotal to the grandTotal of my Enum
+        this.grandTotal = (totalCost); //Here i'm stting the grandTotal to the grandTotal of my Enum
 
     }
     
