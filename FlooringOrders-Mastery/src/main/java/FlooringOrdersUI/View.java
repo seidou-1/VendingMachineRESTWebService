@@ -53,7 +53,7 @@ public class View {
                     + bucket.getArea() + " Sq. Ft. " 
                     + " | State: "
                     + bucket.getTaxClass()  
-                    + " | State Tax: %" //The actual state i.e. OH
+                    + " | State Tax: " //The actual state i.e. OH
                     + bucket.getTaxClass().getStatesTax() 
                     + " | Product: " //Gets the corresponding tax for OH
                     + bucket.getProductClass() 
@@ -295,6 +295,10 @@ public class View {
 
     public void displayWorkedSavedSuccessfullyBanner() {
         myIO.readString("Work successfully saved.Press enter to continue. ");
+    }
+
+    public void displayMessage(String msg) {
+        myIO.print(msg);
     }
 
 }

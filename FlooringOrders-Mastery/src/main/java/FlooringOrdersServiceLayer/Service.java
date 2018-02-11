@@ -16,12 +16,12 @@ import java.util.List;
  */
 public interface Service {
     
-    List <Order> displayAllOrders (String date);
+    List <Order> displayAllOrders (String date) throws PersistenceException;
     
     Order addOrder(Order orderNumber) throws
             DataValidationException,
-            InvalidDateException //should i do a method that checks date in my readDate?
-             ;
+            InvalidDateException,
+            PersistenceException;
     /*
     Add an order will ask the user for each piece of order data. 
     At the end, it will display a summary of the data entered and 
@@ -31,7 +31,7 @@ public interface Service {
     */
     
     Order editOrder (Order order) throws
-            DataValidationException,
+            PersistenceException,
             InvalidDateException
             
             ;
@@ -40,16 +40,21 @@ public interface Service {
     
 //        Order dispalyOrder(LocalDate date, String orderNumber);
 
-    public int getOrderNumber();
+    public int getOrderNumber()throws PersistenceException;
 
 //    public void checkIfOrderNumberExists(String toString, int usersOrderNumber);
     
     public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws 
             OrderNumberNotFoundException,
-            OrderDateNotFoundException;
+            OrderDateNotFoundException,
+            PersistenceException;
     
-    public List<Order> checkIfOrderDateExists (LocalDate date) throws OrderDateNotFoundException;
+    public List<Order> checkIfOrderDateExists (LocalDate date) throws 
+            OrderDateNotFoundException,
+            PersistenceException;
 
+    public boolean validateOrderData(Order order) throws DataValidationException;
+    
     public void justSaveToFile() throws PersistenceException;
    
     

@@ -24,109 +24,141 @@ public class ServiceImpl implements Service {
     public ServiceImpl(Dao myDao) {
         this.myDao = myDao;
     }
-    
-    //.........
 
+    //.........
     @Override
-    public List<Order> displayAllOrders(String date) {
+    public List<Order> displayAllOrders(String date) throws PersistenceException{
 
         return myDao.displayAllOrders();
     }
 
     @Override
-    public Order addOrder(Order order) throws DataValidationException {
-        validateOrderData(order);
+    public Order addOrder(Order order) throws 
+            PersistenceException
+    {
+//        validateOrderData(order);
         return myDao.addOrder(order.getOrderNumber(), order);
 
     }
 
     @Override
-    public int getOrderNumber() {
+    public int getOrderNumber() throws PersistenceException{
         return myDao.displayAllOrders().size() + 1;
     }
 
     @Override
-    public Order editOrder(Order order) throws DataValidationException {
+    public Order editOrder(Order order) throws PersistenceException {
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy"); 
 //        LocalDate usersDateParsed = LocalDate.parse(date, format);
 
         return myDao.addOrder(order.getOrderNumber(), order);
-        
-        
+
         //Display the order
         //Allow them to edit
         //Validate the edit meets the business logic
         //
-        
     }
-    
+
 //    Order filterOrderByDateAndOrderNumber (LocalDate date, int orderNumber){
 //        //Add a filter here to filter by date and order number
 //    }
-
     @Override
     public Order removeOrder(LocalDate date, int orderNumber) {
         return myDao.removeOrder(date, orderNumber);
     }
 
     //Exceptions logic below:
-    public void validateOrderData(Order order) throws DataValidationException {
-
-        if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
-                || order.getArea() == null || order.getArea().toString().trim().length() == 0 //How do i check state since it's an enum?
-                //How do i also check product since it's an enum?
-                ) {
-
-            throw new DataValidationException("ERROR: All fields need to be inputted [Name, Area, State, and Product]");
-        }
+    public boolean validateOrderData(Order order) throws DataValidationException {
+//Reprompt the user until they enter a correct
+                 boolean correctInput = true; 
+            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
+                    || order.getArea() == null || order.getArea().toString().trim().length() == 0 //How do i check state since it's an enum?
+ 
+                    ) {
+                correctInput = false;
+                throw new DataValidationException("ERROR: All fields need to be inputted [Name, Area, State, and Product]");
+            }
+        return correctInput;
     }
 
     private void validateDateFormat(LocalDate date) throws InvalidDateException {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-        
- 
+
     }
+
+    public boolean checkIfStateExists(Order state) throws DataValidationException {
+//should  return a boolean or order?
+        boolean stateCorrect = true;
+
+        try {
+            if (state.getTaxCharged().equals(state)) {
+                return stateCorrect = true;
+            } else {
+                throw new DataValidationException("State does not exist. Try again");
+            }
+
+        } catch (DataValidationException e) {
+
+            System.out.println(e.getMessage());
+            stateCorrect = false;
+
+        }
+        return true;
+    }
+
     @Override
-    public List <Order> checkIfOrderDateExists(LocalDate date) throws OrderDateNotFoundException {
+    public List<Order> checkIfOrderDateExists(LocalDate date) throws 
+            OrderDateNotFoundException,
+            PersistenceException {
         //do a try catch here with a do while
         List<Order> tempList = myDao.displayAllOrders() //Calling the dao which gets everything
                 .stream() //let the service layer do the filtering
                 .filter(s -> s.getDate()/*.toString()*/.equals(date/*.toString()*/))
                 .collect(Collectors.toList());
-
-        if (tempList.isEmpty()) { //Order doesn't exist
+        
+        boolean validDate = true;
+        while (!validDate) {
+            try {
+                if (tempList.isEmpty()) { //Order doesn't exist
 //            exists = false;
-            throw new OrderDateNotFoundException("There is no order for this date");
+                    validDate = false;
+                    throw new OrderDateNotFoundException("There is no order for this date. Enter a different date.");
+                }
+                //Order does exist
+                return tempList;
+            } catch (OrderDateNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
         }
-        //Order does exist
         return tempList;
+
     }
-    
+
     //Testing
 //    public Map<Integer, List<Order> > checkIfOrderDateExistsAsAmap(){
 //        
 //    }
-
     @Override
-    public List <Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws 
+    public List<Order> checkIfOrderNumberExists(LocalDate date, int orderNumber) throws
             OrderDateNotFoundException,
-            OrderNumberNotFoundException{
+            OrderNumberNotFoundException,
+            PersistenceException{
         /*
         This method calls the above method first
         Later on refactor to check both at the same time
-        */
+         */
         List<Order> orderList = checkIfOrderDateExists(date)
                 .stream()
                 .filter(s -> s.getOrderNumber() == orderNumber)
                 .collect(Collectors.toList());
 
-        if (orderList.isEmpty()){ //true
-            throw new OrderDateNotFoundException ("No such order number exists");
+        if (orderList.isEmpty()) { //true
+            throw new OrderDateNotFoundException("No such order number exists");
         }
-        
+
         return orderList;
     }
-    
+
 //    
 //     do {
 //            try {
@@ -152,13 +184,11 @@ public class ServiceImpl implements Service {
 //
 //        
 //    }
-        
-        @Override
-        public void justSaveToFile() throws PersistenceException{
-            
-            myDao.justSaveToFile();
-            
-        }
+    @Override
+    public void justSaveToFile() throws PersistenceException {
 
+        myDao.justSaveToFile();
+
+    }
 
 }

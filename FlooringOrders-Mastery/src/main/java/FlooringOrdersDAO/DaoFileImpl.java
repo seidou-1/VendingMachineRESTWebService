@@ -6,6 +6,8 @@
 package FlooringOrdersDAO;
 
 import FlooringOrdersDTO.Order;
+import FlooringOrdersServiceLayer.DataValidationException;
+import FlooringOrdersServiceLayer.InvalidDateException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -37,8 +39,8 @@ public class DaoFileImpl implements Dao{
 //    int orderNumber = 0;
     
     @Override
-    public  List<Order> displayAllOrders () {
-//        loadInventory();
+    public  List<Order> displayAllOrders () throws PersistenceException{
+        loadInventory();
         return new ArrayList<>(inventory.values());
     }
 //    
@@ -54,7 +56,12 @@ public class DaoFileImpl implements Dao{
 
 
     @Override
-    public Order addOrder(int orderNumber, Order order) {//Remove orderNumber later
+    public Order addOrder(int orderNumber, Order order) throws 
+//            
+//            DataValidationException,
+//            InvalidDateException,
+            PersistenceException {//Remove orderNumber later
+        loadInventory();
         Order newOrder =inventory.put(order.getOrderNumber(), order);
         return newOrder;
     }
@@ -88,9 +95,12 @@ public class DaoFileImpl implements Dao{
     public void justSaveToFile(){
      try {
             writeInventory();
+            loadInventory();
+
         } catch (PersistenceException ex) {
             System.out.println("Could not write to inventory test..");
         }
+        
     }
     
     private void loadInventory() throws PersistenceException{
@@ -116,11 +126,11 @@ public class DaoFileImpl implements Dao{
           
           currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
           
-          currentOrder.setTaxCharged(new BigDecimal(currentTokens[3])); //Tax
+          currentOrder.setTaxClass(currentTokens[3]); //State
           
-          currentOrder.setProductClass(currentTokens[4]); //Material-Product
+          currentOrder.setProductClass(currentTokens[5]); //Material-Product
           
-          currentOrder.setDate(LocalDate.parse(currentTokens[5]));//Date
+          currentOrder.setDate(LocalDate.parse(currentTokens[6]));//Date
           
           inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
       }
@@ -147,7 +157,9 @@ public class DaoFileImpl implements Dao{
                       
                       + tempBucket.getArea() + DELIMITER //Area
                       
-                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax should i get the ".getStatesTax()" also?
+                      + tempBucket.getTaxClass() + DELIMITER //State Abbreviation
+                      
+                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax should i get the ".getStatesTax()" also? - it's up to me
                       
                       + tempBucket.getProductClass().getProductName() + DELIMITER //Material
                       

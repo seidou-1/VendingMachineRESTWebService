@@ -16,9 +16,9 @@ import java.util.List;
 public interface Dao {
     
     
-    List <Order> displayAllOrders ();
+    List <Order> displayAllOrders () throws PersistenceException;
     
-    Order addOrder(int orderNumber, Order order);
+    Order addOrder(int orderNumber, Order order) throws PersistenceException;
     /*
     Add an order will ask the user for each piece of order data. 
     At the end, it will display a summary of the data entered and 
