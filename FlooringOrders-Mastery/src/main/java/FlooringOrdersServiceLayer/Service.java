@@ -32,11 +32,9 @@ public interface Service {
     
     Order editOrder (Order order) throws
             PersistenceException,
-            InvalidDateException
-            
-            ;
+            InvalidDateException;
     
-    Order removeOrder (LocalDate date, int orderNumber);
+    Order removeOrder (LocalDate date, int orderNumber)throws PersistenceException;
     
 //        Order dispalyOrder(LocalDate date, String orderNumber);
 

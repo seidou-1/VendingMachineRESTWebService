@@ -6,6 +6,7 @@
 package FlooringOrdersServiceLayer;
 
 import FlooringOrdersDAO.Dao;
+import FlooringOrdersDAO.FlooringOrderAuditDAO;
 import FlooringOrdersDAO.PersistenceException;
 import FlooringOrdersDTO.Order;
 import java.time.LocalDate;
@@ -20,9 +21,11 @@ import java.util.stream.Collectors;
 public class ServiceImpl implements Service {
 
     private Dao myDao;
+    private FlooringOrderAuditDAO auditDao;
 
-    public ServiceImpl(Dao myDao) {
+    public ServiceImpl(Dao myDao, FlooringOrderAuditDAO auditDao) {
         this.myDao = myDao;
+        this.auditDao = auditDao;
     }
 
     //.........
@@ -37,6 +40,9 @@ public class ServiceImpl implements Service {
             PersistenceException
     {
 //        validateOrderData(order);
+        
+        //Later on have the add order call all the other validation methods
+        auditDao.writeAuditEntry("Order " + order.getOrderNumber() + " Created " + LocalDate.now());
         return myDao.addOrder(order.getOrderNumber(), order);
 
     }
@@ -50,6 +56,7 @@ public class ServiceImpl implements Service {
     public Order editOrder(Order order) throws PersistenceException {
 //        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy"); 
 //        LocalDate usersDateParsed = LocalDate.parse(date, format);
+    auditDao.writeAuditEntry("Order " + order.getOrderNumber() + " Created " + LocalDate.now());
 
         return myDao.addOrder(order.getOrderNumber(), order);
 
@@ -63,7 +70,9 @@ public class ServiceImpl implements Service {
 //        //Add a filter here to filter by date and order number
 //    }
     @Override
-    public Order removeOrder(LocalDate date, int orderNumber) {
+    public Order removeOrder(LocalDate date, int orderNumber) throws PersistenceException{
+        auditDao.writeAuditEntry("Order " + orderNumber + " Created " + LocalDate.now());
+
         return myDao.removeOrder(date, orderNumber);
     }
 
@@ -159,36 +168,13 @@ public class ServiceImpl implements Service {
         return orderList;
     }
 
-//    
-//     do {
-//            try {
-//                List<Order> orderList = checkIfOrderDateExists(date)
-//                        .stream()
-//                        .filter(s -> s.getOrderNumber() == orderNumber)
-//                        .collect(Collectors.toList());
-//
-//                if (orderList.isEmpty()) { //true
-//                    proper = false;
-//                    throw new OrderDateNotFoundException("No such order number exists. Try again.");
-//                } else {
-//                    return orderList;
-//
-//                }
-//
-//            } catch (OrderDateNotFoundException e) {
-//                System.out.println(e);
-//
-//            }
-//        } while (!proper);
-//            return orderList; //why??
-//
-//        
-//    }
     @Override
     public void justSaveToFile() throws PersistenceException {
 
         myDao.justSaveToFile();
 
     }
+    
+    
 
 }

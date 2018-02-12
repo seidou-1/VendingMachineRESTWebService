@@ -8,6 +8,8 @@ package FlooringOrders;
 import FlooringOrdersController.Controller;
 import FlooringOrdersDAO.Dao;
 import FlooringOrdersDAO.DaoFileImpl;
+import FlooringOrdersDAO.FlooringOrderAuditDAO;
+import FlooringOrdersDAO.FlooringOrderAuditDAOFileImpl;
 import FlooringOrdersServiceLayer.Service;
 import FlooringOrdersServiceLayer.ServiceImpl;
 import FlooringOrdersUI.UserIO;
@@ -27,8 +29,10 @@ public class App {
         View myView = new View(myUserIO);//The view takes a particular IOimplementation
 
         Dao myDao = new DaoFileImpl();
+        
+        FlooringOrderAuditDAO myAuditDao = new FlooringOrderAuditDAOFileImpl();
 
-        Service myService = new ServiceImpl(myDao);//This takes a particular Dao implmenetation
+        Service myService = new ServiceImpl(myDao, myAuditDao);//This takes a particular Dao implmenetation
 
         Controller myController = new Controller(myView, myService); //This constructor takes a view and a service
 
