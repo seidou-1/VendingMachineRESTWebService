@@ -37,9 +37,9 @@ public class Controller {
         boolean keepGoing = true;
 //        int menuSelection = 1;
 
-        try {
+        while (keepGoing) {
+            try {
 
-            while (keepGoing) {
                 switch (printMenuAndGetSelection()) {
 
                     case 1:
@@ -63,15 +63,15 @@ public class Controller {
                         break;
 
                 }
+            } catch (DataValidationException
+                    | OrderDateNotFoundException
+                    | OrderNumberNotFoundException
+                    | InvalidDateException
+                    | PersistenceException e) {
+                myView.displayErrorMessage(e.getMessage());
             }
-
-        } catch (DataValidationException
-                | OrderDateNotFoundException
-                | OrderNumberNotFoundException
-                | InvalidDateException
-                | PersistenceException e) {
-            myView.displayErrorMessage(e.getMessage());
         }
+
     }
 
     //Methods below
@@ -80,7 +80,7 @@ public class Controller {
         return myView.printMenuAndGetSelection();
     }
 
-    private void displayOrders() throws 
+    private void displayOrders() throws
             OrderDateNotFoundException,
             PersistenceException {
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
@@ -107,11 +107,8 @@ public class Controller {
             do {
                 //Will continue to prompt the user for as long as they enter an invalid field
                 placement = myView.setUsersOrder(myService.getOrderNumber());//Prompts the user to input info
-                
+
                 //checkIfStateExists
-                
-                
-                
             } while (!validateOrderData(placement));
         } catch (DataValidationException e) {
             myView.displayMessage(e.getMessage());
@@ -128,26 +125,24 @@ public class Controller {
         }
     }
 
-    private void editOrder() throws 
-            OrderDateNotFoundException, 
+    private void editOrder() throws
+            OrderDateNotFoundException,
             OrderNumberNotFoundException,
             PersistenceException {
-        
+
         /* 
         //If this doesn't throw an exception, only one order element will be returned in the index slot 0 (as a single order)
         
         //if the user types enter, no changes made
         //if the user enters something, the value of that field is changed
-        */
-        
+         */
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
         int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
         //Add checkIfOrderDateExists method below:
-        
         //Returns the list or an exception gets thrown:
         Order validatedOrder = myService.checkIfOrderNumberExists(usersDate, usersOrderNumber).get(0); //THis auto checks the order method first
-        
+
         Order currentOrder = null;
 
         try {

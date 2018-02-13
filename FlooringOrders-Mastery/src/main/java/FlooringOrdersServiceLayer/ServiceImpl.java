@@ -162,7 +162,7 @@ public class ServiceImpl implements Service {
                 .collect(Collectors.toList());
 
         if (orderList.isEmpty()) { //true
-            throw new OrderDateNotFoundException("No such order number exists");
+            throw new OrderDateNotFoundException("No such order number exists. Try again \n");
         }
 
         return orderList;
