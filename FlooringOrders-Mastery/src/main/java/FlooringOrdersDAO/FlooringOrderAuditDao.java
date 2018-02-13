@@ -9,7 +9,7 @@ package FlooringOrdersDAO;
  *
  * @author laptop
  */
-public interface FlooringOrderAuditDAO {
+public interface FlooringOrderAuditDao {
     
     public void writeAuditEntry(String entry) throws PersistenceException;
             

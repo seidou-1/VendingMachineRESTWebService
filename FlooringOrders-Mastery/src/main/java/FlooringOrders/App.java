@@ -8,13 +8,13 @@ package FlooringOrders;
 import FlooringOrdersController.Controller;
 import FlooringOrdersDAO.Dao;
 import FlooringOrdersDAO.DaoFileImpl;
-import FlooringOrdersDAO.FlooringOrderAuditDAO;
-import FlooringOrdersDAO.FlooringOrderAuditDAOFileImpl;
+import FlooringOrdersDAO.FlooringOrderAuditDaoFileImpl;
 import FlooringOrdersServiceLayer.Service;
 import FlooringOrdersServiceLayer.ServiceImpl;
 import FlooringOrdersUI.UserIO;
 import FlooringOrdersUI.UserIOImpl;
 import FlooringOrdersUI.View;
+import FlooringOrdersDAO.FlooringOrderAuditDao;
 
 /**
  *
@@ -30,7 +30,7 @@ public class App {
 
         Dao myDao = new DaoFileImpl();
         
-        FlooringOrderAuditDAO myAuditDao = new FlooringOrderAuditDAOFileImpl();
+        FlooringOrderAuditDao myAuditDao = new FlooringOrderAuditDaoFileImpl();
 
         Service myService = new ServiceImpl(myDao, myAuditDao);//This takes a particular Dao implmenetation
 

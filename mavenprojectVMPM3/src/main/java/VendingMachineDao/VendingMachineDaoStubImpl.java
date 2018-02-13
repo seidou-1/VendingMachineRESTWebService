@@ -26,7 +26,7 @@ public class VendingMachineDaoStubImpl implements Dao{
     Then initialze both via a constructor
     
     The purpose of this is since we're checking to see if the business rules will hold true,
-    we need an actual product to check the student rules against
+    we need an actual product to check the business rules against
     */
     
     Products onlyProduct;

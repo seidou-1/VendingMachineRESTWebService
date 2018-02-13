@@ -6,13 +6,13 @@
 package FlooringOrdersServiceLayer;
 
 import FlooringOrdersDAO.Dao;
-import FlooringOrdersDAO.FlooringOrderAuditDAO;
 import FlooringOrdersDAO.PersistenceException;
 import FlooringOrdersDTO.Order;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import FlooringOrdersDAO.FlooringOrderAuditDao;
 
 /**
  *
@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 public class ServiceImpl implements Service {
 
     private Dao myDao;
-    private FlooringOrderAuditDAO auditDao;
+    private FlooringOrderAuditDao auditDao;
 
-    public ServiceImpl(Dao myDao, FlooringOrderAuditDAO auditDao) {
+    public ServiceImpl(Dao myDao, FlooringOrderAuditDao auditDao) {
         this.myDao = myDao;
         this.auditDao = auditDao;
     }

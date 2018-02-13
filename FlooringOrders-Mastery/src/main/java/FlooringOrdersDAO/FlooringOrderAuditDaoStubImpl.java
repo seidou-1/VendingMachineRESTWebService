@@ -9,6 +9,11 @@ package FlooringOrdersDAO;
  *
  * @author laptop
  */
-public class DaoStubImpl {
+public class FlooringOrderAuditDaoStubImpl implements FlooringOrderAuditDao{
+
+    @Override
+    public void writeAuditEntry(String entry) throws PersistenceException {
+        //Do nothing
+    }
     
 }

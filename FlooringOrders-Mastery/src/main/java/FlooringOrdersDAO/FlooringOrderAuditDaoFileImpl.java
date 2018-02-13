@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  *
  * @author laptop
  */
-public class FlooringOrderAuditDAOFileImpl implements FlooringOrderAuditDAO {
+public class FlooringOrderAuditDaoFileImpl implements FlooringOrderAuditDao {
     
      public static final String AUDIT_FILE = "audit.txt";
    

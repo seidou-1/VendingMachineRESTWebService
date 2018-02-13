@@ -101,11 +101,14 @@ public class DaoTest {
      */
     @Test
     public void testRemoveOrder() throws Exception{
+        //Instantiating a date object and assigning it as a variable to reuse below
+        LocalDate date = LocalDate.of(2018, 02, 12);
+        
         Order myOrder = new Order(1);
         
         myOrder.setArea(new BigDecimal("322"));
         myOrder.setCustomerName("crilo pillow");
-        myOrder.setDate(LocalDate.now());
+        myOrder.setDate(date);
         myOrder.setGrandTotal(new BigDecimal("100"));
         myOrder.setLaborCost(new BigDecimal("322"));
         myOrder.setMaterialCost(new BigDecimal("200")); 
@@ -114,7 +117,7 @@ public class DaoTest {
         myOrder.setTaxCharged(new BigDecimal("322")); 
         
         createdDao.addOrder(myOrder.getOrderNumber(), myOrder); 
-        createdDao.removeOrder(LocalDate.of(2018, 12, 2), 1);
+        createdDao.removeOrder(date, 1);
         
         assertEquals(0, createdDao.displayAllOrders());
     }
