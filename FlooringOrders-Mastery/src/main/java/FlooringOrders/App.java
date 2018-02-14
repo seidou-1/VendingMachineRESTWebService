@@ -6,15 +6,10 @@
 package FlooringOrders;
 
 import FlooringOrdersController.Controller;
-import FlooringOrdersDAO.Dao;
-import FlooringOrdersDAO.DaoFileImpl;
-import FlooringOrdersDAO.FlooringOrderAuditDaoFileImpl;
-import FlooringOrdersServiceLayer.Service;
-import FlooringOrdersServiceLayer.ServiceImpl;
-import FlooringOrdersUI.UserIO;
-import FlooringOrdersUI.UserIOImpl;
-import FlooringOrdersUI.View;
-import FlooringOrdersDAO.FlooringOrderAuditDao;
+import FlooringOrdersDAO.Configuration;
+import FlooringOrdersDAO.PersistenceException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
@@ -22,21 +17,35 @@ import FlooringOrdersDAO.FlooringOrderAuditDao;
  */
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PersistenceException {
 
-        UserIO myUserIO = new UserIOImpl();
+//        UserIO myUserIO = new UserIOImpl();
+//
+//        View myView = new View(myUserIO);//The view takes a particular IOimplementation
+//
+//        Dao myDao = new DaoFileImpl();
+//        
+//        FlooringOrderAuditDao myAuditDao = new FlooringOrderAuditDaoFileImpl();
+//
+//        Service myService = new ServiceImpl(myDao, myAuditDao);//This takes a particular Dao implmenetation
+//
+//        Controller myController = new Controller(myView, myService); //This constructor takes a view and a service
+//
+//        myController.run();
 
-        View myView = new View(myUserIO);//The view takes a particular IOimplementation
-
-        Dao myDao = new DaoFileImpl();
+        String configurationType = Configuration.getMode();//Since this is a static method, i don't need to instantiate the class to use the getMode method
+        //I can just call the class directly
         
-        FlooringOrderAuditDao myAuditDao = new FlooringOrderAuditDaoFileImpl();
+        System.out.println("\n"+configurationType + "\n");
 
-        Service myService = new ServiceImpl(myDao, myAuditDao);//This takes a particular Dao implmenetation
+        ApplicationContext ctx = 
+           new ClassPathXmlApplicationContext("applicationContext.xml");
+        
+        Controller controller = 
+           ctx.getBean(configurationType+"Controller", Controller.class);
+        
+        controller.run();
 
-        Controller myController = new Controller(myView, myService); //This constructor takes a view and a service
-
-        myController.run();
     }
 
 }

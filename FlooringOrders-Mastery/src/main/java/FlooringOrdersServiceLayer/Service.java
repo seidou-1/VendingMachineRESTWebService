@@ -34,7 +34,7 @@ public interface Service {
             PersistenceException,
             InvalidDateException;
     
-    Order removeOrder (LocalDate date, int orderNumber)throws PersistenceException;
+    Order removeOrder (/*LocalDate date,*/ int orderNumber)throws PersistenceException;
     
 //        Order dispalyOrder(LocalDate date, String orderNumber);
 
@@ -53,7 +53,7 @@ public interface Service {
 
     public boolean validateOrderData(Order order) throws DataValidationException;
     
-    public void justSaveToFile() throws PersistenceException;
+    public boolean justSaveToFile() throws PersistenceException;
    
     
 }

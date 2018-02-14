@@ -28,7 +28,11 @@ import java.util.stream.Collectors;
  *
  * @author laptop
  */
-public class DaoFileImpl implements Dao{
+public class TrainingDaoImpl implements Dao{
+
+    public TrainingDaoImpl() throws PersistenceException {
+        loadInventory();
+    }
 
     public static final String ORDERS_FILE = "orders.txt";
     public static final String DELIMITER = "::";
@@ -40,7 +44,7 @@ public class DaoFileImpl implements Dao{
     
     @Override
     public  List<Order> displayAllOrders () throws PersistenceException{
-        loadInventory();
+//        loadInventory();
         return new ArrayList<>(inventory.values());
     }
 //    
@@ -61,7 +65,6 @@ public class DaoFileImpl implements Dao{
 //            DataValidationException,
 //            InvalidDateException,
             PersistenceException {//Remove orderNumber later
-        loadInventory();
         Order newOrder =inventory.put(order.getOrderNumber(), order);
         return newOrder;
     }
@@ -86,20 +89,23 @@ public class DaoFileImpl implements Dao{
     
 
     @Override
-    public Order removeOrder(LocalDate date, int orderNumber) {
+    public Order removeOrder(/*LocalDate date,*/ int orderNumber) {
         Order removedOrder = inventory.remove(orderNumber); //Add code to remove based on date
         return removedOrder;
     }
     
     @Override
-    public void justSaveToFile(){
-     try {
-            writeInventory();
-            loadInventory();
+    public boolean justSaveToFile(){
+//     try {
+//            writeInventory();
+////            loadInventory();
+//
+//        } catch (PersistenceException ex) {
+//            System.out.println("Could not write to inventory test..");
+//        }
 
-        } catch (PersistenceException ex) {
-            System.out.println("Could not write to inventory test..");
-        }
+//        System.out.println("\n Unable to save. Switch to Production mode to save.\n");
+        return false;
         
     }
     
@@ -138,35 +144,36 @@ public class DaoFileImpl implements Dao{
         
     }
     
-    private void writeInventory() throws PersistenceException {
-          PrintWriter out;
-          
-          try {
-               out = new PrintWriter(new FileWriter(ORDERS_FILE));
-          } catch (IOException e) {
-              throw new PersistenceException("Error - cannot save intentory data.", e);
-          }
-          
-          List <Order> inventory = this.displayAllOrders();
-          
-          for (Order tempBucket : inventory){
-              
-              out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
-                      
-                      + tempBucket.getCustomerName() + DELIMITER //Name
-                      
-                      + tempBucket.getArea() + DELIMITER //Area
-                      
-                      + tempBucket.getTaxClass() + DELIMITER //State Abbreviation
-                      
-                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax should i get the ".getStatesTax()" also? - it's up to me
-                      
-                      + tempBucket.getProductClass().getProductName() + DELIMITER //Material
-                      
-                      + tempBucket.getDate());  //Date
-               
-                    out.flush(); 
-          }
-            out.close();
+//    private void writeInventory() throws PersistenceException {
+//          PrintWriter out;
+//          
+//          try {
+//               out = new PrintWriter(new FileWriter(ORDERS_FILE));
+//          } catch (IOException e) {
+//              throw new PersistenceException("Error - cannot save intentory data.", e);
+//          }
+//          
+//          List <Order> inventory = this.displayAllOrders();
+//          
+//          for (Order tempBucket : inventory){
+//              
+//              out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
+//                      
+//                      + tempBucket.getCustomerName() + DELIMITER //Name
+//                      
+//                      + tempBucket.getArea() + DELIMITER //Area
+//                      
+//                      + tempBucket.getTaxClass() + DELIMITER //State Abbreviation
+//                      
+//                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax should i get the ".getStatesTax()" also? - it's up to me
+//                      
+//                      + tempBucket.getProductClass().getProductName() + DELIMITER //Material
+//                      
+//                      + tempBucket.getDate());  //Date
+//               
+//                    out.flush(); 
+//          }
+//            out.close();
     } 
-}
+
+

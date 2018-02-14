@@ -71,13 +71,14 @@ public class FlooringOrderDaoStubImpl implements Dao{
     }
 
     @Override
-    public Order removeOrder(LocalDate date, int orderNumber) {
+    public Order removeOrder(/*LocalDate date,*/ int orderNumber) {
         return onlyOrder;
     }
 
     @Override
-    public void justSaveToFile() {
+    public boolean justSaveToFile() {
         //Do nothing
+        return true;
     }
     
 }

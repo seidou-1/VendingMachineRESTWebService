@@ -70,10 +70,10 @@ public class ServiceImpl implements Service {
 //        //Add a filter here to filter by date and order number
 //    }
     @Override
-    public Order removeOrder(LocalDate date, int orderNumber) throws PersistenceException{
+    public Order removeOrder(/*LocalDate date,*/ int orderNumber) throws PersistenceException{
         auditDao.writeAuditEntry("Order " + orderNumber + " Created " + LocalDate.now());
 
-        return myDao.removeOrder(date, orderNumber);
+        return myDao.removeOrder(/*date,*/ orderNumber);
     }
 
     //Exceptions logic below:
@@ -169,9 +169,13 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void justSaveToFile() throws PersistenceException {
+    public boolean justSaveToFile() throws PersistenceException {
 
-        myDao.justSaveToFile();
+        if (myDao.justSaveToFile()) {
+            return myDao.justSaveToFile();
+        } else {
+            throw new PersistenceException("\nUnable to save. Switch to Production mode to save.\n");
+        }
 
     }
     

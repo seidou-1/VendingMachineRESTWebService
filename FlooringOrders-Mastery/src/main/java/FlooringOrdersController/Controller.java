@@ -176,7 +176,7 @@ public class Controller {
         boolean usersChoice = myView.areYouSure();//Returns boolean true or false
 
         if (usersChoice) { //if boolean returns true - meaning yes 
-            Order removeTheOrder = myService.removeOrder(usersDate, usersOrderNumber);
+            Order removeTheOrder = myService.removeOrder(/*usersDate, */usersOrderNumber);
             myView.displayRemovedSuccessfullyBanner();
         } else {
             myView.thankYouBanner();
@@ -192,8 +192,11 @@ public class Controller {
     }
 
     private void saveCurrentWork() throws PersistenceException {
-        myService.justSaveToFile();
-        myView.displayWorkedSavedSuccessfullyBanner();
+        boolean didItSave = myService.justSaveToFile();
+
+        if (didItSave == true) {
+            myView.displayWorkedSavedSuccessfullyBanner();
+        }
 
     }
 

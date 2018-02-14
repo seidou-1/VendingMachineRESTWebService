@@ -9,6 +9,7 @@ import FlooringOrdersDTO.Order;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,9 +28,10 @@ public class DaoTest {
     Instantiate the dao by making a member field of the dao
     */
     
-    private Dao createdDao = new DaoFileImpl();
+    private Dao createdDao;
     
-    public DaoTest() {
+    public DaoTest() throws PersistenceException {
+        this.createdDao = new ProductionDaoFileImpl();
     }
     
     @BeforeClass
@@ -50,7 +52,13 @@ public class DaoTest {
             List<Order> listOfOrders = createdDao.displayAllOrders();                     
 
         for (Order tempBucket : listOfOrders){
-            createdDao.removeOrder(tempBucket.getDate(),tempBucket.getOrderNumber());
+//            createdDao.removeOrder(LocalDate.MAX, 0)
+//            createdDao.removeOrder(tempBucket.getDate(),tempBucket.getOrderNumber());
+
+//        DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+//        LocalDate usersDateParsed = LocalDate.parse("2018/02/11", format);
+
+            createdDao.removeOrder(tempBucket.getOrderNumber());
         }
     }
     
@@ -86,7 +94,9 @@ public class DaoTest {
         
         createdDao.addOrder(myOrder.getOrderNumber(), myOrder);
         
-        assertEquals(1, myOrder.getOrderNumber());
+        assertEquals(1, createdDao.displayAllOrders().size()); //Always get the size
+        
+        //Everytime i called the displayAllOrders it reloads the elements in my hashmap
     }
 
     /**
@@ -102,6 +112,9 @@ public class DaoTest {
     @Test
     public void testRemoveOrder() throws Exception{
         //Instantiating a date object and assigning it as a variable to reuse below
+//        assertEquals(0, createdDao.displayAllOrders().size()); //check that the order got added correctly
+
+
         LocalDate date = LocalDate.of(2018, 02, 12);
         
         Order myOrder = new Order(1);
@@ -117,9 +130,11 @@ public class DaoTest {
         myOrder.setTaxCharged(new BigDecimal("322")); 
         
         createdDao.addOrder(myOrder.getOrderNumber(), myOrder); 
-        createdDao.removeOrder(date, 1);
+
+        createdDao.removeOrder(1);
         
-        assertEquals(0, createdDao.displayAllOrders());
+        
+        assertEquals(0, createdDao.displayAllOrders().size());
     }
 
     /**

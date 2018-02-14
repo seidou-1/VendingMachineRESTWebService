@@ -8,6 +8,7 @@ package FlooringOrdersUI;
 import FlooringOrdersDTO.Order;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -173,8 +174,8 @@ public class View {
         BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)");
         String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
-        LocalDate date = LocalDate.now();
-        
+        LocalDate date = LocalDate.now(); //Refactor this later and move it to the constructor
+         
         Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
 //        Product currentProduct = new Product(); //Instantiating product 
         currentOrder.setCustomerName(name);
