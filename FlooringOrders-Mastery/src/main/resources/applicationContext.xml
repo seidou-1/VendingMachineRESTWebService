@@ -59,19 +59,30 @@ and open the template in the editor.
     </bean>
     
     <aop:config>
-  <aop:aspect ref="loggingAdvice">
-      <aop:after-returning
-          method="createAuditEntry"
-          pointcut="execution(* FlooringOrdersServiceLayer.ServiceImpl.addOrder(..))"
-       />
+        <aop:aspect ref="loggingAdvice">
+            <!--Created an aop:after-returning here because I want to write to the audit log 
+            only if the pointcut returns successfully. 
+            The advice will not run at all if the code at the pointcut threw an exception.-->
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* FlooringOrdersServiceLayer.ServiceImpl.addOrder(..))"
+            />
+            
+            <aop:after-returning
+                method="createAuditEntry"
+                pointcut="execution(* FlooringOrdersServiceLayer.ServiceImpl.editOrder(..))"
+            />
+       
          
-      <!-- Created an after-throwing aop an pointed it to run this method-->
-      <aop:after-throwing
-          method="createExceptionThrownEntry"
-          pointcut="execution(* FlooringOrdersServiceLayer.ServiceImpl.justSaveToFile(..))"
-      />
+            <!-- Created an after-throwing aop so that a log is written when this method
+            throws an exception because a user saved while in training mode.
+            This will run only after the pointcut has thrown an exception. -->
+            <aop:after-throwing
+                method="createExceptionThrownEntry"
+                pointcut="execution(* FlooringOrdersServiceLayer.ServiceImpl.justSaveToFile(..))"
+            />
            
-    </aop:aspect>
-</aop:config>
+        </aop:aspect>
+    </aop:config>
 
 </beans>

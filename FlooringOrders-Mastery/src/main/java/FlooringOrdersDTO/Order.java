@@ -29,6 +29,47 @@ public class Order {
 
     private ProductCosts productClass; //Composition - object gives me the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
     private StateTax taxClass; //Composition - object gives me the State and the tax rate
+    
+    //Product:
+    private BigDecimal costPerSqFt;
+    private BigDecimal laborCostPerSqFt;
+    
+    //Tax
+    private BigDecimal stateTax;
+    private BigDecimal taxRate;
+
+    public BigDecimal getCostPerSqFt() {
+        return costPerSqFt;
+    }
+
+    public void setCostPerSqFt(BigDecimal costPerSqFt) {
+        this.costPerSqFt = costPerSqFt;
+    }
+
+    public BigDecimal getLaborCostPerSqFt() {
+        return laborCostPerSqFt;
+    }
+
+    public void setLaborCostPerSqFt(BigDecimal laborCostPerSqFt) {
+        this.laborCostPerSqFt = laborCostPerSqFt;
+    }
+
+    public BigDecimal getStateTax() {
+        return stateTax;
+    }
+
+    public void setStateTax(BigDecimal stateTax) {
+        this.stateTax = stateTax;
+    }
+
+    public BigDecimal getTaxRate() {
+        return taxRate;
+    }
+
+    public void setTaxRate(BigDecimal taxRate) {
+        this.taxRate = taxRate;
+    }
+    
 
     public Order(int orderNumber) {//Passed the order# into the constructor so a new order is created each time "Order" is called
         this.orderNumber = orderNumber;
@@ -137,7 +178,8 @@ public class Order {
         this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
         //Tax rate for that state is i.e. 6.25%
         //Now the tax is (area * cost per sq ft) + (area * labor cost per sq ft) * tax rate for that state i.e. 6.25%
-
+        System.out.println(taxCharged);
+        
         BigDecimal totalCost
                 = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
                         .add(totalTax)).setScale(2, HALF_UP));
@@ -145,6 +187,8 @@ public class Order {
         //Grand total is 
 //        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
         this.grandTotal = (totalCost); //Here i'm setting the grandTotal to the grandTotal of my Enum
+        
+        System.out.println(grandTotal);
 
     }
 

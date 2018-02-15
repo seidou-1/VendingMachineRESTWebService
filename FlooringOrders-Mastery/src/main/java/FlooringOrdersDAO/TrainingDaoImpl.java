@@ -121,28 +121,39 @@ public class TrainingDaoImpl implements Dao{
       String currentLine;
       String[] currentTokens;
       
-      while (scanner.hasNextLine()){
-          currentLine = scanner.nextLine();
-          
-          currentTokens = currentLine.split(DELIMITER);
-          
-          Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
-          
-          currentOrder.setCustomerName(currentTokens[1]); //Name
-          
-          currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
-          
-          currentOrder.setTaxClass(currentTokens[3]); //State
-          
-          currentOrder.setProductClass(currentTokens[5]); //Material-Product
-          
-          currentOrder.setDate(LocalDate.parse(currentTokens[6]));//Date
-          
-          inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
-      }
-          scanner.close();
-        
+      while (scanner.hasNextLine()) {
+            currentLine = scanner.nextLine();
+
+            currentTokens = currentLine.split(DELIMITER);
+
+            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
+
+            currentOrder.setCustomerName(currentTokens[1]); //Name
+
+            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
+
+            currentOrder.setTaxClass(currentTokens[3]); //State
+
+            currentOrder.setTaxRate(new BigDecimal(currentTokens[4]));//State Tax%
+
+            currentOrder.setProductClass(currentTokens[5]); //Product
+
+            currentOrder.setCostPerSqFt(new BigDecimal(currentTokens[6]));
+
+            currentOrder.setLaborCostPerSqFt(new BigDecimal(currentTokens[7]));
+ 
+            currentOrder.setTaxCharged(new BigDecimal(currentTokens[8])); //Tax Charged
+ 
+            currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
+
+            currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
+
+            inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
+        }
+        scanner.close();
+
     }
+
     
 //    private void writeInventory() throws PersistenceException {
 //          PrintWriter out;

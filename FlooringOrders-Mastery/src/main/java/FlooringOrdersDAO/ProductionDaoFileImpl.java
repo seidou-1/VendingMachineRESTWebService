@@ -28,11 +28,12 @@ import java.util.stream.Collectors;
  *
  * @author laptop
  */
-public class ProductionDaoFileImpl implements Dao{
+public class ProductionDaoFileImpl implements Dao {
+
     /*
     The purpose of this class is to implement all the Daos
     and then persist everything from the hashmap into the text file
-    */
+     */
 
     public ProductionDaoFileImpl() throws PersistenceException {
         loadInventory();
@@ -42,11 +43,10 @@ public class ProductionDaoFileImpl implements Dao{
     public static final String DELIMITER = "::";
 
 //        Key    Value 
-    Map<Integer, Order> inventory = new HashMap<>(); 
-    
-    
+    Map<Integer, Order> inventory = new HashMap<>();
+
     @Override
-    public  List<Order> displayAllOrders () throws PersistenceException{
+    public List<Order> displayAllOrders() throws PersistenceException {
 //        loadInventory();
         return new ArrayList<>(inventory.values());
     }
@@ -61,125 +61,140 @@ public class ProductionDaoFileImpl implements Dao{
 //                 
 //        }
 
-
     @Override
-    public Order addOrder(int orderNumber, Order order) throws 
-//            
-//            DataValidationException,
-//            InvalidDateException,
+    public Order addOrder(int orderNumber, Order order) throws
+            //            
+            //            DataValidationException,
+            //            InvalidDateException,
             PersistenceException {//Remove orderNumber later
-        Order newOrder =inventory.put(order.getOrderNumber(), order);
+        Order newOrder = inventory.put(order.getOrderNumber(), order);
         return newOrder;
     }
 
     @Override
-    public List <Order> editOrder(LocalDate date, int orderNumber) {
-/*
+    public List<Order> editOrder(LocalDate date, int orderNumber) {
+        /*
 1. ask user for date and order number
 2. display field values for each property
 3. allow the user to hit enter if they don't want to make any changes
 4. if the user does want to make changes, allow them to type it in for that field
-*/
-        
-        
+         */
+
         List<Order> orderDate = inventory.values()
                 .stream()
-                .filter(s -> s.getDate().equals(date)) 
+                .filter(s -> s.getDate().equals(date))
                 .collect(Collectors.toList());
-                return orderDate;
+        return orderDate;
     }
-        
-    
 
     @Override
-    public Order removeOrder(/*LocalDate date,*/ int orderNumber) {
+    public Order removeOrder(/*LocalDate date,*/int orderNumber) {
         Order removedOrder = inventory.remove(orderNumber); //Add code to remove based on date
         return removedOrder;
     }
-    
+
     @Override
-    public boolean justSaveToFile(){
-     try {
+    public boolean justSaveToFile() {
+        try {
             writeInventory();
 //            loadInventory();
 
         } catch (PersistenceException ex) {
             System.out.println("Could not write to inventory test..");
         }
-     
+
         return true;
         /*
         I made this method a boolean because it'll be easier for me to check
         true or false when i write to my audit txt file
-        */
+         */
     }
-    
-    private void loadInventory() throws PersistenceException{
-      Scanner scanner;
-      
-      try {
-            scanner = new Scanner (new BufferedReader(new FileReader(ORDERS_FILE))); 
-      } catch (FileNotFoundException e) {
-          throw new PersistenceException("Could not load inventory from file", e);
-      }
-      
-      String currentLine;
-      String[] currentTokens;
-      
-      while (scanner.hasNextLine()){
-          currentLine = scanner.nextLine();
-          
-          currentTokens = currentLine.split(DELIMITER);
-          
-          Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
-          
-          currentOrder.setCustomerName(currentTokens[1]); //Name
-          
-          currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
-          
-          currentOrder.setTaxClass(currentTokens[3]); //State
-          
-          currentOrder.setTaxCharged(new BigDecimal (currentTokens[4]));//Tax
-          
-          currentOrder.setProductClass(currentTokens[5]); //Product
-          
-          currentOrder.setDate(LocalDate.parse(currentTokens[6]));//Date
-          
-          inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
-      }
-          scanner.close();
-        
+
+    private void loadInventory() throws PersistenceException {
+        /*
+        This stores the data in memory
+         */
+        Scanner scanner;
+
+        try {
+            scanner = new Scanner(new BufferedReader(new FileReader(ORDERS_FILE)));
+        } catch (FileNotFoundException e) {
+            throw new PersistenceException("Could not load inventory from file", e);
+        }
+
+        String currentLine;
+        String[] currentTokens;
+
+        while (scanner.hasNextLine()) {
+            currentLine = scanner.nextLine();
+
+            currentTokens = currentLine.split(DELIMITER);
+
+            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
+
+            currentOrder.setCustomerName(currentTokens[1]); //Name
+
+            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
+
+            currentOrder.setTaxClass(currentTokens[3]); //State
+
+            currentOrder.setTaxRate(new BigDecimal(currentTokens[4]));//State Tax%
+
+            currentOrder.setProductClass(currentTokens[5]); //Product
+
+            currentOrder.setCostPerSqFt(new BigDecimal(currentTokens[6]));
+
+            currentOrder.setLaborCostPerSqFt(new BigDecimal(currentTokens[7]));
+ 
+            currentOrder.setTaxCharged(new BigDecimal(currentTokens[8])); //Tax Charged
+ 
+            currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
+
+            currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
+
+            inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
+        }
+        scanner.close();
+
     }
-    
+
     private void writeInventory() throws PersistenceException {
-          PrintWriter out;
-          
-          try {
-               out = new PrintWriter(new FileWriter(ORDERS_FILE));
-          } catch (IOException e) {
-              throw new PersistenceException("Error - cannot save intentory data.", e);
-          }
-          
-          List <Order> inventory = this.displayAllOrders();
-          
-          for (Order tempBucket : inventory){
-              
-              out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
-                      
-                      + tempBucket.getCustomerName() + DELIMITER //Name
-                      
-                      + tempBucket.getArea() + DELIMITER //Area
-                      
-                      + tempBucket.getTaxClass() + DELIMITER //State 
-                      
-                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax  
-                      
-                      + tempBucket.getProductClass().getProductName() + DELIMITER //Product
-                      
-                      + tempBucket.getDate());  //Date
-               
-                    out.flush(); 
-          }
-            out.close();
-    } 
+        PrintWriter out;
+
+        try {
+            out = new PrintWriter(new FileWriter(ORDERS_FILE));
+        } catch (IOException e) {
+            throw new PersistenceException("Error - cannot save intentory data.", e);
+        }
+
+        List<Order> inventory = this.displayAllOrders();
+
+        for (Order tempBucket : inventory) {
+
+            out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
+
+                    + tempBucket.getCustomerName() + DELIMITER //Name
+
+                    + tempBucket.getArea() + DELIMITER //Area
+
+                    + tempBucket.getTaxClass() + DELIMITER //State 
+
+                    + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax  
+
+                    + tempBucket.getProductClass().getProductName() + DELIMITER //Product
+
+                    + tempBucket.getProductClass().getCostPerSqFt() + DELIMITER // 
+
+                    + tempBucket.getProductClass().getlaborCostPerSqFt() + DELIMITER // 
+
+                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax
+
+                    + tempBucket.getGrandTotal() + DELIMITER //Grand Total
+
+                    + tempBucket.getDate());  //Date
+
+            out.flush();
+        }
+        out.close();
+    }
 }

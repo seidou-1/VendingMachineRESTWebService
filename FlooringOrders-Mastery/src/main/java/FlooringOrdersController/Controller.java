@@ -83,6 +83,7 @@ public class Controller {
     private void displayOrders() throws
             OrderDateNotFoundException,
             PersistenceException {
+        
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
 //        int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
