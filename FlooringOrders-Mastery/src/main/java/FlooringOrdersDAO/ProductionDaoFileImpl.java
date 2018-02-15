@@ -29,6 +29,10 @@ import java.util.stream.Collectors;
  * @author laptop
  */
 public class ProductionDaoFileImpl implements Dao{
+    /*
+    The purpose of this class is to implement all the Daos
+    and then persist everything from the hashmap into the text file
+    */
 
     public ProductionDaoFileImpl() throws PersistenceException {
         loadInventory();
@@ -37,10 +41,9 @@ public class ProductionDaoFileImpl implements Dao{
     public static final String ORDERS_FILE = "orders.txt";
     public static final String DELIMITER = "::";
 
-    
+//        Key    Value 
     Map<Integer, Order> inventory = new HashMap<>(); 
     
-//    int orderNumber = 0;
     
     @Override
     public  List<Order> displayAllOrders () throws PersistenceException{
@@ -81,7 +84,7 @@ public class ProductionDaoFileImpl implements Dao{
         
         List<Order> orderDate = inventory.values()
                 .stream()
-                .filter(s -> s.getDate().equals(date)) //Also add filter ofr orderNumber?
+                .filter(s -> s.getDate().equals(date)) 
                 .collect(Collectors.toList());
                 return orderDate;
     }
@@ -105,6 +108,10 @@ public class ProductionDaoFileImpl implements Dao{
         }
      
         return true;
+        /*
+        I made this method a boolean because it'll be easier for me to check
+        true or false when i write to my audit txt file
+        */
     }
     
     private void loadInventory() throws PersistenceException{
@@ -132,7 +139,9 @@ public class ProductionDaoFileImpl implements Dao{
           
           currentOrder.setTaxClass(currentTokens[3]); //State
           
-          currentOrder.setProductClass(currentTokens[5]); //Material-Product
+          currentOrder.setTaxCharged(new BigDecimal (currentTokens[4]));//Tax
+          
+          currentOrder.setProductClass(currentTokens[5]); //Product
           
           currentOrder.setDate(LocalDate.parse(currentTokens[6]));//Date
           
@@ -161,11 +170,11 @@ public class ProductionDaoFileImpl implements Dao{
                       
                       + tempBucket.getArea() + DELIMITER //Area
                       
-                      + tempBucket.getTaxClass() + DELIMITER //State Abbreviation
+                      + tempBucket.getTaxClass() + DELIMITER //State 
                       
-                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax should i get the ".getStatesTax()" also? - it's up to me
+                      + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax  
                       
-                      + tempBucket.getProductClass().getProductName() + DELIMITER //Material
+                      + tempBucket.getProductClass().getProductName() + DELIMITER //Product
                       
                       + tempBucket.getDate());  //Date
                

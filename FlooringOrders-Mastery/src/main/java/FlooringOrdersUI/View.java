@@ -183,6 +183,7 @@ public class View {
         currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
         currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
         currentOrder.setDate(date);
+//        currentOrder.setTaxCharged(area);
         
         
 //        currentOrder.setTaxClass(currentOrder.getTaxClass().getStateAbbreviation());

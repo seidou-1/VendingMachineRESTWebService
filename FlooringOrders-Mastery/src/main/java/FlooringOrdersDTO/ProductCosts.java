@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  */
 public enum ProductCosts {
     
-//  Material, Cost Per Sq Ft, Labor Cost Per Sq Ft
+//  Product,                     Cost Per Sq Ft,        Labor Cost Per Sq Ft
     CARPET ("Carpet", new BigDecimal ("2.25"), new BigDecimal ("2.10")),
     LAMINATE ("Laminate", new BigDecimal ("1.75"), new BigDecimal ("2.10")),
     TILE ("Tile", new BigDecimal ("3.50"), new BigDecimal ("4.15")),

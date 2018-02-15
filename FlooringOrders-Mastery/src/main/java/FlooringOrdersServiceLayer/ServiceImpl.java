@@ -42,7 +42,7 @@ public class ServiceImpl implements Service {
 //        validateOrderData(order);
         
         //Later on have the add order call all the other validation methods
-        auditDao.writeAuditEntry("Order " + order.getOrderNumber() + " Created " + LocalDate.now());
+//        auditDao.writeAuditEntry("Order " + order.getOrderNumber() + " Created " + LocalDate.now());
         return myDao.addOrder(order.getOrderNumber(), order);
 
     }

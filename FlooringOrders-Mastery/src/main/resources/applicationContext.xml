@@ -54,4 +54,24 @@ and open the template in the editor.
         <constructor-arg ref = "myServiceTraining"/>
     </bean>
 
+    <bean id="loggingAdvice" class="FlooringOrdersAdvice.LoggingAdvice">
+        <constructor-arg ref="myAuditDao"/>
+    </bean>
+    
+    <aop:config>
+  <aop:aspect ref="loggingAdvice">
+      <aop:after-returning
+          method="createAuditEntry"
+          pointcut="execution(* FlooringOrdersServiceLayer.ServiceImpl.addOrder(..))"
+       />
+         
+      <!-- Created an after-throwing aop an pointed it to run this method-->
+      <aop:after-throwing
+          method="createExceptionThrownEntry"
+          pointcut="execution(* FlooringOrdersServiceLayer.ServiceImpl.justSaveToFile(..))"
+      />
+           
+    </aop:aspect>
+</aop:config>
+
 </beans>

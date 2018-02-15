@@ -27,10 +27,10 @@ public class Order {
 
     private LocalDate date;
 
-    private ProductCosts productClass; //Enum. I can get the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
-    private StateTax taxClass; //Enum. I can get the State and the tax rate
+    private ProductCosts productClass; //Composition - object gives me the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
+    private StateTax taxClass; //Composition - object gives me the State and the tax rate
 
-    public Order(int orderNumber) {
+    public Order(int orderNumber) {//Passed the order# into the constructor so a new order is created each time "Order" is called
         this.orderNumber = orderNumber;
     }
 
@@ -45,12 +45,8 @@ public class Order {
 
     /*
     if you have an enum that has multiple properties (i.e. OH("OH", new BigDecimal("6.25")))
-    and you create a dto where the data type is that enum, 
-    how would you create setters for each of the properties of that enum?
-    
-    Can i use one setter that can split into 3?
-    
-    Or do i need to create multiple setters for each of the properties of the enum?
+    and you create a dto where the data type is that enum, once you set the property for
+    the enum, i.e. "setTaxClass", it sets the properties for the other enum properties as well.
      */
     public ProductCosts getProductClass() {
         return productClass;
@@ -58,6 +54,10 @@ public class Order {
 
     public void setProductClass(String productClass) {
         this.productClass = ProductCosts.valueOf(productClass.toUpperCase());
+        /*
+        I'm creating a placeholder here. I'm setting the value by getting the enum
+        value and matching the uppercase version of that with what the user passed in
+        */
     }
 
     public BigDecimal getGrandTotal() {
@@ -76,9 +76,6 @@ public class Order {
         this.taxCharged = taxCharged;
     }
 
-//        public void setTaxCharged(BigDecimal taxCharged) {
-//        this.taxCharged = taxCharged;
-//    } 
     public int getOrderNumber() {
         return orderNumber;
 
@@ -140,20 +137,44 @@ public class Order {
         this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
         //Tax rate for that state is i.e. 6.25%
         //Now the tax is (area * cost per sq ft) + (area * labor cost per sq ft) * tax rate for that state i.e. 6.25%
-         
-        
 
         BigDecimal totalCost
                 = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
                         .add(totalTax)).setScale(2, HALF_UP));
-        
+
         //Grand total is 
 //        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
-
-        this.grandTotal = (totalCost); //Here i'm stting the grandTotal to the grandTotal of my Enum
+        this.grandTotal = (totalCost); //Here i'm setting the grandTotal to the grandTotal of my Enum
 
     }
-    
+
+    /*
+    I created the toString method below to use it for the audit text file so i can output
+    all the values onto the text file as Strings
+    */
+    @Override
+    public String toString() {
+        return "\n Order Number: " + this.orderNumber
+                + ", Name: "
+                + this.customerName
+                + ", Area: "
+                + this.area
+                + ", Material: "
+                + this.productClass.getProductName()
+                + ", Cost Per Sq. Ft: "
+                + this.productClass.getCostPerSqFt()
+                + ", Labor Cost Per Sq. Ft: "
+                + this.productClass.getlaborCostPerSqFt()
+                + ", State: "
+                + this.taxClass.getStateAbbreviation() //Can also just print out just TaxClass
+                + ", State Tax: "
+                + this.taxClass.getStatesTax()
+                + ", Tax Charged: "
+                + this.taxCharged
+                + ", Grand Total: "
+                + this.grandTotal;
+    }
+
 //    public String orderInStrings(){ 
 //        return
 //        "\n Order Number: " + this.orderNumber
@@ -176,5 +197,4 @@ public class Order {
 //                + ", Grand Total: "
 //                + this.grandTotal;
 //    } 
-
 }
