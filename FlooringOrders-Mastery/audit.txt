@@ -17,3 +17,13 @@ Order Number: 4, Name: roy rogers, Area: 423, Material: Carpet, Cost Per Sq. Ft:
  Order Number: 2, Name: cam dipset, Area: 422, Material: Wood, Cost Per Sq. Ft: 5.15, Labor Cost Per Sq. Ft: 4.75, State: Michigan, State Tax: 0.0575, Tax Charged: 240.22, Grand Total: 4418.02
 2018-02-14T23:58:46.838 : addOrder: 
  Order Number: 3, Name: johhny bravo, Area: 321, Material: Tile, Cost Per Sq. Ft: 3.50, Labor Cost Per Sq. Ft: 4.15, State: Ohio, State Tax: 0.0625, Tax Charged: 153.48, Grand Total: 2609.13
+2018-02-15T11:40:57.005 : addOrder: 
+ Order Number: 4, Name: mike jones, Area: 122, Material: Laminate, Cost Per Sq. Ft: 1.75, Labor Cost Per Sq. Ft: 2.10, State: Pennysalvania, State Tax: 0.0675, Tax Charged: 31.70, Grand Total: 501.40
+2018-02-15T11:41:02.540 : User selected save while in Training mode: 2018-02-15
+2018-02-15T11:51:01.287 : addOrder: 
+ Order Number: 4, Name: jazzy jeff, Area: 123, Material: Tile, Cost Per Sq. Ft: 3.50, Labor Cost Per Sq. Ft: 4.15, State: Indiana, State Tax: 0.0600, Tax Charged: 56.46, Grand Total: 997.41
+2018-02-15T13:55:02.778 : addOrder: 
+ Order Number: 5, Name: sheila buff dipset, Area: 123, Material: Wood, Cost Per Sq. Ft: 5.15, Labor Cost Per Sq. Ft: 4.75, State: Indiana, State Tax: 0.0600, Tax Charged: 73.06, Grand Total: 1290.76
+2018-02-15T13:55:07.685 : User selected save while in Training mode: 2018-02-15
+2018-02-15T13:56:05.123 : addOrder: 
+ Order Number: 5, Name: mike jones bad boy, Area: 322, Material: Carpet, Cost Per Sq. Ft: 2.25, Labor Cost Per Sq. Ft: 2.10, State: Ohio, State Tax: 0.0625, Tax Charged: 87.54, Grand Total: 1488.24

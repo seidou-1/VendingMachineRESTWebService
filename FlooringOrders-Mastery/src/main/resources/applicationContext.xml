@@ -32,6 +32,8 @@ and open the template in the editor.
     
     <bean id = "myAuditDao" class = "FlooringOrdersDAO.FlooringOrderAuditDaoFileImpl" />
     
+    
+    
     <bean id = "myService" class = "FlooringOrdersServiceLayer.ServiceImpl">
         <constructor-arg ref = "myDao"/>
         <constructor-arg ref = "myAuditDao"/>
