@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import FlooringOrdersDAO.FlooringOrderAuditDao;
+import FlooringOrdersDTO.Customer;
+import java.util.ArrayList;
 
 /**
  *
@@ -199,5 +201,18 @@ public class ServiceImpl implements Service {
         }
 
     }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return myDao.getAllCustomers();
+    }
+
+    @Override
+    public Customer getCustomer(String phoneNumber) {
+        return myDao.getCustomer(phoneNumber);
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+ 
 
 }

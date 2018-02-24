@@ -34,9 +34,21 @@ public class Order {
     private BigDecimal costPerSqFt;
     private BigDecimal laborCostPerSqFt;
     
-    //Tax
+    //Tax:
     private BigDecimal stateTax;
     private BigDecimal taxRate;
+    
+    //Customer:
+//    private 
+//    private Customer customerClass;
+//
+//    public Customer getCustomerClass() {
+//        return customerClass;
+//    }
+//
+//    public void setCustomerClass(Customer customerClass) {
+//        this.customerClass = customerClass;
+//    }
 
     public BigDecimal getCostPerSqFt() {
         return costPerSqFt;

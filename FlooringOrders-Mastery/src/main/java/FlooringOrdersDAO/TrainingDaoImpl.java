@@ -5,6 +5,7 @@
  */
 package FlooringOrdersDAO;
 
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import FlooringOrdersServiceLayer.DataValidationException;
 import FlooringOrdersServiceLayer.InvalidDateException;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
  *
  * @author laptop
  */
-public class TrainingDaoImpl implements Dao{
+public class TrainingDaoImpl implements Dao {
 
     public TrainingDaoImpl() throws PersistenceException {
         loadInventory();
@@ -37,13 +38,13 @@ public class TrainingDaoImpl implements Dao{
     public static final String ORDERS_FILE = "orders.txt";
     public static final String DELIMITER = "::";
 
-    
-    Map<Integer, Order> inventory = new HashMap<>(); 
-    
+    Map<Integer, Order> inventory = new HashMap<>();
+
+    Map<String, Customer> customerOrders = new HashMap<>();
+
 //    int orderNumber = 0;
-    
     @Override
-    public  List<Order> displayAllOrders () throws PersistenceException{
+    public List<Order> displayAllOrders() throws PersistenceException {
 //        loadInventory();
         return new ArrayList<>(inventory.values());
     }
@@ -58,44 +59,40 @@ public class TrainingDaoImpl implements Dao{
 //                 
 //        }
 
-
     @Override
-    public Order addOrder(int orderNumber, Order order) throws 
-//            
-//            DataValidationException,
-//            InvalidDateException,
+    public Order addOrder(int orderNumber, Order order) throws
+            //            
+            //            DataValidationException,
+            //            InvalidDateException,
             PersistenceException {//Remove orderNumber later
-        Order newOrder =inventory.put(order.getOrderNumber(), order);
+        Order newOrder = inventory.put(order.getOrderNumber(), order);
         return newOrder;
     }
 
     @Override
-    public List <Order> editOrder(LocalDate date, int orderNumber) {
-/*
+    public List<Order> editOrder(LocalDate date, int orderNumber) {
+        /*
 1. ask user for date and order number
 2. display field values for each property
 3. allow the user to hit enter if they don't want to make any changes
 4. if the user does want to make changes, allow them to type it in for that field
-*/
-        
-        
+         */
+
         List<Order> orderDate = inventory.values()
                 .stream()
                 .filter(s -> s.getDate().equals(date)) //Also add filter ofr orderNumber?
                 .collect(Collectors.toList());
-                return orderDate;
+        return orderDate;
     }
-        
-    
 
     @Override
-    public Order removeOrder(/*LocalDate date,*/ int orderNumber) {
+    public Order removeOrder(/*LocalDate date,*/int orderNumber) {
         Order removedOrder = inventory.remove(orderNumber); //Add code to remove based on date
         return removedOrder;
     }
-    
+
     @Override
-    public boolean justSaveToFile(){
+    public boolean justSaveToFile() {
 //     try {
 //            writeInventory();
 ////            loadInventory();
@@ -106,22 +103,22 @@ public class TrainingDaoImpl implements Dao{
 
 //        System.out.println("\n Unable to save. Switch to Production mode to save.\n");
         return false;
-        
+
     }
-    
-    private void loadInventory() throws PersistenceException{
-      Scanner scanner;
-      
-      try {
-            scanner = new Scanner (new BufferedReader(new FileReader(ORDERS_FILE))); 
-      } catch (FileNotFoundException e) {
-          throw new PersistenceException("Could not load inventory from file", e);
-      }
-      
-      String currentLine;
-      String[] currentTokens;
-      
-      while (scanner.hasNextLine()) {
+
+    private void loadInventory() throws PersistenceException {
+        Scanner scanner;
+
+        try {
+            scanner = new Scanner(new BufferedReader(new FileReader(ORDERS_FILE)));
+        } catch (FileNotFoundException e) {
+            throw new PersistenceException("Could not load inventory from file", e);
+        }
+
+        String currentLine;
+        String[] currentTokens;
+
+        while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
 
             currentTokens = currentLine.split(DELIMITER);
@@ -141,20 +138,30 @@ public class TrainingDaoImpl implements Dao{
             currentOrder.setCostPerSqFt(new BigDecimal(currentTokens[6]));
 
             currentOrder.setLaborCostPerSqFt(new BigDecimal(currentTokens[7]));
- 
+
             currentOrder.setTaxCharged(new BigDecimal(currentTokens[8])); //Tax Charged
- 
+
             currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
 
             currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
 
+            Customer myCustomer = new Customer(currentTokens[11], currentOrder);
+
+            if (customerOrders.containsKey(myCustomer.getPhoneNumber())) { //Check to see if the customer's entered # exists
+                Customer currentCustomer = customerOrders.get(myCustomer.getPhoneNumber()); //I'm getting the phone number which is the key
+                currentCustomer.addOrder(currentOrder);
+                customerOrders.put(myCustomer.getPhoneNumber(), currentCustomer);//adds all the orders for the current customer
+            } else { //if the number doesn't exist
+                customerOrders.put(myCustomer.getPhoneNumber(), myCustomer);//creates a new customer 
+            }
+
             inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
+
         }
         scanner.close();
 
     }
 
-    
 //    private void writeInventory() throws PersistenceException {
 //          PrintWriter out;
 //          
@@ -185,6 +192,18 @@ public class TrainingDaoImpl implements Dao{
 //                    out.flush(); 
 //          }
 //            out.close();
-    } 
+    @Override
+    public void addCustomer(String phoneNumber, Customer currentCustomer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    @Override
+    public Customer getCustomer(String phoneNumber) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
+    @Override
+    public List<Customer> getAllCustomers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}

@@ -36,6 +36,116 @@ public class View {
         return myIO.readInt("Select one of the options above [i.e. 1 - 6]", 1, 6);
 
     }
+    
+    /*
+    I'm setting the DTO with what the user inputted
+    I should set it to the enum version. The set should be the get of the enum
+    
+    Because if i just set it to what the user types in, it doesn't match the case sensitive
+    
+    i.e. user types in "pa" and in the DTO, it gets the value of it and converts it to uppercase
+    
+    The .. i'm setting it by the the enum name, not by the setter (String).
+    
+    i should set it by the setter (String)
+    
+    ................
+    
+    im setting the String name of the enum 
+    
+    Set:
+    1. im typing in the name as "in"
+    2. then i'm sending that to the DTO to convert it to "IN"
+  
+*/
+    public String getPhoneNumber (){
+        return myIO.readString("What is your phone number?"); 
+    }
+    
+    public Order setUsersOrder(int orderNumber) {
+//       public Order setUsersOrder(int orderNumber, boolean customerNotFound, Customer myCustomer) {
+        // String name = "";
+        // String state = "";
+        // if (customerNotFound == true) {  
+        String name = myIO.readString("Enter first and last name");
+//      name = myIO.readString("Enter first and last name");
+
+        String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
+        //state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
+        
+        //} else {
+           // name = myCustomer.getName();
+           // state = myCustomer.getState();
+        // myIO.print("Welcome back " + myCustomer.getName());
+        //}
+
+        BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)");
+        String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
+        LocalDate date = LocalDate.now(); //Refactor this later and move it to the constructor
+         
+        Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
+//        Product currentProduct = new Product(); //Instantiating product 
+        currentOrder.setCustomerName(name);
+        currentOrder.setArea(area);
+        currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
+        currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
+        currentOrder.setDate(date);
+//        currentOrder.setTaxCharged(area);
+        
+        
+//        currentOrder.setTaxClass(currentOrder.getTaxClass().getStateAbbreviation());
+
+
+        //Option A but the view does too much:
+//        CalculatedTotals myTotal = new CalculatedTotals();
+//        
+//        myTotal.calculateTotals(currentOrder);
+        //Option B
+        currentOrder.calculateTotals();
+
+        return currentOrder;
+
+//        currentOrder.setTaxCharged(state);
+        //Is there a way to set the State of the Dto by getting the enum value
+        //Set the tax charged
+        //Set the material cost
+        //Set the labor cost
+        //Set the grandTotal
+    }
+
+    public Order setUsersOrderForEditing(Order order) {
+        String ifItsEmpty = "";
+        
+        //Below overloaded method doesn't take in the order.get stuff
+        myIO.print("Type in changes or hit enter to keep it as is\n");
+        String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
+        String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea())  + "" );
+        String stateSetter = (myIO.readString("Current State: " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
+        String productSetter = (myIO.readString("Current Product: " + order.getProductClass()/*.getProductName()*/ + ""));
+
+        //Asks if the name needs to be changed
+        if (nameSetter.trim().length()!=0) {
+            order.setCustomerName(nameSetter);
+//            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
+        } else {order.setCustomerName(order.getCustomerName());}
+        
+        //Asks if the Area needs to be changed
+        if (areaSetter.trim().length()!=0){ //If they enter information
+            order.setArea(new BigDecimal(areaSetter)); //Set it to what they entered
+        } else {order.setArea(order.getArea());} //otherwise set it to the orignal value
+        
+        //Asks if the State needs to be changed
+        if (stateSetter.trim().length()!=0){
+            order.setTaxClass(stateSetter);
+        } else {order.setTaxClass(order.getTaxClass().getStateAbbreviation());}
+        
+        //Asks if the Product needs to be changed
+        if (productSetter.trim().length()!=0){ 
+            order.setProductClass(productSetter);
+        } else {order.setProductClass(order.getProductClass().getProductName());}
+        
+        return order;
+    }
 
     public void displayAllOrders(List<Order> List) {//This actually displays a single order - refactor later
         for (Order bucket : List) {
@@ -111,148 +221,38 @@ public class View {
                 );
 
     }
-    
-    public void displayAllOrdersAsAlist (List <Order> theOrders) {
-        for (Order bucket : theOrders){
-            
-            myIO.print(
-            
-            "Order number: "
-            + bucket.getCustomerName()
-                    + bucket.getArea()
-                    + bucket.getDate()
-            
-            
-            
-            
-            
-            
-            
-            );
-            
-             
-            
-        }
-
-    //This takes in a list and prints out each element with the properties
-//        LocalDate.stream()
-//                .forEach(s -> );
-//        
-//        dells.stream()
-//               .forEach(s -> System.out.println(s.getName()));
-//
-//        
-//        
-        
-    }
-    /*
-    I'm setting the DTO with what the user inputted
-    I should set it to the enum version. The set should be the get of the enum
-    
-    Because if i just set it to what the user types in, it doesn't match the case sensitive
-    
-    i.e. user types in "pa" and in the DTO, it gets the value of it and converts it to uppercase
-    
-    The .. i'm setting it by the the enum name, not by the setter (String).
-    
-    i should set it by the setter (String)
-    
-    ................
-    
-    im setting the String name of the enum 
-    
-    Set:
-    1. im typing in the name as "in"
-    2. then i'm sending that to the DTO to convert it to "IN"
-    
-    Edit:
-    1. getting "IN"
-    */
-
-    public Order setUsersOrder(int orderNumber) {
-        String name = myIO.readString("Enter first and last name");
-        BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)");
-        String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
-        String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
-        LocalDate date = LocalDate.now(); //Refactor this later and move it to the constructor
-         
-        Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
-//        Product currentProduct = new Product(); //Instantiating product 
-        currentOrder.setCustomerName(name);
-        currentOrder.setArea(area);
-        currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
-        currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
-        currentOrder.setDate(date);
-//        currentOrder.setTaxCharged(area);
-        
-        
-//        currentOrder.setTaxClass(currentOrder.getTaxClass().getStateAbbreviation());
-
-
-        //Option A but the view does too much:
-//        CalculatedTotals myTotal = new CalculatedTotals();
-//        
-//        myTotal.calculateTotals(currentOrder);
-        //Option B
-        currentOrder.calculateTotals();
-
-        return currentOrder;
-
-//        currentOrder.setTaxCharged(state);
-        //Is there a way to set the State of the Dto by getting the enum value
-        //Set the tax charged
-        //Set the material cost
-        //Set the labor cost
-        //Set the grandTotal
-    }
-
-    public Order setUsersOrderForEditing(Order order) {
-        String ifItsEmpty = "";
-        
-        //Below overloaded method doesn't take in the order.get stuff
-        myIO.print("Type in changes or hit enter to keep it as is\n");
-        String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
-        String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea())  + "" );
-        String stateSetter = (myIO.readString("Current State: " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
-        String productSetter = (myIO.readString("Current Product: " + order.getProductClass()/*.getProductName()*/ + ""));
-
-        //Asks if the name needs to be changed
-        if (nameSetter.trim().length()!=0) {
-            order.setCustomerName(nameSetter);
-//            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
-        } else {order.setCustomerName(order.getCustomerName());}
-        
-        //Asks if the Area needs to be changed
-        if (areaSetter.trim().length()!=0){ //If they enter information
-            order.setArea(new BigDecimal(areaSetter)); //Set it to what they entered
-        } else {order.setArea(order.getArea());} //otherwise set it to the orignal value
-        
-        //Asks if the State needs to be changed
-        if (stateSetter.trim().length()!=0){
-            order.setTaxClass(stateSetter);
-        } else {order.setTaxClass(order.getTaxClass().getStateAbbreviation());}
-        
-        //Asks if the Product needs to be changed
-        if (productSetter.trim().length()!=0){ 
-            order.setProductClass(productSetter);
-        } else {order.setProductClass(order.getProductClass().getProductName());}
-        
-        return order;
-    }
-
-//    public String confirmSelection() {
-//        return myIO.readString("Are you sure you want to enter this order in? Y/N");
-//        /*
-//        Pass this response to a switch statement to persist or not
-//         */
+//    
+//    public void displayAllOrdersAsAlist (List <Order> theOrders) {
+//        for (Order bucket : theOrders){
+//            
+//            myIO.print(
+//            
+//            "Order number: "
+//            + bucket.getCustomerName()
+//                    + bucket.getArea()
+//                    + bucket.getDate()
+//            
+//            
+//            
+//            
+//            
+//            
+//            
+//            );
+//            
+//             
+//            
+//        }
+//  
 //    }
+    
 
     public void displayCreateSuccessBanner() {
-        myIO.readString("Order successfully created. Hit enter to continue");
+        myIO.print("Order successfully created.");
     }
     
     public void displayEditedSuccessfullyBanner(){
-        myIO.readString("Your order has been successfully edited. Hit enter to continue");
+        myIO.print("Your order has been successfully edited.");
     }
 
     public void exitBanner() {
@@ -269,7 +269,7 @@ public class View {
     }
 
     public void thankYouBanner() {
-        myIO.readString("Thank you!! Press enter to continue");
+        myIO.print("Thank you!! ");
     }
 
     
@@ -292,11 +292,11 @@ public class View {
     }
 
     public void displayRemovedSuccessfullyBanner() {
-        myIO.readString("Order successfully removed. Press enter to continue.");
+        myIO.print("Order successfully removed.");
     }
 
     public void displayWorkedSavedSuccessfullyBanner() {
-        myIO.readString("Work successfully saved.Press enter to continue. ");
+        myIO.print("Work successfully saved.");
     }
 
     public void displayMessage(String msg) {

@@ -5,11 +5,10 @@
  */
 package FlooringOrdersDAO;
 
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -142,6 +141,54 @@ public class DaoTest {
      */
     @Test
     public void testJustSaveToFile() {
+    }
+    
+    @Test
+    public void testCustomer() throws Exception{
+        
+        String phoneNumber = "111-111-1111";
+//        int orderNumber = 01;
+        
+        LocalDate date = LocalDate.of(2018, 02, 12);
+        
+        Order myOrder = new Order(1);
+        
+        myOrder.setArea(new BigDecimal("333"));
+        myOrder.setCustomerName("legend");
+        myOrder.setDate(date);
+        myOrder.setGrandTotal(new BigDecimal("100"));
+        myOrder.setLaborCost(new BigDecimal("322"));
+        myOrder.setMaterialCost(new BigDecimal("200")); 
+        myOrder.setProductClass("Carpet"/*myOrder.getProductClass().getProductName()*/);
+        myOrder.setTaxClass("IN"); 
+        myOrder.setTaxCharged(new BigDecimal("322")); 
+        
+        createdDao.addOrder(myOrder.getOrderNumber(), myOrder); 
+        
+        assertEquals(myOrder.getCustomerName(), "legend");
+        
+        Customer myCustomer = new Customer(phoneNumber, myOrder);
+         
+        assertEquals(1, myCustomer.allOrders().size()); //Validate the size
+        
+        /*
+        Second test:
+        */
+        
+        Order myOrder2 = new Order(2);
+        
+        myOrder2.setArea(new BigDecimal("444"));
+        myOrder2.setCustomerName("bishop");
+        myOrder2.setDate(date);
+        myOrder2.setGrandTotal(new BigDecimal("100"));
+        myOrder2.setLaborCost(new BigDecimal("322"));
+        myOrder2.setMaterialCost(new BigDecimal("200")); 
+        myOrder2.setProductClass("Carpet"/*myOrder.getProductClass().getProductName()*/);
+        myOrder2.setTaxClass("OH"); 
+        myOrder2.setTaxCharged(new BigDecimal("111")); 
+        
+        myCustomer.addOrder(myOrder2);
+        assertEquals(2, myCustomer.allOrders().size());
     }
 
 //    public class DaoImpl implements Dao {

@@ -5,9 +5,8 @@
  */
 package FlooringOrdersDAO;
 
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
-import FlooringOrdersServiceLayer.DataValidationException;
-import FlooringOrdersServiceLayer.InvalidDateException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -34,17 +33,26 @@ public class ProductionDaoFileImpl implements Dao {
     The purpose of this class is to implement all the Daos
     and then persist everything from the hashmap into the text file
      */
+    
 
-    public ProductionDaoFileImpl() throws PersistenceException {
-        loadInventory();
-    }
-
+    public LocalDate date = LocalDate.now();
+    
+//    public String ORDERS_FILE = "ORDERS_" + date.toString() + ".txt";
+    
     public static final String ORDERS_FILE = "orders.txt";
+    public static final String CUSTOMERS_FILE = "customers.txt";
     public static final String DELIMITER = "::";
 
 //        Key    Value 
     Map<Integer, Order> inventory = new HashMap<>();
-
+    
+//    Hashmap below is for customer class 
+    Map <String, Customer> customerOrders = new HashMap<>();
+    
+    public ProductionDaoFileImpl() throws PersistenceException {
+        loadInventory();
+    }
+    
     @Override
     public List<Order> displayAllOrders() throws PersistenceException {
 //        loadInventory();
@@ -151,8 +159,24 @@ public class ProductionDaoFileImpl implements Dao {
             currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
 
             currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
+            
+            Customer myCustomer = new Customer(currentTokens[11], currentOrder.getCustomerName(), currentOrder.getTaxClass());
+            
+//            if (customerOrders.containsKey(myCustomer.getPhoneNumber())) { //Check to see if the customer's entered # exists
+//                 Customer currentCustomer = customerOrders.get(myCustomer.getPhoneNumber()); //I'm getting the phone number which is the key
+//                 currentCustomer.addOrder(currentOrder);
+//  
+//                 customerOrders.put(myCustomer.getPhoneNumber(), currentCustomer);//adds all the orders for the current customer
+//            } else { //if the number doesn't exist
+//                //myCustomer.setName(currentOrder.getName());
+//                //myCustomer.setState(currentOrder.getState();
+//                customerOrders.put(myCustomer.getPhoneNumber(), myCustomer);//creates a new customer
+//                
+//            }
 
-            inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
+            inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap  
+            
+            
         }
         scanner.close();
 
@@ -196,5 +220,43 @@ public class ProductionDaoFileImpl implements Dao {
             out.flush();
         }
         out.close();
+    }
+    
+    private void loadCustomer() throws PersistenceException{
+        Scanner scanner;
+
+        try {
+            scanner = new Scanner(new BufferedReader(new FileReader(CUSTOMERS_FILE)));
+        } catch (FileNotFoundException e) {
+            throw new PersistenceException("Could not load inventory from file", e);
+        }
+
+        String currentLine;
+        String[] currentTokens;
+
+        while (scanner.hasNextLine()) {
+            currentLine = scanner.nextLine();
+
+            currentTokens = currentLine.split(DELIMITER);
+
+            Customer myCustomer = new Customer (currentTokens[0], currentTokens[1], currentTokens[2]); //Order Number
+
+    }
+    
+    private void writeCustomer()throws PersistenceException{
+        
+    }
+    
+    public void addCustomer (String phoneNumber, Customer currentCustomer){
+        customerOrders.put(phoneNumber, currentCustomer);
+    }
+    
+    public Customer getCustomer (String phoneNumber){
+        return customerOrders.get(phoneNumber);
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return new ArrayList<>(customerOrders.values());
     }
 }

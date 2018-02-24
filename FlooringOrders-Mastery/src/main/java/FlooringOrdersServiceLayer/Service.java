@@ -6,8 +6,10 @@
 package FlooringOrdersServiceLayer;
 
 import FlooringOrdersDAO.PersistenceException;
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,6 +56,12 @@ public interface Service {
     public boolean validateOrderData(Order order) throws DataValidationException;
     
     public boolean justSaveToFile() throws PersistenceException;
+    
+    public List<Customer> getAllCustomers();
+    
+    public Customer getCustomer (String phoneNumber);
+
+            
    
     
 }

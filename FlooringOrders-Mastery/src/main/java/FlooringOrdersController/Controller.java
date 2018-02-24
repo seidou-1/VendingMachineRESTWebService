@@ -6,6 +6,7 @@
 package FlooringOrdersController;
 
 import FlooringOrdersDAO.PersistenceException;
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import FlooringOrdersServiceLayer.DataValidationException;
 import FlooringOrdersServiceLayer.InvalidDateException;
@@ -15,8 +16,6 @@ import FlooringOrdersServiceLayer.Service;
 import FlooringOrdersUI.View;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,6 +35,11 @@ public class Controller {
     public void run() {
         boolean keepGoing = true;
 //        int menuSelection = 1;
+//        List<Customer> myCustomer = myService.getAllCustomers(); //Provides a list of all customers
+//        
+//        for (Customer tempBucket : myCustomer){
+//            System.out.println(tempBucket);
+//        }
 
         while (keepGoing) {
             try {
@@ -83,7 +87,7 @@ public class Controller {
     private void displayOrders() throws
             OrderDateNotFoundException,
             PersistenceException {
-        
+
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
 //        int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
@@ -105,9 +109,22 @@ public class Controller {
 
         Order placement = null;
         try {
+            String usersPhoneNumber = myView.getPhoneNumber();
+            Customer myCustomer = myService.getCustomer(usersPhoneNumber);
+
+            if (myCustomer == null) {
+                System.out.println("customer does not exist");
+//               myCustomer = new Customer(usersPhoneNumber, true, placement);
+
+            } else {
+                System.out.println("Number of orders: " + myCustomer.allOrders().size());
+            }
+
             do {
                 //Will continue to prompt the user for as long as they enter an invalid field
+
                 placement = myView.setUsersOrder(myService.getOrderNumber());//Prompts the user to input info
+//                placement = myView.setUsersOrder(myService.getOrderNumber(), myCustomer);//Prompts the user to input info
 
                 //checkIfStateExists
             } while (!validateOrderData(placement));
