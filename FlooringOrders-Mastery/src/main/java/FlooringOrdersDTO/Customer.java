@@ -18,14 +18,20 @@ public class Customer {
     
     private Order currentOrder;
     
+    private int orderNumber;
+    
+    ProductCosts state;
+    
     private List<Order> orders = new ArrayList<>();
     
     /*
     Constructor below will serve as the setter
     */
-     public Customer(String phoneNumber, Order currentOrder) {
-        this.phoneNumber = phoneNumber;
+     public Customer(int orderNumber, Order currentOrder, String phoneNumber, ProductCosts state) {
+        this.orderNumber = orderNumber;
+        this.phoneNumber = phoneNumber; 
         this.currentOrder = currentOrder;
+        this.state = state;
         orders.add(currentOrder);
     }
     
