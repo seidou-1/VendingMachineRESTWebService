@@ -213,6 +213,10 @@ public class ServiceImpl implements Service {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
- 
+//    @Override
+//    public Customer getCustomer(String phoneNumber) {
+//        return myDao.getCustomer(phoneNumber);
+////        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
 }
