@@ -5,10 +5,10 @@
  */
 package FlooringOrdersUI;
 
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -36,7 +36,7 @@ public class View {
         return myIO.readInt("Select one of the options above [i.e. 1 - 6]", 1, 6);
 
     }
-    
+
     /*
     I'm setting the DTO with what the user inputted
     I should set it to the enum version. The set should be the get of the enum
@@ -57,32 +57,40 @@ public class View {
     1. im typing in the name as "in"
     2. then i'm sending that to the DTO to convert it to "IN"
   
-*/
-    public String getPhoneNumber (){
-        return myIO.readString("What is your phone number?"); 
+     */
+    public String getPhoneNumber() {
+        return myIO.readString("What is your phone number?");
     }
-    
-    public Order setUsersOrder(int orderNumber) {
+
+    public Order setUsersOrder(int orderNumber, boolean customerFound, Customer myCustomer) {
 //       public Order setUsersOrder(int orderNumber, boolean customerNotFound, Customer myCustomer) {
-        // String name = "";
-        // String state = "";
-        // if (customerNotFound == true) {  
-        String name = myIO.readString("Enter first and last name");
-//      name = myIO.readString("Enter first and last name");
 
-        String state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
-        //state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
+        String name = "";
+        String state = "";
+        //boolean addAdditional;
         
-        //} else {
-           // name = myCustomer.getName();
-           // state = myCustomer.getState();
-        // myIO.print("Welcome back " + myCustomer.getName());
-        //}
+        if (customerFound == false) {  //customer is not found
 
-        BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)");
-        String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?");
+            name = myIO.readString("Enter first and last name");
+            state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
+
+        } else {//customerFound = true and customer is found
+            name = myCustomer.getCustomerName();
+            state = myCustomer.getState();
+        }
+        //map<product, area>
+        //create hashmap
+        
+        // while (addAdditional){
+        BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)"); //key
+        String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?"); //value
+        //hashmap.put
+        
+        //prompt if they want to add an additional line item
+        //if yes, addAdditional = true
+        //}
         LocalDate date = LocalDate.now(); //Refactor this later and move it to the constructor
-         
+
         Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
 //        Product currentProduct = new Product(); //Instantiating product 
         currentOrder.setCustomerName(name);
@@ -91,17 +99,16 @@ public class View {
         currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
         currentOrder.setDate(date);
 //        currentOrder.setTaxCharged(area);
-        
-        
+
 //        currentOrder.setTaxClass(currentOrder.getTaxClass().getStateAbbreviation());
-
-
         //Option A but the view does too much:
 //        CalculatedTotals myTotal = new CalculatedTotals();
 //        
 //        myTotal.calculateTotals(currentOrder);
         //Option B
         currentOrder.calculateTotals();
+        
+        
 
         return currentOrder;
 
@@ -115,35 +122,43 @@ public class View {
 
     public Order setUsersOrderForEditing(Order order) {
         String ifItsEmpty = "";
-        
+
         //Below overloaded method doesn't take in the order.get stuff
         myIO.print("Type in changes or hit enter to keep it as is\n");
         String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
-        String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea())  + "" );
+        String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea()) + "");
         String stateSetter = (myIO.readString("Current State: " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
         String productSetter = (myIO.readString("Current Product: " + order.getProductClass()/*.getProductName()*/ + ""));
 
         //Asks if the name needs to be changed
-        if (nameSetter.trim().length()!=0) {
+        if (nameSetter.trim().length() != 0) {
             order.setCustomerName(nameSetter);
 //            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
-        } else {order.setCustomerName(order.getCustomerName());}
-        
+        } else {
+            order.setCustomerName(order.getCustomerName());
+        }
+
         //Asks if the Area needs to be changed
-        if (areaSetter.trim().length()!=0){ //If they enter information
+        if (areaSetter.trim().length() != 0) { //If they enter information
             order.setArea(new BigDecimal(areaSetter)); //Set it to what they entered
-        } else {order.setArea(order.getArea());} //otherwise set it to the orignal value
-        
+        } else {
+            order.setArea(order.getArea());
+        } //otherwise set it to the orignal value
+
         //Asks if the State needs to be changed
-        if (stateSetter.trim().length()!=0){
+        if (stateSetter.trim().length() != 0) {
             order.setTaxClass(stateSetter);
-        } else {order.setTaxClass(order.getTaxClass().getStateAbbreviation());}
-        
+        } else {
+            order.setTaxClass(order.getTaxClass().getStateAbbreviation());
+        }
+
         //Asks if the Product needs to be changed
-        if (productSetter.trim().length()!=0){ 
+        if (productSetter.trim().length() != 0) {
             order.setProductClass(productSetter);
-        } else {order.setProductClass(order.getProductClass().getProductName());}
-        
+        } else {
+            order.setProductClass(order.getProductClass().getProductName());
+        }
+
         return order;
     }
 
@@ -151,51 +166,51 @@ public class View {
         for (Order bucket : List) {
 
             myIO.print(
-//                    "\nr~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                    //                    "\nr~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
                     "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°-- --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
 //
 //                    +"\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~"
-                    +
-                    "\n Order Number: "
-                    + bucket.getOrderNumber() 
+                    + "\n Order Number: "
+                    + bucket.getOrderNumber()
                     + " | Name: "
-                    + bucket.getCustomerName() 
+                    + bucket.getCustomerName()
                     + " | Area: "
-                    + bucket.getArea() + " Sq. Ft. " 
+                    + bucket.getArea() + " Sq. Ft. "
                     + " | State: "
-                    + bucket.getTaxClass()  
+                    + bucket.getTaxClass()
                     + " | State Tax: " //The actual state i.e. OH
-                    + bucket.getTaxClass().getStatesTax() 
+                    + bucket.getTaxClass().getStatesTax()
                     + " | Product: " //Gets the corresponding tax for OH
-                    + bucket.getProductClass() 
+                    + bucket.getProductClass()
                     + " | Cost Per Sq. Ft: $"
-                    + bucket.getProductClass().getCostPerSqFt() 
+                    + bucket.getProductClass().getCostPerSqFt()
                     + " | Labor Cost Per Sq Ft: $"
-                    + bucket.getProductClass().getlaborCostPerSqFt() 
+                    + bucket.getProductClass().getlaborCostPerSqFt()
                     + " | Tax Charged (cost * State tax rate %): $"
-                    + bucket.getTaxCharged() 
+                    + bucket.getTaxCharged()
                     + " | Grand Total: $"
                     + bucket.getGrandTotal()
-//                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+                    //                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
                     + "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
-
-//                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
+            //                    +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
             );
 
         }
 
     }
     
+    public void displayOrderSummary(){
+        myIO.print("\nOrder Summary: \n");
+    }
+
     public void displayCurrentOrder(Order placement) {
 
         System.out.println(
+                //               "\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
                 
-//               "\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~~"
-                "\nOrder Summary: \n"
-             + "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°-- --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
+                 "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°-- --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
 //               +"\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~"
-               + 
-              "\n Order Number: " + placement.getOrderNumber()
+                + "\n Order Number: " + placement.getOrderNumber()
                 + " Name: "
                 + placement.getCustomerName()
                 + " | Area: "
@@ -214,11 +229,11 @@ public class View {
                 + placement.getTaxCharged()
                 + " | Grand Total: $"
                 + placement.getGrandTotal()
-//                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"
+                //                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"
                 + "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
-//                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"
-        
-                );
+        //                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"
+
+        );
 
     }
 //    
@@ -245,13 +260,12 @@ public class View {
 //        }
 //  
 //    }
-    
 
     public void displayCreateSuccessBanner() {
         myIO.print("Order successfully created.");
     }
-    
-    public void displayEditedSuccessfullyBanner(){
+
+    public void displayEditedSuccessfullyBanner() {
         myIO.print("Your order has been successfully edited.");
     }
 
@@ -272,21 +286,18 @@ public class View {
         myIO.print("Thank you!! ");
     }
 
-    
-    
     //Enhanced for loop method to display all
-
     public LocalDate getUsersDate() { //Pass a paramater here?
-         LocalDate usersDate = myIO.readLocalDate("Enter a date in the format MM/dd/yyyy");
-         return usersDate;
-         
+        LocalDate usersDate = myIO.readLocalDate("Enter a date in the format MM/dd/yyyy");
+        return usersDate;
+
     }
 
     public int getUsersOrderNumber() {
         return myIO.readInt("Enter order number");
     }
-    
-    public void displayErrorMessage(String errorMessage){
+
+    public void displayErrorMessage(String errorMessage) {
         myIO.print("=== ERROR ===");
         myIO.print(errorMessage);
     }

@@ -18,6 +18,15 @@ public class Order {
 
     private int orderNumber;
     private String customerName;
+    private String phoneNumber;
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
     private BigDecimal area;
 
     private BigDecimal materialCost;
@@ -29,6 +38,8 @@ public class Order {
 
     private ProductCosts productClass; //Composition - object gives me the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
     private StateTax taxClass; //Composition - object gives me the State and the tax rate
+    
+    //create a new product and make it a map. set the map to the map of the view
     
     //Product:
     private BigDecimal costPerSqFt;
@@ -182,6 +193,15 @@ public class Order {
     }
 
     public void calculateTotals() { //Setter pretty much
+        
+        //for loop:
+        //multipy area by cost of item for product and labor
+        //add this to the global variable which keeps the pre tax amount
+        
+        //afte the for loop:
+        //calculate the tax as the pretax amount. This will be the grand total
+        
+        //check to see if order count >= 5 and if so grand total *= .90
 
         BigDecimal totalTax
                 = ((area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))

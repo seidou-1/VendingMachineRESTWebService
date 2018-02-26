@@ -112,27 +112,46 @@ public class Controller {
             String usersPhoneNumber = myView.getPhoneNumber();
             Customer myCustomer = myService.getCustomer(usersPhoneNumber);
 
-            if (myCustomer == null) {
-                System.out.println("customer does not exist");
-//               myCustomer = new Customer(usersPhoneNumber, true, placement);
+            if (myCustomer != null) {//the customer exists
 
-            } else {
-                System.out.println("Number of orders: " + myCustomer.allOrders().size());
-            }
+//                System.out.println("customer does not exist");
+                System.out.println("Welcome back " + myCustomer.getCustomerName() + " Number of orders: " + myCustomer.numberOfCustomerOrders());
+                
+                myView.displayOrderSummary();
 
-            do {
-                //Will continue to prompt the user for as long as they enter an invalid field
+                for (Order bucketOrder : myCustomer.allOrders()) {
+//                        System.out.println(());
+                    myView.displayCurrentOrder(bucketOrder);
+                }
+                do {
+                    //Will continue to prompt the user for as long as they enter an invalid field
 
-                placement = myView.setUsersOrder(myService.getOrderNumber());//Prompts the user to input info
+                    placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer);//Customer exists
 //                placement = myView.setUsersOrder(myService.getOrderNumber(), myCustomer);//Prompts the user to input info
 
-                //checkIfStateExists
-            } while (!validateOrderData(placement));
+                    //checkIfStateExists
+                } while (!validateOrderData(placement));
+            } else { //customer does not exist. Boolean false
+                
+//            myCustomer = new Customer(myService.getOrderNumber(), placement, usersPhoneNumber,);
+            
+//                 public Customer(int orderNumber, Order currentOrder, String phoneNumber, String state) {
+
+
+                //call othe rview without prompting for name and state
+            placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer);//Prompts the user to input info
+
+            }
+            System.out.println();
+            
+            placement.setPhoneNumber(usersPhoneNumber);
         } catch (DataValidationException e) {
             myView.displayMessage(e.getMessage());
         }
 
         //Get a list and filter it to display the current order
+        myView.displayOrderSummary();
+
         myView.displayCurrentOrder(placement);
         boolean usersChoice = myView.areYouSure();//Returns boolean true or false
         if (usersChoice) { //if boolean returns true - meaning yes 

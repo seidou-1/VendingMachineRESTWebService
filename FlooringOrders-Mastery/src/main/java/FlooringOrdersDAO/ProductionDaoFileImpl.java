@@ -138,7 +138,7 @@ public class ProductionDaoFileImpl implements Dao {
 
             currentTokens = currentLine.split(DELIMITER);
 
-            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
+            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order + Order Number
 
             currentOrder.setCustomerName(currentTokens[1]); //Name
 
@@ -159,20 +159,23 @@ public class ProductionDaoFileImpl implements Dao {
             currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
 
             currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
+
+            currentOrder.setPhoneNumber(currentTokens[11]);//PhoneNumber
             
-            Customer myCustomer = new Customer(currentTokens[11], currentOrder.getCustomerName(), currentOrder.getTaxClass());
             
-//            if (customerOrders.containsKey(myCustomer.getPhoneNumber())) { //Check to see if the customer's entered # exists
-//                 Customer currentCustomer = customerOrders.get(myCustomer.getPhoneNumber()); //I'm getting the phone number which is the key
-//                 currentCustomer.addOrder(currentOrder);
-//  
-//                 customerOrders.put(myCustomer.getPhoneNumber(), currentCustomer);//adds all the orders for the current customer
-//            } else { //if the number doesn't exist
-//                //myCustomer.setName(currentOrder.getName());
-//                //myCustomer.setState(currentOrder.getState();
-//                customerOrders.put(myCustomer.getPhoneNumber(), myCustomer);//creates a new customer
-//                
-//            }
+            Customer myCustomer = new Customer(parseInt(currentTokens[0]), currentOrder, currentTokens[11], currentTokens[3]);
+            
+            if (customerOrders.containsKey(myCustomer.getPhoneNumber())) { //Check to see if the customer's entered # exists
+                 Customer currentCustomer = customerOrders.get(myCustomer.getPhoneNumber()); //I'm getting the phone number which is the key
+                 currentCustomer.addOrder(currentOrder);
+  
+                 customerOrders.put(myCustomer.getPhoneNumber(), currentCustomer);//adds all the orders for the current customer
+            } else { //if the number doesn't exist
+                myCustomer.setCustomerName(currentOrder.getCustomerName());
+//                myCustomer.setState(currentOrder.getTaxClass());
+                customerOrders.put(myCustomer.getPhoneNumber(), myCustomer);//creates a new customer
+                
+            }
 
             inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap  
             
@@ -215,7 +218,9 @@ public class ProductionDaoFileImpl implements Dao {
 
                     + tempBucket.getGrandTotal() + DELIMITER //Grand Total
 
-                    + tempBucket.getDate());  //Date
+                    + tempBucket.getDate() + DELIMITER //Date
+            
+                    + tempBucket.getPhoneNumber()); //Phone Number 
 
             out.flush();
         }
@@ -238,13 +243,14 @@ public class ProductionDaoFileImpl implements Dao {
             currentLine = scanner.nextLine();
 
             currentTokens = currentLine.split(DELIMITER);
+            System.out.println(currentTokens);
 
-            Customer myCustomer = new Customer (currentTokens[0], currentTokens[1], currentTokens[2]); //Order Number
+//            Customer myCustomer = new Customer (currentTokens[0], currentTokens[1], currentTokens[2]); //Order Number
 
     }
     
     
-
+    }
     
 
     

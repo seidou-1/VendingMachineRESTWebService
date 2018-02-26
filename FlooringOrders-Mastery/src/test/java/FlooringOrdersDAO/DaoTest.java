@@ -167,7 +167,7 @@ public class DaoTest {
         
         assertEquals(myOrder.getCustomerName(), "legend");
         
-        Customer myCustomer = new Customer(phoneNumber, myOrder);
+        Customer myCustomer = new Customer(1, myOrder, phoneNumber, "IN");
          
         assertEquals(1, myCustomer.allOrders().size()); //Validate the size
         

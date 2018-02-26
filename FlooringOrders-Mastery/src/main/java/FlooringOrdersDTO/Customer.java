@@ -20,19 +20,35 @@ public class Customer {
     
     private int orderNumber;
     
-    ProductCosts state;
+    String customerName;
+    
+    String state;
     
     private List<Order> orders = new ArrayList<>();
     
     /*
     Constructor below will serve as the setter
     */
-     public Customer(int orderNumber, Order currentOrder, String phoneNumber, ProductCosts state) {
+     public Customer(int orderNumber, Order currentOrder, String phoneNumber, String state) {
         this.orderNumber = orderNumber;
         this.phoneNumber = phoneNumber; 
         this.currentOrder = currentOrder;
         this.state = state;
         orders.add(currentOrder);
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public String getState() {
+        return state;
+    }
+    
+    
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
     
      /*
@@ -58,6 +74,10 @@ public class Customer {
     public List<Order> allOrders(){
         return orders;
 //        return new ArrayList<>(orders); test later
+    }
+    
+    public int numberOfCustomerOrders(){
+        return orders.size();
     }
     
     
