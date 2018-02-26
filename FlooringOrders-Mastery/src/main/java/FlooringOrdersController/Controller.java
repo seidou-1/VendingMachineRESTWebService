@@ -112,25 +112,25 @@ public class Controller {
             String usersPhoneNumber = myView.getPhoneNumber();
             Customer myCustomer = myService.getCustomer(usersPhoneNumber);
 
-            if (myCustomer != null) {//the customer exists
+            if (myCustomer != null) {//means the customer exists
 
 //                System.out.println("customer does not exist");
                 System.out.println("Welcome back " + myCustomer.getCustomerName() + " Number of orders: " + myCustomer.numberOfCustomerOrders());
                 
-                myView.displayOrderSummary();
+                myView.displayOrderSummary(); //banner
 
-                for (Order bucketOrder : myCustomer.allOrders()) {
+                for (Order bucketOrder : myCustomer.allOrders()) { //going through all elements in my order and using the allOrders method on each element
 //                        System.out.println(());
                     myView.displayCurrentOrder(bucketOrder);
                 }
                 do {
                     //Will continue to prompt the user for as long as they enter an invalid field
 
-                    placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer);//Customer exists
+                    placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer);//Customer exists. No need for all fields
 //                placement = myView.setUsersOrder(myService.getOrderNumber(), myCustomer);//Prompts the user to input info
 
                     //checkIfStateExists
-                } while (!validateOrderData(placement));
+                } while (!validateOrderData(placement)); //makes sure all the fields are filled properly
             } else { //customer does not exist. Boolean false
                 
 //            myCustomer = new Customer(myService.getOrderNumber(), placement, usersPhoneNumber,);
@@ -139,10 +139,9 @@ public class Controller {
 
 
                 //call othe rview without prompting for name and state
-            placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer);//Prompts the user to input info
+            placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer);//Prompts the user to input all fields
 
             }
-            System.out.println();
             
             placement.setPhoneNumber(usersPhoneNumber);
         } catch (DataValidationException e) {

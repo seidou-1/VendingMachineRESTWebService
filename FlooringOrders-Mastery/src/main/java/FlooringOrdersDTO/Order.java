@@ -210,7 +210,8 @@ public class Order {
         this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
         //Tax rate for that state is i.e. 6.25%
         //Now the tax is (area * cost per sq ft) + (area * labor cost per sq ft) * tax rate for that state i.e. 6.25%
-        System.out.println(taxCharged);
+       
+//        System.out.println(taxCharged);
         
         BigDecimal totalCost
                 = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
@@ -220,7 +221,7 @@ public class Order {
 //        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
         this.grandTotal = (totalCost); //Here i'm setting the grandTotal to the grandTotal of my Enum
         
-        System.out.println(grandTotal);
+//        System.out.println(grandTotal);
 
     }
 

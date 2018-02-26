@@ -25,7 +25,7 @@ public class View {
 
     public int printMenuAndGetSelection() {
 
-        myIO.print("**** SWG Corp. Flooring Menu ****");
+        myIO.print("\n\n**** SWG Corp. Flooring Menu ****");
         myIO.print("1. Display Orders");
         myIO.print("2. Add an Order");
         myIO.print("3. Edit an Order");
@@ -170,7 +170,7 @@ public class View {
                     "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°-- --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
 //
 //                    +"\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~"
-                    + "\n Order Number: "
+                    + "Order Number: "
                     + bucket.getOrderNumber()
                     + " | Name: "
                     + bucket.getCustomerName()
@@ -200,7 +200,7 @@ public class View {
     }
     
     public void displayOrderSummary(){
-        myIO.print("\nOrder Summary: \n");
+        myIO.print("\n Order Summary: ");
     }
 
     public void displayCurrentOrder(Order placement) {
