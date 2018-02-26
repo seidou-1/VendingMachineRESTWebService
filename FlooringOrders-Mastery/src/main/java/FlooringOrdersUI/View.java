@@ -7,6 +7,7 @@ package FlooringOrdersUI;
 
 import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
+import FlooringOrdersServiceLayer.DataValidationException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -62,12 +63,13 @@ public class View {
         return myIO.readString("What is your phone number?");
     }
 
-    public Order setUsersOrder(int orderNumber, boolean customerFound, Customer myCustomer) {
+    public Order setUsersOrder(int orderNumber, boolean customerFound, Customer myCustomer) /*throws DataValidationException*/{
 //       public Order setUsersOrder(int orderNumber, boolean customerNotFound, Customer myCustomer) {
 
         String name = "";
         String state = "";
-        //boolean addAdditional;
+        boolean addAdditional = true;
+        boolean exit = false;
         
         if (customerFound == false) {  //customer is not found
 
@@ -81,9 +83,31 @@ public class View {
         //map<product, area>
         //create hashmap
         
-        // while (addAdditional){
+         while (addAdditional){
         BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)"); //key
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?"); //value
+        
+        String addMoreLineItems = myIO.readString("Do you want to add additional line items to your order?");
+        
+            switch (addMoreLineItems.toUpperCase()){
+                
+                case "YES":
+                    addAdditional = true;
+                    break;
+                case "NO":
+                    addAdditional = false;
+                    break;
+                case "EXIT":
+                    exit = true;
+                default:
+//                    throw new DataValidationException("Invalid input. Type yes, no, or exit");
+                    
+            }
+        
+             if (addMoreLineItems.equalsIgnoreCase("yes")||addMoreLineItems.equalsIgnoreCase("y")) {
+                 addAdditional = true;
+             }
+         }
         //hashmap.put
         
         //prompt if they want to add an additional line item
