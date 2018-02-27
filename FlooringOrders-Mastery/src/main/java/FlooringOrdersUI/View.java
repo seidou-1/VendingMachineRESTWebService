@@ -42,7 +42,7 @@ public class View {
     I'm setting the DTO with what the user inputted
     I should set it to the enum version. The set should be the get of the enum
     
-    Because if i just set it to what the user types in, it doesn't match the case sensitive
+    B`ecause if i just set it to what the user types in, it doesn't match the case sensitive
     
     i.e. user types in "pa" and in the DTO, it gets the value of it and converts it to uppercase
     
@@ -71,6 +71,7 @@ public class View {
         boolean addAdditional = true;
         boolean exit = false;
         
+    
         if (customerFound == false) {  //customer is not found
 
             name = myIO.readString("Enter first and last name");
@@ -80,10 +81,10 @@ public class View {
             name = myCustomer.getCustomerName();
             state = myCustomer.getState();
         }
-        //map<product, area>
-        //create hashmap
-        
-         while (addAdditional){
+         
+//        Map <ProductCosts, area> additionalItems = new HashMap<>();
+         
+//        while (addAdditional){
         BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)"); //key
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?"); //value
         
@@ -96,19 +97,20 @@ public class View {
                     break;
                 case "NO":
                     addAdditional = false;
+                    //hashmap.put 
                     break;
                 case "EXIT":
                     exit = true;
                 default:
 //                    throw new DataValidationException("Invalid input. Type yes, no, or exit");
                     
-            }
-        
-             if (addMoreLineItems.equalsIgnoreCase("yes")||addMoreLineItems.equalsIgnoreCase("y")) {
-                 addAdditional = true;
-             }
-         }
-        //hashmap.put
+//            }
+        }
+//      }  
+//             if (addMoreLineItems.equalsIgnoreCase("yes")||addMoreLineItems.equalsIgnoreCase("y")) {
+//                 addAdditional = true;
+//             }
+         
         
         //prompt if they want to add an additional line item
         //if yes, addAdditional = true
@@ -132,17 +134,18 @@ public class View {
         //Option B
         currentOrder.calculateTotals();
         
-        
+        //call method that checks add additional
 
         return currentOrder;
 
-//        currentOrder.setTaxCharged(state);
-        //Is there a way to set the State of the Dto by getting the enum value
-        //Set the tax charged
-        //Set the material cost
-        //Set the labor cost
-        //Set the grandTotal
+        
     }
+//    
+//    public Order setOrderSetters(Order order){
+//        
+//    }
+   
+    
 
     public Order setUsersOrderForEditing(Order order) {
         String ifItsEmpty = "";
