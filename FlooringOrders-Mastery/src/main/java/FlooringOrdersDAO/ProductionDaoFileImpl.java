@@ -42,6 +42,9 @@ public class ProductionDaoFileImpl implements Dao {
     public static final String ORDERS_FILE = "orders.txt";
     public static final String CUSTOMERS_FILE = "customers.txt";
     public static final String DELIMITER = "::";
+    public static final String COMMA = ",";
+    public static final String TILDE = "~";
+    
 
 //        Key    Value 
     Map<Integer, Order> inventory = new HashMap<>();
@@ -134,6 +137,7 @@ public class ProductionDaoFileImpl implements Dao {
         String[] currentTokens;
 
         while (scanner.hasNextLine()) {
+
             currentLine = scanner.nextLine();
 
             currentTokens = currentLine.split(DELIMITER);
@@ -142,28 +146,35 @@ public class ProductionDaoFileImpl implements Dao {
 
             currentOrder.setCustomerName(currentTokens[1]); //Name
 
-            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
+//            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
 
-            currentOrder.setTaxClass(currentTokens[3]); //State
+            currentOrder.setTaxClass(currentTokens[2]); //State
 
-            currentOrder.setTaxRate(new BigDecimal(currentTokens[4]));//State Tax%
+            currentOrder.setTaxRate(new BigDecimal(currentTokens[3]));//State Tax%
 
-            currentOrder.setProductClass(currentTokens[5]); //Product
-
-            currentOrder.setCostPerSqFt(new BigDecimal(currentTokens[6]));
-
-            currentOrder.setLaborCostPerSqFt(new BigDecimal(currentTokens[7]));
- 
-            currentOrder.setTaxCharged(new BigDecimal(currentTokens[8])); //Tax Charged
- 
-            currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
-
-            currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
-
-            currentOrder.setPhoneNumber(currentTokens[11]);//PhoneNumber
+//            currentOrder.setProductClass(currentTokens[4]); //Product, Area, maybe Tilde
             
+            String[] currentTalisman = currentTokens[4].split(TILDE);//Product, Area, maybe Tilde
             
-            Customer myCustomer = new Customer(parseInt(currentTokens[0]), currentOrder, currentTokens[11], currentTokens[3]);
+            for(String bucket : currentTalisman){//Loops through each Talisman i.e. (Wood,432)
+                String[] splitter = bucket.split(COMMA);//Index 0 is wood, index 1 is area
+                //Now this needs to be added to the hashmap:
+                currentOrder.setProductsToHashMap(splitter[0], new BigDecimal(splitter[1]));
+            }
+                
+            currentOrder.setTotalCostPerSqFt(new BigDecimal(currentTokens[5]));
+
+            currentOrder.setTotalLaborCostPerSqFt(new BigDecimal(currentTokens[6]));
+ 
+            currentOrder.setTaxCharged(new BigDecimal(currentTokens[7])); //Total Tax
+ 
+            currentOrder.setGrandTotal(new BigDecimal(currentTokens[8])); //Grand Total
+
+            currentOrder.setDate(LocalDate.parse(currentTokens[9]));//Date
+
+            currentOrder.setPhoneNumber(currentTokens[10]);//PhoneNumber
+             
+            Customer myCustomer = new Customer(parseInt(currentTokens[0]), currentOrder, currentTokens[10], currentTokens[2]);
             
             if (customerOrders.containsKey(myCustomer.getPhoneNumber())) { //Check to see if the customer's entered # exists
                  Customer currentCustomer = customerOrders.get(myCustomer.getPhoneNumber()); //I'm getting the phone number which is the key
@@ -201,20 +212,23 @@ public class ProductionDaoFileImpl implements Dao {
             out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
 
                     + tempBucket.getCustomerName() + DELIMITER //Name
-
-                    + tempBucket.getArea() + DELIMITER //Area
-
+ 
                     + tempBucket.getTaxClass() + DELIMITER //State 
 
                     + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax  
 
-                    + tempBucket.getProductClass().getProductName() + DELIMITER //Product
+                    + tempBucket.displayFormat() + DELIMITER//Product,Area, maybe Tilde
 
-                    + tempBucket.getProductClass().getCostPerSqFt() + DELIMITER // 
+//                    + tempBucket.getProductClass().getProductName() + DELIMITER //Product
 
-                    + tempBucket.getProductClass().getlaborCostPerSqFt() + DELIMITER // 
+                    + tempBucket.getTotalCostPerSqFt() + DELIMITER // Total Cost Per St Ft
+//                    + tempBucket.getProductClass().getCostPerSqFt() + DELIMITER // 
+
+                    + tempBucket.getTotalLaborCostPerSqFt() + DELIMITER // Total Labor Cost Per Sq Ft.
+//                    + tempBucket.getProductClass().getlaborCostPerSqFt() + DELIMITER // 
 
                     + tempBucket.getTaxCharged() + DELIMITER //TotalTax
+//                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax
 
                     + tempBucket.getGrandTotal() + DELIMITER //Grand Total
 

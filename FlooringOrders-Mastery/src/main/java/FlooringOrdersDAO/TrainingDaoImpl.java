@@ -37,6 +37,8 @@ public class TrainingDaoImpl implements Dao {
 
     public static final String ORDERS_FILE = "orders.txt";
     public static final String DELIMITER = "::";
+    public static final String COMMA = ",";
+    public static final String TILDE = "~";
 
     Map<Integer, Order> inventory = new HashMap<>();
 
@@ -123,30 +125,39 @@ public class TrainingDaoImpl implements Dao {
 
             currentTokens = currentLine.split(DELIMITER);
 
-            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
+            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order + Order Number
 
             currentOrder.setCustomerName(currentTokens[1]); //Name
 
-            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
+//            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
 
-            currentOrder.setTaxClass(currentTokens[3]); //State
+            currentOrder.setTaxClass(currentTokens[2]); //State
 
-            currentOrder.setTaxRate(new BigDecimal(currentTokens[4]));//State Tax%
+            currentOrder.setTaxRate(new BigDecimal(currentTokens[3]));//State Tax%
 
-            currentOrder.setProductClass(currentTokens[5]); //Product
+//            currentOrder.setProductClass(currentTokens[4]); //Product, Area, maybe Tilde
+            
+            String[] currentTalisman = currentTokens[4].split(TILDE);//Product, Area, maybe Tilde
+            
+            for(String bucket : currentTalisman){//Loops through each Talisman i.e. (Wood,432)
+                String[] splitter = bucket.split(COMMA);//Index 0 is wood, index 1 is area
+                //Now this needs to be added to the hashmap:
+                currentOrder.setProductsToHashMap(splitter[0], new BigDecimal(splitter[1]));
+            }
+                
+            currentOrder.setTotalCostPerSqFt(new BigDecimal(currentTokens[5]));
 
-            currentOrder.setCostPerSqFt(new BigDecimal(currentTokens[6]));
+            currentOrder.setTotalLaborCostPerSqFt(new BigDecimal(currentTokens[6]));
+ 
+            currentOrder.setTaxCharged(new BigDecimal(currentTokens[7])); //Total Tax
+ 
+            currentOrder.setGrandTotal(new BigDecimal(currentTokens[8])); //Grand Total
 
-            currentOrder.setLaborCostPerSqFt(new BigDecimal(currentTokens[7]));
+            currentOrder.setDate(LocalDate.parse(currentTokens[9]));//Date
 
-            currentOrder.setTaxCharged(new BigDecimal(currentTokens[8])); //Tax Charged
-
-            currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
-
-            currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
-
-            Customer myCustomer = new Customer(parseInt(currentTokens[0]), currentOrder, currentTokens[11], currentTokens[3]);
-
+            currentOrder.setPhoneNumber(currentTokens[10]);//PhoneNumber
+             
+            Customer myCustomer = new Customer(parseInt(currentTokens[0]), currentOrder, currentTokens[10], currentTokens[2]);
             if (customerOrders.containsKey(myCustomer.getPhoneNumber())) { //Check to see if the customer's entered # exists
                  Customer currentCustomer = customerOrders.get(myCustomer.getPhoneNumber()); //I'm getting the phone number which is the key
                  currentCustomer.addOrder(currentOrder);

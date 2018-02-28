@@ -33,3 +33,11 @@ Order Number: 4, Name: roy rogers, Area: 423, Material: Carpet, Cost Per Sq. Ft:
  Order Number: 7, Name: joshua jonna, Area: 234, Material: Carpet, Cost Per Sq. Ft: 2.25, Labor Cost Per Sq. Ft: 2.10, State: OH, State Tax: 0.0625, Tax Charged: 63.62, Grand Total: 1081.52
 2018-02-25T21:18:46.658 : addOrder: 
  Order Number: 8, Name: cam dipset, Area: 888, Material: Wood, Cost Per Sq. Ft: 5.15, Labor Cost Per Sq. Ft: 4.75, State: Michigan, State Tax: 0.0575, Tax Charged: 505.49, Grand Total: 9296.69
+2018-02-27T20:52:12.750 : addOrder: 
+ Order Number: 2, Name: cam dipset, Material (Area): carpet,232~tile,432, Total Cost Per Sq. Ft: 5.75, Total Labor Cost Per Sq. Ft: 6.25, State: Michigan, State Tax: 0.0575, Tax Charged: 248.06, Grand Total: 4562.06
+2018-02-27T21:02:41.706 : addOrder: 
+ Order Number: 3, Name: cam dipset, Material (Area): carpet,500~wood,300, Total Cost Per Sq. Ft: 2670.00, Total Labor Cost Per Sq. Ft: 2475.00, State: Michigan, State Tax: 0.0575, Tax Charged: 295.84, Grand Total: 5440.84
+2018-02-27T21:10:28.263 : addOrder: 
+ Order Number: 4, Name: cam dipset, Material (Area): laminate,500~carpet,600, Total Cost Per Sq. Ft: 2225.00, Total Labor Cost Per Sq. Ft: 2310.00, State: Michigan, State Tax: 0.0575, Tax Charged: 260.76, Grand Total: 4795.76
+2018-02-27T21:44:44.285 : addOrder: 
+ Order Number: 5, Name: cam dipset, Material (Area): carpet,144~wood,444, Total Cost Per Sq. Ft: 2610.60, Total Labor Cost Per Sq. Ft: 2411.40, State: Michigan, State Tax: 0.0575, Tax Charged: 288.77, Grand Total: 5310.77

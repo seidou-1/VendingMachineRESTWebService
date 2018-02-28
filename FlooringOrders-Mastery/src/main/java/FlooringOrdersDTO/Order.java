@@ -27,7 +27,7 @@ public class Order {
     private BigDecimal grandTotal;
     private Map<String, BigDecimal> additionalItems = new HashMap<>(); //To store additional products
     private String additionalProducts;
-            
+
     private LocalDate date;
 
     private ProductCosts productClass; //Composition - object gives me the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
@@ -39,6 +39,26 @@ public class Order {
     private BigDecimal costPerSqFt;
     private BigDecimal laborCostPerSqFt;
     
+    public Order(int orderNumber) {//Passed the order# into the constructor so a new order is created each time "Order" is called
+        this.orderNumber = orderNumber;
+    }
+
+    public BigDecimal getTotalCostPerSqFt() {
+        return totalCostPerSqFt;
+    }
+
+    public void setTotalCostPerSqFt(BigDecimal totalCostPerSqFt) {
+        this.totalCostPerSqFt = totalCostPerSqFt;
+    }
+
+    public BigDecimal getTotalLaborCostPerSqFt() {
+        return totalLaborCostPerSqFt;
+    }
+
+    public void setTotalLaborCostPerSqFt(BigDecimal totalLaborCostPerSqFt) {
+        this.totalLaborCostPerSqFt = totalLaborCostPerSqFt;
+    }
+
     private BigDecimal totalCostPerSqFt;
     private BigDecimal totalLaborCostPerSqFt;
 
@@ -103,11 +123,7 @@ public class Order {
 
     public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
-    }
-
-    public Order(int orderNumber) {//Passed the order# into the constructor so a new order is created each time "Order" is called
-        this.orderNumber = orderNumber;
-    }
+    } 
 
     public StateTax getTaxClass() {
         return taxClass;
@@ -202,13 +218,34 @@ public class Order {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+    
+    public void setProductsToHashMap(String product, BigDecimal area){
+        this.additionalItems.put(product, area);
+    }
 
-    public void calculateTotals() { //Setter pretty much
+    public String displayFormat() {
+
+        //1::cam dipset::MI::0.0575::Wood,432~Tile,322~Laminate,123::512.15::848.75::240.22::4418.02::2018-02-14::123
+        String placeHolder = "";
+        int counter = 1;
+
+        for (String bucket : additionalItems.keySet()) {//Loop through all the products
+            placeHolder += (bucket + "," + additionalItems.get(bucket));//We're passing in the product which is bucket
+            if (counter < additionalItems.keySet().size()) {//If counter reaches the end of the key size, return to normal (nothing symbol)
+                placeHolder += "~";
+            }
+            counter++;
+
+        }
+        return placeHolder;
+    }
+
+    public void calculateTotals(boolean discount) { //Setter pretty much
 
         BigDecimal totalPreTax = new BigDecimal("0");
         this.additionalProducts = "";
-        this.totalCostPerSqFt = new BigDecimal ("0");
-        this.totalLaborCostPerSqFt = new BigDecimal ("0");
+        this.totalCostPerSqFt = new BigDecimal("0");
+        this.totalLaborCostPerSqFt = new BigDecimal("0");
 
         //for loop:
         //multipy area by cost of item for product and labor
@@ -221,15 +258,15 @@ public class Order {
 
             BigDecimal area = additionalItems.get(bucket);
             BigDecimal costPerSqFoot = (ProductCosts.valueOf(bucket.toUpperCase()).getCostPerSqFt());
-            
+
             BigDecimal laborCost = (ProductCosts.valueOf(bucket.toUpperCase()).getlaborCostPerSqFt());
 
             BigDecimal pretax = area.multiply((costPerSqFoot).add(laborCost));
             totalPreTax = pretax.add(totalPreTax);//equivalent to totalPretax+=preTax                
-            
-            totalCostPerSqFt = costPerSqFoot.add(totalCostPerSqFt); //The total cost of each of the products' sq ft
-            
-            totalLaborCostPerSqFt = laborCost.add(totalLaborCostPerSqFt);
+
+            totalCostPerSqFt = totalCostPerSqFt.add(area.multiply(costPerSqFoot)); //The total cost of each of the products' sq ft
+
+            totalLaborCostPerSqFt = totalLaborCostPerSqFt.add(area.multiply(laborCost));
 //    System.out.println(totalPreTax);
 
 //                        bucket.getTaxClass().getStatesTax()
@@ -238,7 +275,6 @@ public class Order {
         BigDecimal totalTax = totalPreTax.multiply(taxClass.getStatesTax()).setScale(2, HALF_UP); //calculates the total tax
 
 //                = ((area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
-
         this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
         //Tax rate for that state is i.e. 6.25%
         //Now the tax is (area * cost per sq ft) + (area * labor cost per sq ft) * tax rate for that state i.e. 6.25%
@@ -251,12 +287,22 @@ public class Order {
         //Grand total is 
 //        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
         this.grandTotal = (totalCost); //Here i'm setting the grandTotal to the grandTotal of my Enum
-
-        System.out.println("grand total: " + grandTotal);
-        System.out.println("tax charged: " + taxCharged);
-        System.out.println("totalPreTax " + totalPreTax);
         
+        if (discount) {//If discount is true
+            System.out.println("\n You qualify for a 10% discount");
+            System.out.println("\n Before 10%: " + grandTotal);
+            grandTotal = grandTotal.multiply(new BigDecimal (".90"));
+            System.out.println("\n After 10%: " + grandTotal);
+
+        }
+        
+//        System.out.println("grand total: " + grandTotal);
+//        System.out.println("tax charged: " + taxCharged);
+//        System.out.println("totalPreTax " + totalPreTax);
+
         System.out.println(this.toString());
+        
+        
     }
 
     /*
@@ -268,15 +314,15 @@ public class Order {
         return "\n Order Number: " + this.orderNumber
                 + ", Name: "
                 + this.customerName
-//                + ", Area: "
-//                + this.area
+                //                + ", Area: "
+                //                + this.area
                 + ", Material (Area): "
-                + this.additionalProducts
-//                + this.productClass.getProductName()
+                + this.displayFormat()
+                //                + this.productClass.getProductName()
                 + ", Total Cost Per Sq. Ft: "
                 + this.totalCostPerSqFt
                 + ", Total Labor Cost Per Sq. Ft: "
-//                + this.productClass.getlaborCostPerSqFt()
+                //                + this.productClass.getlaborCostPerSqFt()
                 + this.totalLaborCostPerSqFt
                 + ", State: "
                 + this.taxClass.getStateAbbreviation() //Can also just print out just TaxClass
@@ -287,8 +333,6 @@ public class Order {
                 + ", Grand Total: "
                 + this.grandTotal;
     }
-    
-    
 
 //    public String orderInStrings(){ 
 //        return

@@ -71,6 +71,7 @@ public class View {
         String state = "";
         boolean addAdditional = true;
         boolean exit = false;
+        boolean qualifyDiscount = false;
         
     
         if (customerFound == false) {  //customer is not found
@@ -138,10 +139,12 @@ public class View {
 //        
 //        myTotal.calculateTotals(currentOrder);
         //Option B
-        currentOrder.calculateTotals();
+        
+        currentOrder.calculateTotals(myCustomer.applyDiscount());
+        
         
         //call method that checks add additional
-
+        System.out.println(currentOrder.displayFormat());
         return currentOrder;
 
         
@@ -243,25 +246,26 @@ public class View {
                 
                  "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°-- --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
 //               +"\n~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~~"
-                + "\n Order Number: " + placement.getOrderNumber()
-                + " Name: "
-                + placement.getCustomerName()
-                + " | Area: "
-                + placement.getArea() + " Sq. Ft. "
-                + " | Material: "
-                + placement.getProductClass().getProductName()
-                + " | Cost Per Sq. Ft: $"
-                + placement.getProductClass().getCostPerSqFt()
-                + " | Labor Cost Per Sq. Ft: $"
-                + placement.getProductClass().getlaborCostPerSqFt()
-                + " | State: "
-                + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
-                + " | State Tax: %"
-                + placement.getTaxClass().getStatesTax().multiply(new BigDecimal("100"))
-                + " | Tax Charged (cost * State tax rate %): $"
-                + placement.getTaxCharged()
-                + " | Grand Total: $"
-                + placement.getGrandTotal()
+//                + "\n Order Number: " + placement.getOrderNumber()
+//                + " Name: "
+//                + placement.getCustomerName()
+//                + " | Area: "
+//                + placement.getArea() + " Sq. Ft. "
+//                + " | Material: "
+//                + placement.getProductClass().getProductName()
+//                + " | Cost Per Sq. Ft: $"
+//                + placement.getProductClass().getCostPerSqFt()
+//                + " | Labor Cost Per Sq. Ft: $"
+//                + placement.getProductClass().getlaborCostPerSqFt()
+//                + " | State: "
+//                + placement.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
+//                + " | State Tax: %"
+//                + placement.getTaxClass().getStatesTax().multiply(new BigDecimal("100"))
+//                + " | Tax Charged (cost * State tax rate %): $"
+//                + placement.getTaxCharged()
+//                + " | Grand Total: $"
+//                + placement.getGrandTotal()
+                  + placement.toString()
                 //                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"
                 + "\n --°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°--°"
         //                +"~~~~***~~~~***~~~~***~~~~***~~~~***~~~~***~~"

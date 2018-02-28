@@ -120,15 +120,17 @@ public class Controller {
                 System.out.println("Welcome back " + myCustomer.getCustomerName() + " Number of orders: " + myCustomer.numberOfCustomerOrders());
                 
                 myView.displayOrderSummary(); //banner
-
+                
                 for (Order bucketOrder : myCustomer.allOrders()) { //going through all elements in my order and using the allOrders method on each element
 //                        System.out.println(());
                     myView.displayCurrentOrder(bucketOrder);
                 }
+                
+                
                 do {//Will continue to prompt the user for as long as they enter an invalid field
 
-
                     placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer);//Customer exists. No need for all fields
+                    placement.setPhoneNumber(usersPhoneNumber);
 
                     //add to checkIfStateExists
                 } while (!validateOrderData(placement)); //makes sure all the fields are filled properly
@@ -138,7 +140,8 @@ public class Controller {
 
             }
             
-            placement.setPhoneNumber(usersPhoneNumber);
+            
+            
         } catch (DataValidationException e) {
             myView.displayMessage(e.getMessage());
         }

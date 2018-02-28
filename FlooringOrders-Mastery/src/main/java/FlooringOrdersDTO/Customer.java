@@ -20,6 +20,8 @@ public class Customer {
     
     private int orderNumber;
     
+    private int discountCounter;
+    
     String customerName;
     
     String state;
@@ -78,6 +80,14 @@ public class Customer {
     
     public int numberOfCustomerOrders(){
         return orders.size();
+    }
+    
+    public boolean applyDiscount(){
+        if (orders.size()>=5){
+            return true;
+        } else{
+            return false;
+        }
     }
     
     
