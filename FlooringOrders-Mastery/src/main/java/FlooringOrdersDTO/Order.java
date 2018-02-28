@@ -289,10 +289,10 @@ public class Order {
         this.grandTotal = (totalCost); //Here i'm setting the grandTotal to the grandTotal of my Enum
         
         if (discount) {//If discount is true
-            System.out.println("\n You qualify for a 10% discount");
-            System.out.println("\n Before 10%: " + grandTotal);
-            grandTotal = grandTotal.multiply(new BigDecimal (".90"));
-            System.out.println("\n After 10%: " + grandTotal);
+            System.out.println("\n You qualified for a 10% discount");
+            System.out.println("\n Before 10%: " + "$" + grandTotal);
+            grandTotal = grandTotal.multiply(new BigDecimal (".90").setScale(2, HALF_UP));
+            System.out.println("\n After 10%: " + "$"+ grandTotal.setScale(2, HALF_UP));
 
         }
         
@@ -328,9 +328,9 @@ public class Order {
                 + this.taxClass.getStateAbbreviation() //Can also just print out just TaxClass
                 + ", State Tax: "
                 + this.taxClass.getStatesTax()
-                + ", Tax Charged: "
+                + ", Tax Charged: $"
                 + this.taxCharged
-                + ", Grand Total: "
+                + ", Grand Total: $"
                 + this.grandTotal;
     }
 

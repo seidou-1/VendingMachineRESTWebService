@@ -48,7 +48,7 @@ public class DaoTest {
         
         Creating an ArrayList and connecting it to my existing dao
         */
-            List<Order> listOfOrders = createdDao.displayAllOrders();                     
+         List<Order> listOfOrders = createdDao.displayAllOrders();                     
 
         for (Order tempBucket : listOfOrders){
 //            createdDao.removeOrder(LocalDate.MAX, 0)

@@ -49,6 +49,7 @@ public class ProductionDaoFileImpl implements Dao {
 //        Key    Value 
     Map<Integer, Order> inventory = new HashMap<>();
     
+    
 //    Hashmap below is for customer class 
     Map <String, Customer> customerOrders = new HashMap<>();
     
@@ -109,7 +110,7 @@ public class ProductionDaoFileImpl implements Dao {
         try {
             writeInventory();
 //            loadInventory();
-
+    
         } catch (PersistenceException ex) {
             System.out.println("Could not write to inventory test..");
         }

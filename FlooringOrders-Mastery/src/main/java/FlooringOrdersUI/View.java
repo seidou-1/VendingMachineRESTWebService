@@ -144,7 +144,7 @@ public class View {
         
         
         //call method that checks add additional
-        System.out.println(currentOrder.displayFormat());
+//        System.out.println(currentOrder.displayFormat()); Commented this out otherwise it'll display after order summary
         return currentOrder;
 
         
