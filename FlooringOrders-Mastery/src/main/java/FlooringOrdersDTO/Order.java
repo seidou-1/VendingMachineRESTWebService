@@ -6,9 +6,10 @@
 package FlooringOrdersDTO;
 
 import java.math.BigDecimal;
-import static java.math.BigDecimal.ROUND_UNNECESSARY;
 import static java.math.RoundingMode.HALF_UP;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -19,36 +20,40 @@ public class Order {
     private int orderNumber;
     private String customerName;
     private String phoneNumber;
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
     private BigDecimal area;
-
     private BigDecimal materialCost;
     private BigDecimal laborCost;
     private BigDecimal taxCharged;
     private BigDecimal grandTotal;
-
+    private Map<String, BigDecimal> additionalItems = new HashMap<>(); //To store additional products
+    private String additionalProducts;
+            
     private LocalDate date;
 
     private ProductCosts productClass; //Composition - object gives me the Cost Per Sq Ft, Labor Cost Per Sq Ft, and Product
     private StateTax taxClass; //Composition - object gives me the State and the tax rate
-    
+
     //create a new product and make it a map. set the map to the map of the view
-    
+//    private ProductCosts additionalProducts;
     //Product:
     private BigDecimal costPerSqFt;
     private BigDecimal laborCostPerSqFt;
     
+    private BigDecimal totalCostPerSqFt;
+    private BigDecimal totalLaborCostPerSqFt;
+
     //Tax:
     private BigDecimal stateTax;
     private BigDecimal taxRate;
-    
+
+    public Map<String, BigDecimal> getAdditionalItems() {
+        return additionalItems;
+    }
+
+    public void setAdditionalItems(Map<String, BigDecimal> additionalItems) {
+        this.additionalItems = additionalItems;
+    }
+
     //Customer:
 //    private 
 //    private Customer customerClass;
@@ -60,6 +65,13 @@ public class Order {
 //    public void setCustomerClass(Customer customerClass) {
 //        this.customerClass = customerClass;
 //    }
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public BigDecimal getCostPerSqFt() {
         return costPerSqFt;
@@ -92,7 +104,6 @@ public class Order {
     public void setTaxRate(BigDecimal taxRate) {
         this.taxRate = taxRate;
     }
-    
 
     public Order(int orderNumber) {//Passed the order# into the constructor so a new order is created each time "Order" is called
         this.orderNumber = orderNumber;
@@ -121,7 +132,7 @@ public class Order {
         /*
         I'm creating a placeholder here. I'm setting the value by getting the enum
         value and matching the uppercase version of that with what the user passed in
-        */
+         */
     }
 
     public BigDecimal getGrandTotal() {
@@ -193,55 +204,80 @@ public class Order {
     }
 
     public void calculateTotals() { //Setter pretty much
-        
+
+        BigDecimal totalPreTax = new BigDecimal("0");
+        this.additionalProducts = "";
+        this.totalCostPerSqFt = new BigDecimal ("0");
+        this.totalLaborCostPerSqFt = new BigDecimal ("0");
+
         //for loop:
         //multipy area by cost of item for product and labor
         //add this to the global variable which keeps the pre tax amount
-        
         //afte the for loop:
         //calculate the tax as the pretax amount. This will be the grand total
-        
         //check to see if order count >= 5 and if so grand total *= .90
+        for (String bucket : additionalItems.keySet()) {//Loop through all the products
+            additionalProducts += (bucket + " ( " + additionalItems.get(bucket) + " ) ");//We're passing in the product which is bucket
 
-        BigDecimal totalTax
-                = ((area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
-                        .multiply(taxClass.getStatesTax())).setScale(2, HALF_UP));
+            BigDecimal area = additionalItems.get(bucket);
+            BigDecimal costPerSqFoot = (ProductCosts.valueOf(bucket.toUpperCase()).getCostPerSqFt());
+            
+            BigDecimal laborCost = (ProductCosts.valueOf(bucket.toUpperCase()).getlaborCostPerSqFt());
+
+            BigDecimal pretax = area.multiply((costPerSqFoot).add(laborCost));
+            totalPreTax = pretax.add(totalPreTax);//equivalent to totalPretax+=preTax                
+            
+            totalCostPerSqFt = costPerSqFoot.add(totalCostPerSqFt); //The total cost of each of the products' sq ft
+            
+            totalLaborCostPerSqFt = laborCost.add(totalLaborCostPerSqFt);
+//    System.out.println(totalPreTax);
+
+//                        bucket.getTaxClass().getStatesTax()
+        }
+
+        BigDecimal totalTax = totalPreTax.multiply(taxClass.getStatesTax()).setScale(2, HALF_UP); //calculates the total tax
+
+//                = ((area.multiply(productClass.getCostPerSqFt()).add(area.multiply(productClass.getlaborCostPerSqFt()))
 
         this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
         //Tax rate for that state is i.e. 6.25%
         //Now the tax is (area * cost per sq ft) + (area * labor cost per sq ft) * tax rate for that state i.e. 6.25%
-       
+
 //        System.out.println(taxCharged);
-        
-        BigDecimal totalCost
-                = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
-                        .add(totalTax)).setScale(2, HALF_UP));
+        BigDecimal totalCost = taxCharged.add(totalPreTax);
+//                = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
+//                        .add(totalTax)).setScale(2, HALF_UP));
 
         //Grand total is 
 //        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
         this.grandTotal = (totalCost); //Here i'm setting the grandTotal to the grandTotal of my Enum
-        
-//        System.out.println(grandTotal);
 
+        System.out.println("grand total: " + grandTotal);
+        System.out.println("tax charged: " + taxCharged);
+        System.out.println("totalPreTax " + totalPreTax);
+        
+        System.out.println(this.toString());
     }
 
     /*
     I created the toString method below to use it for the audit text file so i can output
     all the values onto the text file as Strings
-    */
+     */
     @Override
     public String toString() {
         return "\n Order Number: " + this.orderNumber
                 + ", Name: "
                 + this.customerName
-                + ", Area: "
-                + this.area
-                + ", Material: "
-                + this.productClass.getProductName()
-                + ", Cost Per Sq. Ft: "
-                + this.productClass.getCostPerSqFt()
-                + ", Labor Cost Per Sq. Ft: "
-                + this.productClass.getlaborCostPerSqFt()
+//                + ", Area: "
+//                + this.area
+                + ", Material (Area): "
+                + this.additionalProducts
+//                + this.productClass.getProductName()
+                + ", Total Cost Per Sq. Ft: "
+                + this.totalCostPerSqFt
+                + ", Total Labor Cost Per Sq. Ft: "
+//                + this.productClass.getlaborCostPerSqFt()
+                + this.totalLaborCostPerSqFt
                 + ", State: "
                 + this.taxClass.getStateAbbreviation() //Can also just print out just TaxClass
                 + ", State Tax: "
@@ -251,6 +287,8 @@ public class Order {
                 + ", Grand Total: "
                 + this.grandTotal;
     }
+    
+    
 
 //    public String orderInStrings(){ 
 //        return

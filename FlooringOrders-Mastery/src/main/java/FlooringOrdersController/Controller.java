@@ -73,7 +73,9 @@ public class Controller {
                     | InvalidDateException
                     | PersistenceException e) {
                 myView.displayErrorMessage(e.getMessage());
-            }
+            } //catch (exitException){
+            // break;
+            //}
         }
 
     }

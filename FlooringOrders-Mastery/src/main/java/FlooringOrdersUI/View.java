@@ -7,10 +7,11 @@ package FlooringOrdersUI;
 
 import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
-import FlooringOrdersServiceLayer.DataValidationException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -82,12 +83,15 @@ public class View {
             state = myCustomer.getState();
         }
          
-//        Map <ProductCosts, area> additionalItems = new HashMap<>();
+        //    Product, Area
+        Map <String, BigDecimal> additionalItems = new HashMap<>();
          
-//        while (addAdditional){
+        while (addAdditional){
         BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)"); //key
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?"); //value
         
+        additionalItems.put(product, area);
+                 
         String addMoreLineItems = myIO.readString("Do you want to add additional line items to your order?");
         
             switch (addMoreLineItems.toUpperCase()){
@@ -97,16 +101,17 @@ public class View {
                     break;
                 case "NO":
                     addAdditional = false;
-                    //hashmap.put 
                     break;
                 case "EXIT":
+                    //throw new exitException("Goodbye");
                     exit = true;
                 default:
 //                    throw new DataValidationException("Invalid input. Type yes, no, or exit");
                     
-//            }
+            }
+            
         }
-//      }  
+        
 //             if (addMoreLineItems.equalsIgnoreCase("yes")||addMoreLineItems.equalsIgnoreCase("y")) {
 //                 addAdditional = true;
 //             }
@@ -120,9 +125,10 @@ public class View {
         Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
 //        Product currentProduct = new Product(); //Instantiating product 
         currentOrder.setCustomerName(name);
-        currentOrder.setArea(area);
+        currentOrder.setAdditionalItems(additionalItems);
+//        currentOrder.setArea(area);
         currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
-        currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
+//        currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
         currentOrder.setDate(date);
 //        currentOrder.setTaxCharged(area);
 
