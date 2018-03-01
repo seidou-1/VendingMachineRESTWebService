@@ -261,7 +261,9 @@ public class View {
 //                    + bucket.getLaborCostPerSqFt()
 //                    + bucket.getProductClass().getCostPerSqFt()
                     + " | Total Cost Per Sq. Ft: "
+                            
                     + bucket.getTotalCostPerSqFt()
+                            
                     + " | Total Labor Cost Per Sq Ft: $"
                     + bucket.getTotalLaborCostPerSqFt()
 //                    + bucket.getProductClass().getlaborCostPerSqFt()

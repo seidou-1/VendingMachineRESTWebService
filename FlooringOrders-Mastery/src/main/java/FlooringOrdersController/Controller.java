@@ -97,9 +97,12 @@ public class Controller {
         //This returns a list: 
         List<Order> validatedOrder = myService.checkIfOrderDateExists(usersDate); //THis auto checks the order method first
 
+//        Order myOrder = new Order(myView.getUsersOrderNumber());
+        
         //Now i have to create a view that takes in a List of data type Order
         //Print out the list with each value
         myView.displayAllOrders(validatedOrder);
+        
 //        myView.displayCurrentOrder(placement);
 //        myView.displayAllOrdersAsAlist(validatedOrder);
 
