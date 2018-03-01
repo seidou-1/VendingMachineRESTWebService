@@ -65,8 +65,13 @@ public class View {
     }
 
     public Order setUsersOrder(int orderNumber, boolean customerFound, Customer myCustomer) /*throws DataValidationException*/{
-//       public Order setUsersOrder(int orderNumber, boolean customerNotFound, Customer myCustomer) {
-
+    /*
+        Here i'm telling the setUsersOrder method what to expect. If i pass 
+        a boolean argument that is false, it will prompt the user for name and state
+        
+        if the boolean argument passed through is true, it will skip asking the user
+        for a name and state
+    */
         String name = "";
         String state = "";
         boolean addAdditional = true;
@@ -74,16 +79,27 @@ public class View {
         boolean qualifyDiscount = false;
         
     
-        if (customerFound == false) {  //customer is not found
+        if (customerFound == false) {  //Meaning customer was not found
 
             name = myIO.readString("Enter first and last name");
             state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
 
-        } else {//customerFound = true and customer is found
+        } else {
+            /*
+            In this else statement, the customer was found and boolean becomes true
+            So there is no need to promp the user asking them for their name and state
+            
+            Instead, the below two two lines will just get the name and state
+            through the Customer object getter
+            */
             name = myCustomer.getCustomerName();
             state = myCustomer.getState();
         }
          
+        /*
+        Creating a hashmap here for the purposes of storing any additional line items
+        the customer wants to add to their order
+        */
         //    Product, Area
         Map <String, BigDecimal> additionalItems = new HashMap<>();
          
@@ -91,27 +107,71 @@ public class View {
         BigDecimal area = myIO.readBigDecimal("Enter your Area (Sq. Ft)"); //key
         String product = myIO.readString("What material do you prefer [i.e. Carpet, Laminate, Tile, or Wood]?"); //value
         
-        additionalItems.put(product, area);
+        additionalItems.put(product, area); //After asking, i'm going to put into the hashmap
                  
         String addMoreLineItems = myIO.readString("Do you want to add additional line items to your order?");
         
             switch (addMoreLineItems.toUpperCase()){
                 
                 case "YES":
+                case "Y":
                     addAdditional = true;
                     break;
                 case "NO":
+                case "N":
                     addAdditional = false;
                     break;
                 case "EXIT":
                     //throw new exitException("Goodbye");
                     exit = true;
                 default:
-//                    throw new DataValidationException("Invalid input. Type yes, no, or exit");
-                    
-            }
-            
+//                    throw new DataValidationException("Invalid input. Type yes, no, or exit");                  
+            }  
         }
+
+        LocalDate date = LocalDate.now(); //Refactor this later and move it to the constructor
+
+        /*
+        //Controller got the order# from the dao.displayAllOrders.size + 1. 
+        Controller passed that value to this setOrders method:
+        */
+        Order currentOrder = new Order(orderNumber); 
+        currentOrder.setCustomerName(name);
+        /*
+        In my Order DTO, I created a field called additionalItems
+        That field is a HashMap that takes in a String and a BigDecimal
+        I then set the key and value of that hashmap with the
+        "product" and "area" i stashed in the additionalItems hashmap above 
+        
+        so essentially, this additionalItems hashmap is transitory for the Order
+        object hashmap 
+        */
+        currentOrder.setAdditionalItems(additionalItems);//Gives me both AREA and PRODUCT!
+        currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
+        currentOrder.setDate(date);
+
+        /*
+        Last thing i'm doing here is taking all this information and
+        calling the calculateTotals method of my Order DTO. Remember all of the stuff
+        above i retrieved retrieved values from user prompts
+        
+        I then passed them over to the Order DTO (by setting everything). The Order DTO now
+        is filled with data in each of the properties. Calculate Totals does all the math
+        But it relies on a boolean flag to determine if a discount should be applied
+        
+        I get that boolean flag from the applyDiscount method of my Customer class
+        applyDiscount loops through the List of orders and checks the size of the List
+        
+        If the List size is 5 or more, an apply discount of 10% will be given
+        
+        the view is passing orders to the Customer object's
+        */
+        currentOrder.calculateTotals(myCustomer.applyDiscount());
+        
+        
+        
+        return currentOrder;
+
         
 //             if (addMoreLineItems.equalsIgnoreCase("yes")||addMoreLineItems.equalsIgnoreCase("y")) {
 //                 addAdditional = true;
@@ -121,32 +181,10 @@ public class View {
         //prompt if they want to add an additional line item
         //if yes, addAdditional = true
         //}
-        LocalDate date = LocalDate.now(); //Refactor this later and move it to the constructor
-
-        Order currentOrder = new Order(orderNumber); //Trying to auto set the order#
-//        Product currentProduct = new Product(); //Instantiating product 
-        currentOrder.setCustomerName(name);
-        currentOrder.setAdditionalItems(additionalItems);
-//        currentOrder.setArea(area);
-        currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
-//        currentOrder.setProductClass(product);//This gets the enum value of product. 3 values as well!!!!!!
-        currentOrder.setDate(date);
-//        currentOrder.setTaxCharged(area);
-
-//        currentOrder.setTaxClass(currentOrder.getTaxClass().getStateAbbreviation());
-        //Option A but the view does too much:
-//        CalculatedTotals myTotal = new CalculatedTotals();
-//        
-//        myTotal.calculateTotals(currentOrder);
-        //Option B
-        
-        currentOrder.calculateTotals(myCustomer.applyDiscount());
         
         
         //call method that checks add additional
 //        System.out.println(currentOrder.displayFormat()); Commented this out otherwise it'll display after order summary
-        return currentOrder;
-
         
     }
 //    

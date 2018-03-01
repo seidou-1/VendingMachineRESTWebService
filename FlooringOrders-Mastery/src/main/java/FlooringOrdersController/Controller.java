@@ -113,46 +113,46 @@ public class Controller {
         try {
             String usersPhoneNumber = myView.getPhoneNumber();
             Customer myCustomer = myService.getCustomer(usersPhoneNumber);
-
             if (myCustomer != null) {//means the customer exists
 
-//                System.out.println("customer does not exist");
-                System.out.println("Welcome back " + myCustomer.getCustomerName() + " Number of orders: " + myCustomer.numberOfCustomerOrders());
-
+                System.out.println("Welcome back " + myCustomer.getCustomerName() + ". Here are your previous orders: " + myCustomer.numberOfCustomerOrders());
                 myView.displayOrderSummary(); //banner
 
-                for (Order bucketOrder : myCustomer.allOrders()) { //going through all elements in my order and using the allOrders method on each element
-//                        System.out.println(());
-                    myView.displayCurrentOrder(bucketOrder);
+                for (Order bucketOrder : myCustomer.allOrders()) { //going through all elements in the Order object
+                    myView.displayCurrentOrder(bucketOrder);//displaying each order
                 }
-
-//                do {//Will continue to prompt the user for as long as they enter an invalid field
+                /*
+                After finding the user's order history, the below will prompt 
+                the user to enter their new order. 
+                I'm setting the order # by getting the size of all elements of my Dao
+                and then adding 1 to it:
+                */
                 placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer);//Customer exists. No need for all fields
                 placement.setPhoneNumber(usersPhoneNumber);
-//                } while (!validateOrderData(placement)); //makes sure all the fields are filled properly
 
                 //add to checkIfStateExists
             } else { //customer does not exist. Boolean false
                 do {
-                    placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer);//Prompts the user to input all fields
-                } while (!validateOrderData(placement)); //makes sure all the fields are filled properly
-
+                    placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer);//Prompts the user to input all fields (name, state, etc)
+                } while (!validateOrderData(placement)); //Continue to prompt the user if they don't fill in all the required fields properly
             }
-
         } catch (DataValidationException e) {
             myView.displayMessage(e.getMessage());
         }
 
-        //Get a list and filter it to display the current order
-        myView.displayOrderSummary();
-
+        myView.displayOrderSummary();//Banner
+        
+        /*
+        After the user places their new order, this nicely formats their order
+        with nice spacing and all:
+        */
         myView.displayCurrentOrder(placement);
-        boolean usersChoice = myView.areYouSure();//Returns boolean true or false
+        boolean usersChoice = myView.areYouSure();// Do you want to commit the order? Returns boolean true or false
         if (usersChoice) { //if boolean returns true - meaning yes 
-            myService.addOrder(placement); //add the order
-            myView.displayCreateSuccessBanner();
+            myService.addOrder(placement); //adds the order to the Hashmap
+            myView.displayCreateSuccessBanner(); //Banner
         } else {
-            myView.thankYouBanner();
+            myView.thankYouBanner();//If they don't want to commit, display thank you banner
         }
     }
 
