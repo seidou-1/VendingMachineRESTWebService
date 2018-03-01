@@ -163,9 +163,9 @@ public class ProductionDaoFileImpl implements Dao {
                 currentOrder.setProductsToHashMap(splitter[0], new BigDecimal(splitter[1]));
             }
                 
-            currentOrder.setTotalCostPerSqFt(new BigDecimal(currentTokens[5]));
+            currentOrder.setTotalCostPerSqFt(new BigDecimal(currentTokens[5]));//Total Cost Per Sq Ft
 
-            currentOrder.setTotalLaborCostPerSqFt(new BigDecimal(currentTokens[6]));
+            currentOrder.setTotalLaborCostPerSqFt(new BigDecimal(currentTokens[6]));// Total Labor Cost Per Sq Ft
  
             currentOrder.setTaxCharged(new BigDecimal(currentTokens[7])); //Total Tax
  
@@ -210,32 +210,32 @@ public class ProductionDaoFileImpl implements Dao {
 
         for (Order tempBucket : inventory) {
 
-            out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
+            out.println(tempBucket.getOrderNumber() + DELIMITER //Order number 0
 
-                    + tempBucket.getCustomerName() + DELIMITER //Name
+                    + tempBucket.getCustomerName() + DELIMITER //Name 1
  
-                    + tempBucket.getTaxClass() + DELIMITER //State 
+                    + tempBucket.getTaxClass() + DELIMITER //State 2
 
-                    + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax  
+                    + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax 3
 
-                    + tempBucket.displayFormat() + DELIMITER//Product,Area, maybe Tilde
+                    + tempBucket.displayFormat() + DELIMITER//Product,Area, maybe Tilde 4
 
 //                    + tempBucket.getProductClass().getProductName() + DELIMITER //Product
 
-                    + tempBucket.getTotalCostPerSqFt() + DELIMITER // Total Cost Per St Ft
+                    + tempBucket.getTotalCostPerSqFt() + DELIMITER // Total Cost Per St Ft 5
 //                    + tempBucket.getProductClass().getCostPerSqFt() + DELIMITER // 
 
-                    + tempBucket.getTotalLaborCostPerSqFt() + DELIMITER // Total Labor Cost Per Sq Ft.
+                    + tempBucket.getTotalLaborCostPerSqFt() + DELIMITER // Total Labor Cost Per Sq Ft. 6
 //                    + tempBucket.getProductClass().getlaborCostPerSqFt() + DELIMITER // 
 
-                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax
+                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax 7
 //                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax
 
-                    + tempBucket.getGrandTotal() + DELIMITER //Grand Total
+                    + tempBucket.getGrandTotal() + DELIMITER //Grand Total 8
 
-                    + tempBucket.getDate() + DELIMITER //Date
+                    + tempBucket.getDate() + DELIMITER //Date 9
             
-                    + tempBucket.getPhoneNumber()); //Phone Number 
+                    + tempBucket.getPhoneNumber()); //Phone Number 10
 
             out.flush();
         }

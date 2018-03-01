@@ -231,7 +231,7 @@ public class View {
             order.setProductClass(productSetter);
         } else {
             order.setProductClass(order.getProductClass().getProductName());
-        }
+        }  
 
         return order;
     }
@@ -249,18 +249,29 @@ public class View {
                     + " | Name: "
                     + bucket.getCustomerName()
                     + " | Area: "
-                    + bucket.getArea() + " Sq. Ft. "
-                    + " | State: "
-                    + bucket.getTaxClass()
-                    + " | State Tax: " //The actual state i.e. OH
-                    + bucket.getTaxClass().getStatesTax()
-                    + " | Product: " //Gets the corresponding tax for OH
-                    + bucket.getProductClass()
-                    + " | Cost Per Sq. Ft: $"
-                    + bucket.getProductClass().getCostPerSqFt()
-                    + " | Labor Cost Per Sq Ft: $"
-                    + bucket.getProductClass().getlaborCostPerSqFt()
+                    + bucket.displayFormat() + " Sq. Ft. "
+//                    + bucket.getArea() + " Sq. Ft. "
+//                    + " | State: "
+//                    + bucket.getTaxClass()
+//                    + " | State Tax: " //The actual state i.e. OH
+//                    + bucket.getTaxClass().getStatesTax()
+//                    + " | Product: " //Gets the corresponding tax for OH
+//                    + bucket.getProductClass()
+//                    + " | Cost Per Sq. Ft: $"
+//                    + bucket.getLaborCostPerSqFt()
+//                    + bucket.getProductClass().getCostPerSqFt()
+                    + " | Total Cost Per Sq. Ft: "
+                    + bucket.getTotalCostPerSqFt()
+                    + " | Total Labor Cost Per Sq Ft: $"
+                    + bucket.getTotalLaborCostPerSqFt()
+//                    + bucket.getProductClass().getlaborCostPerSqFt()
                     + " | Tax Charged (cost * State tax rate %): $"
+                    
+                    + "| State: " 
+                    + bucket.getTaxClass().getStateAbbreviation() //Can also just print out just TaxClass
+                    + "| State Tax: "
+                    + bucket.getTaxClass().getStatesTax()
+                    + "| Tax Charged: $"                            
                     + bucket.getTaxCharged()
                     + " | Grand Total: $"
                     + bucket.getGrandTotal()
