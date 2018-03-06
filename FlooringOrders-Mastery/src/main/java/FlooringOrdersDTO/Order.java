@@ -286,7 +286,7 @@ public class Order {
 
         //Grand total is 
 //        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
-        this.grandTotal = (totalCost); //Here i'm setting the grandTotal to the grandTotal of my Enum
+        this.grandTotal = (totalCost.setScale(2, HALF_UP)); //Here i'm setting the grandTotal to the grandTotal of my Enum
         
         if (discount) {//If discount is true
             System.out.println("\n You qualified for a 10% discount");

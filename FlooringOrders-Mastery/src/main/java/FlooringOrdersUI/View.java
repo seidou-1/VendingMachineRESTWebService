@@ -64,7 +64,7 @@ public class View {
         return myIO.readString("What is your phone number?");
     }
 
-    public Order setUsersOrder(int orderNumber, boolean customerFound, Customer myCustomer) /*throws DataValidationException*/{
+    public Order setUsersOrder(int orderNumber, boolean customerFound, Customer myCustomer, String phoneNumber) /*throws DataValidationException*/{
     /*
         Here i'm telling the setUsersOrder method what to expect. If i pass 
         a boolean argument that is false, it will prompt the user for name and state
@@ -78,11 +78,14 @@ public class View {
         boolean exit = false;
         boolean qualifyDiscount = false;
         
+        Order currentOrder = new Order(orderNumber); 
+
     
         if (customerFound == false) {  //Meaning customer was not found
-
+            
             name = myIO.readString("Enter first and last name");
             state = myIO.readString("Enter State [i.e. OH, PA, MI, or IN]");
+            myCustomer = new Customer(orderNumber, currentOrder, phoneNumber, state);
 
         } else {
             /*
@@ -135,8 +138,9 @@ public class View {
         //Controller got the order# from the dao.displayAllOrders.size + 1. 
         Controller passed that value to this setOrders method:
         */
-        Order currentOrder = new Order(orderNumber); 
         currentOrder.setCustomerName(name);
+        
+        
         /*
         In my Order DTO, I created a field called additionalItems
         That field is a HashMap that takes in a String and a BigDecimal
@@ -146,6 +150,7 @@ public class View {
         so essentially, this additionalItems hashmap is transitory for the Order
         object hashmap 
         */
+        currentOrder.setPhoneNumber(phoneNumber);
         currentOrder.setAdditionalItems(additionalItems);//Gives me both AREA and PRODUCT!
         currentOrder.setTaxClass(state);//This gets the enum value of state, and the tax rate just by them entering state
         currentOrder.setDate(date);
@@ -194,44 +199,64 @@ public class View {
    
     
 
-    public Order setUsersOrderForEditing(Order order) {
+    public Order setUsersOrderForEditing(Order order, boolean discount) {
         String ifItsEmpty = "";
 
+        Map <String, BigDecimal> editItems = order.getAdditionalItems();
+        
+        for (String bucket : editItems.keySet()) {//Loop through all the products
+        myIO.print("\nEditing current area of " + bucket + ". Type in changes or hit enter to keep it as is. \n");
+        String areaSetter = (myIO.readString("Current Sq. Ft: " + editItems.get(bucket) + ""));
+        
+        if (areaSetter.trim().length() != 0) {
+            while (true){
+                try {
+                    editItems.put(bucket, new BigDecimal(areaSetter));
+                    break;//will only reach this break statement if it successfully put item in hashmap
+                } catch (Exception e) {
+                    myIO.print("\nPlease enter proper numerical value"); 
+                    areaSetter = (myIO.readString(" Current Sq. Ft: " + editItems.get(bucket) + ""));
+                }
+            }
+        }  
+        
+        }
+            order.calculateTotals(discount);
+        
         //Below overloaded method doesn't take in the order.get stuff
-        myIO.print("Type in changes or hit enter to keep it as is\n");
-        String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
-        String areaSetter = (myIO.readString("Current Sq. Ft: " + order.getArea()) + "");
-        String stateSetter = (myIO.readString("Current State: " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
-        String productSetter = (myIO.readString("Current Product: " + order.getProductClass()/*.getProductName()*/ + ""));
+//        myIO.print("Type in changes or hit enter to keep it as is\n");
+//        String nameSetter = (myIO.readString("Current First and Last Name: " + order.getCustomerName() + ""));
+//        String stateSetter = (myIO.readString("Current State: " + order.getTaxClass()/*.getStateAbbreviation()*/ + ""));
+//        String productSetter = (myIO.readString("Current Product: " + order.getProductClass()/*.getProductName()*/ + ""));
 
         //Asks if the name needs to be changed
-        if (nameSetter.trim().length() != 0) {
-            order.setCustomerName(nameSetter);
-//            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
-        } else {
-            order.setCustomerName(order.getCustomerName());
-        }
-
-        //Asks if the Area needs to be changed
-        if (areaSetter.trim().length() != 0) { //If they enter information
-            order.setArea(new BigDecimal(areaSetter)); //Set it to what they entered
-        } else {
-            order.setArea(order.getArea());
-        } //otherwise set it to the orignal value
-
-        //Asks if the State needs to be changed
-        if (stateSetter.trim().length() != 0) {
-            order.setTaxClass(stateSetter);
-        } else {
-            order.setTaxClass(order.getTaxClass().getStateAbbreviation());
-        }
-
-        //Asks if the Product needs to be changed
-        if (productSetter.trim().length() != 0) {
-            order.setProductClass(productSetter);
-        } else {
-            order.setProductClass(order.getProductClass().getProductName());
-        }  
+//        if (nameSetter.trim().length() != 0) {
+//            order.setCustomerName(nameSetter);
+////            if (order.getCustomerName() == null || order.getCustomerName().trim().length() == 0
+//        } else {
+//            order.setCustomerName(order.getCustomerName());
+//        }
+//
+//        //Asks if the Area needs to be changed
+//        if (areaSetter.trim().length() != 0) { //If they enter information
+//            order.setArea(new BigDecimal(areaSetter)); //Set it to what they entered
+//        } else {
+//            order.setArea(order.getArea());
+//        } //otherwise set it to the orignal value
+//
+//        //Asks if the State needs to be changed
+//        if (stateSetter.trim().length() != 0) {
+//            order.setTaxClass(stateSetter);
+//        } else {
+//            order.setTaxClass(order.getTaxClass().getStateAbbreviation());
+//        }
+//
+//        //Asks if the Product needs to be changed
+//        if (productSetter.trim().length() != 0) {
+//            order.setProductClass(productSetter);
+//        } else {
+//            order.setProductClass(order.getProductClass().getProductName());
+//        }  
 
         return order;
     }

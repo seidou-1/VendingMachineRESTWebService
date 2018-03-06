@@ -43,3 +43,15 @@ Order Number: 4, Name: roy rogers, Area: 423, Material: Carpet, Cost Per Sq. Ft:
  Order Number: 5, Name: cam dipset, Material (Area): carpet,144~wood,444, Total Cost Per Sq. Ft: 2610.60, Total Labor Cost Per Sq. Ft: 2411.40, State: Michigan, State Tax: 0.0575, Tax Charged: 288.77, Grand Total: 5310.77
 2018-03-01T04:20:40.109 : addOrder: 
  Order Number: 4, Name: cam dipset, Material (Area): carpet,433~wood,433, Total Cost Per Sq. Ft: 3204.20, Total Labor Cost Per Sq. Ft: 2966.05, State: Michigan, State Tax: 0.0575, Tax Charged: $354.79, Grand Total: $6525.04
+2018-03-01T10:28:26.492 : addOrder: 
+ Order Number: 4, Name: cam dipset, Material (Area): laminate,372~wood,433, Total Cost Per Sq. Ft: 2880.95, Total Labor Cost Per Sq. Ft: 2837.95, State: Michigan, State Tax: 0.0575, Tax Charged: $328.84, Grand Total: $6047.74
+2018-03-01T10:30:01.947 : addOrder: 
+ Order Number: 5, Name: cam dipset, Material (Area): wood,123, Total Cost Per Sq. Ft: 633.45, Total Labor Cost Per Sq. Ft: 584.25, State: Michigan, State Tax: 0.0575, Tax Charged: $70.02, Grand Total: $1287.72
+2018-03-01T10:31:03.064 : addOrder: 
+ Order Number: 6, Name: cam dipset, Material (Area): wood,566, Total Cost Per Sq. Ft: 2914.90, Total Labor Cost Per Sq. Ft: 2688.50, State: Michigan, State Tax: 0.0575, Tax Charged: $322.20, Grand Total: $5925.60
+2018-03-01T13:30:58.307 : addOrder: 
+ Order Number: 6, Name: cam dipset, Material (Area): Wood,234~tile,412~Tile,434, Total Cost Per Sq. Ft: 4166.10, Total Labor Cost Per Sq. Ft: 4622.40, State: Michigan, State Tax: 0.0575, Tax Charged: $505.34, Grand Total: $8364.4560
+2018-03-05T18:12:06.575 : addOrder: 
+ Order Number: 7, Name: harslz bortes, Material (Area): tile,433, Total Cost Per Sq. Ft: 1515.50, Total Labor Cost Per Sq. Ft: 1796.95, State: Pennysalvania, State Tax: 0.0675, Tax Charged: $223.59, Grand Total: $3536.04
+2018-03-05T18:24:19.754 : addOrder: 
+ Order Number: 8, Name: lorem ipsum, Material (Area): carpet,234~wood,433, Total Cost Per Sq. Ft: 2756.45, Total Labor Cost Per Sq. Ft: 2548.15, State: OH, State Tax: 0.0625, Tax Charged: $331.54, Grand Total: $5636.14

@@ -48,6 +48,8 @@ public class ServiceImpl implements Service {
         
         because now it's in the applicationContext loggingAdvice
          */
+        
+        //Move discount logic here
         return myDao.addOrder(order.getOrderNumber(), order);
 
     }
@@ -175,6 +177,7 @@ public class ServiceImpl implements Service {
             OrderDateNotFoundException,
             OrderNumberNotFoundException,
             PersistenceException {
+        boolean numberIsFound = true;
         /*
         This method calls the above method first
         Later on refactor to check both at the same time
@@ -183,9 +186,13 @@ public class ServiceImpl implements Service {
                 .stream()
                 .filter(s -> s.getOrderNumber() == orderNumber)
                 .collect(Collectors.toList());
-
-        if (orderList.isEmpty()) { //true
-            throw new OrderDateNotFoundException("No such order number exists. Try again \n");
+        
+        
+//        while (!numberIsFound) {            
+            if (orderList.isEmpty()) { //true
+//                numberIsFound = false;
+                throw new OrderDateNotFoundException("No such order number exists. Try again \n");
+//            }
         }
 
         return orderList;

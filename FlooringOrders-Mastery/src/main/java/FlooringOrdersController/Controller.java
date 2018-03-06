@@ -131,13 +131,12 @@ public class Controller {
                 I'm setting the order # by getting the size of all elements of my Dao
                 and then adding 1 to it:
                 */
-                placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer);//Customer exists. No need for all fields
-                placement.setPhoneNumber(usersPhoneNumber);
-
+                placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer, usersPhoneNumber);//Customer exists. No need for all fields
+                
                 //add to checkIfStateExists
             } else { //customer does not exist. Boolean false
                 do {
-                    placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer);//Prompts the user to input all fields (name, state, etc)
+                    placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer, usersPhoneNumber);//Prompts the user to input all fields (name, state, etc)
                 } while (!validateOrderData(placement)); //Continue to prompt the user if they don't fill in all the required fields properly
             }
         } catch (DataValidationException e) {
@@ -180,14 +179,15 @@ public class Controller {
 
         Order currentOrder = null;
 
-        try {
-            do {
-                currentOrder = myView.setUsersOrderForEditing(validatedOrder); //maybe?
-            } while (!validateOrderData(currentOrder));
-        } catch (DataValidationException e) {
-            myView.displayMessage(e.getMessage());
+//        try {
+            Customer myCustomer = myService.getCustomer(validatedOrder.getPhoneNumber());
+//            do {
+                currentOrder = myView.setUsersOrderForEditing(validatedOrder, myCustomer.applyDiscount()); //maybe?
+//            } while (!validateOrderData(currentOrder));
+//        } catch (DataValidationException e) {
+//            myView.displayMessage(e.getMessage());
 
-        }
+//        }
 
         myView.displayCurrentOrder(currentOrder);
         //Call Service method to validate correct big data format is inputted
