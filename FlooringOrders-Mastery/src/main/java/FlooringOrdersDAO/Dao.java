@@ -5,6 +5,7 @@
  */
 package FlooringOrdersDAO;
 
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,6 +33,12 @@ public interface Dao {
     Order removeOrder (/*LocalDate date,*/ int orderNumber);
     
     boolean justSaveToFile();
+    
+    void addCustomer (String phoneNumber, Customer currentCustomer);
+    
+    Customer getCustomer (String phoneNumber);
+    
+    List <Customer> getAllCustomers();
     
 //        Order dispalyOrder(LocalDate date, String orderNumber);
 

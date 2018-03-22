@@ -6,6 +6,7 @@
 package FlooringOrdersController;
 
 import FlooringOrdersDAO.PersistenceException;
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import FlooringOrdersServiceLayer.DataValidationException;
 import FlooringOrdersServiceLayer.InvalidDateException;
@@ -15,8 +16,6 @@ import FlooringOrdersServiceLayer.Service;
 import FlooringOrdersUI.View;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,6 +35,11 @@ public class Controller {
     public void run() {
         boolean keepGoing = true;
 //        int menuSelection = 1;
+//        List<Customer> myCustomer = myService.getAllCustomers(); //Provides a list of all customers
+//        
+//        for (Customer tempBucket : myCustomer){
+//            System.out.println(tempBucket);
+//        }
 
         while (keepGoing) {
             try {
@@ -69,7 +73,9 @@ public class Controller {
                     | InvalidDateException
                     | PersistenceException e) {
                 myView.displayErrorMessage(e.getMessage());
-            }
+            } //catch (exitException){
+            // break;
+            //}
         }
 
     }
@@ -83,7 +89,7 @@ public class Controller {
     private void displayOrders() throws
             OrderDateNotFoundException,
             PersistenceException {
-        
+
         LocalDate usersDate = myView.getUsersDate(); //Gets the date from the user 
 //        int usersOrderNumber = myView.getUsersOrderNumber();//Gets the order number from the user
 
@@ -91,9 +97,13 @@ public class Controller {
         //This returns a list: 
         List<Order> validatedOrder = myService.checkIfOrderDateExists(usersDate); //THis auto checks the order method first
 
+//        Order myOrder = new Order(myView.getUsersOrderNumber());
+        
         //Now i have to create a view that takes in a List of data type Order
         //Print out the list with each value
         myView.displayAllOrders(validatedOrder);
+        
+//        myView.displayCurrentOrder(placement);
 //        myView.displayAllOrdersAsAlist(validatedOrder);
 
     }
@@ -105,24 +115,47 @@ public class Controller {
 
         Order placement = null;
         try {
-            do {
-                //Will continue to prompt the user for as long as they enter an invalid field
-                placement = myView.setUsersOrder(myService.getOrderNumber());//Prompts the user to input info
+            String usersPhoneNumber = myView.getPhoneNumber();
+            Customer myCustomer = myService.getCustomer(usersPhoneNumber);
+            if (myCustomer != null) {//means the customer exists
 
-                //checkIfStateExists
-            } while (!validateOrderData(placement));
+                System.out.println("Welcome back " + myCustomer.getCustomerName() + ". Here are your previous orders: " + myCustomer.numberOfCustomerOrders());
+                myView.displayOrderSummary(); //banner
+
+                for (Order bucketOrder : myCustomer.allOrders()) { //going through all elements in the Order object
+                    myView.displayCurrentOrder(bucketOrder);//displaying each order
+                }
+                /*
+                After finding the user's order history, the below will prompt 
+                the user to enter their new order. 
+                I'm setting the order # by getting the size of all elements of my Dao
+                and then adding 1 to it:
+                */
+                placement = myView.setUsersOrder(myService.getOrderNumber(), true, myCustomer, usersPhoneNumber);//Customer exists. No need for all fields
+                
+                //add to checkIfStateExists
+            } else { //customer does not exist. Boolean false
+                do {
+                    placement = myView.setUsersOrder(myService.getOrderNumber(), false, myCustomer, usersPhoneNumber);//Prompts the user to input all fields (name, state, etc)
+                } while (!validateOrderData(placement)); //Continue to prompt the user if they don't fill in all the required fields properly
+            }
         } catch (DataValidationException e) {
             myView.displayMessage(e.getMessage());
         }
 
-        //Get a list and filter it to display the current order
+        myView.displayOrderSummary();//Banner
+        
+        /*
+        After the user places their new order, this nicely formats their order
+        with nice spacing and all:
+        */
         myView.displayCurrentOrder(placement);
-        boolean usersChoice = myView.areYouSure();//Returns boolean true or false
+        boolean usersChoice = myView.areYouSure();// Do you want to commit the order? Returns boolean true or false
         if (usersChoice) { //if boolean returns true - meaning yes 
-            myService.addOrder(placement); //add the order
-            myView.displayCreateSuccessBanner();
+            myService.addOrder(placement); //adds the order to the Hashmap
+            myView.displayCreateSuccessBanner(); //Banner
         } else {
-            myView.thankYouBanner();
+            myView.thankYouBanner();//If they don't want to commit, display thank you banner
         }
     }
 
@@ -146,14 +179,15 @@ public class Controller {
 
         Order currentOrder = null;
 
-        try {
-            do {
-                currentOrder = myView.setUsersOrderForEditing(validatedOrder); //maybe?
-            } while (!validateOrderData(currentOrder));
-        } catch (DataValidationException e) {
-            myView.displayMessage(e.getMessage());
+//        try {
+            Customer myCustomer = myService.getCustomer(validatedOrder.getPhoneNumber());
+//            do {
+                currentOrder = myView.setUsersOrderForEditing(validatedOrder, myCustomer.applyDiscount()); //maybe?
+//            } while (!validateOrderData(currentOrder));
+//        } catch (DataValidationException e) {
+//            myView.displayMessage(e.getMessage());
 
-        }
+//        }
 
         myView.displayCurrentOrder(currentOrder);
         //Call Service method to validate correct big data format is inputted

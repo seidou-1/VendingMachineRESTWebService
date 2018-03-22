@@ -5,6 +5,7 @@
  */
 package FlooringOrdersDAO;
 
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -79,6 +80,21 @@ public class FlooringOrderDaoStubImpl implements Dao{
     public boolean justSaveToFile() {
         //Do nothing
         return true;
+    }
+
+    @Override
+    public void addCustomer(String phoneNumber, Customer currentCustomer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Customer getCustomer(String phoneNumber) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

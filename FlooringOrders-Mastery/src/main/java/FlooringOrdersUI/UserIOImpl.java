@@ -211,6 +211,7 @@ public class UserIOImpl implements UserIO {
         System.out.println(usersDate);
 
         userInput = myScanner.nextLine();
+//        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         LocalDate usersDateParsed = LocalDate.parse(userInput, format);
 

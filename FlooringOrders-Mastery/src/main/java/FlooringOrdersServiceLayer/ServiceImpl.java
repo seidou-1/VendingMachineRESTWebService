@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import FlooringOrdersDAO.FlooringOrderAuditDao;
+import FlooringOrdersDTO.Customer;
+import java.util.ArrayList;
 
 /**
  *
@@ -46,6 +48,8 @@ public class ServiceImpl implements Service {
         
         because now it's in the applicationContext loggingAdvice
          */
+        
+        //Move discount logic here
         return myDao.addOrder(order.getOrderNumber(), order);
 
     }
@@ -173,6 +177,7 @@ public class ServiceImpl implements Service {
             OrderDateNotFoundException,
             OrderNumberNotFoundException,
             PersistenceException {
+        boolean numberIsFound = true;
         /*
         This method calls the above method first
         Later on refactor to check both at the same time
@@ -181,9 +186,13 @@ public class ServiceImpl implements Service {
                 .stream()
                 .filter(s -> s.getOrderNumber() == orderNumber)
                 .collect(Collectors.toList());
-
-        if (orderList.isEmpty()) { //true
-            throw new OrderDateNotFoundException("No such order number exists. Try again \n");
+        
+        
+//        while (!numberIsFound) {            
+            if (orderList.isEmpty()) { //true
+//                numberIsFound = false;
+                throw new OrderDateNotFoundException("No such order number exists. Try again \n");
+//            }
         }
 
         return orderList;
@@ -199,5 +208,22 @@ public class ServiceImpl implements Service {
         }
 
     }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return myDao.getAllCustomers();
+    }
+
+    @Override
+    public Customer getCustomer(String phoneNumber) {
+        return myDao.getCustomer(phoneNumber);
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+//    @Override
+//    public Customer getCustomer(String phoneNumber) {
+//        return myDao.getCustomer(phoneNumber);
+////        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
 }

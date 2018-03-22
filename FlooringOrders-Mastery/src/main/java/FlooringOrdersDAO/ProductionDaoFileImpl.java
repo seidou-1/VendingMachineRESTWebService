@@ -5,9 +5,8 @@
  */
 package FlooringOrdersDAO;
 
+import FlooringOrdersDTO.Customer;
 import FlooringOrdersDTO.Order;
-import FlooringOrdersServiceLayer.DataValidationException;
-import FlooringOrdersServiceLayer.InvalidDateException;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -34,17 +33,30 @@ public class ProductionDaoFileImpl implements Dao {
     The purpose of this class is to implement all the Daos
     and then persist everything from the hashmap into the text file
      */
+    
 
-    public ProductionDaoFileImpl() throws PersistenceException {
-        loadInventory();
-    }
-
+    public LocalDate date = LocalDate.now();
+    
+//    public String ORDERS_FILE = "ORDERS_" + date.toString() + ".txt";
+    
     public static final String ORDERS_FILE = "orders.txt";
+    public static final String CUSTOMERS_FILE = "customers.txt";
     public static final String DELIMITER = "::";
+    public static final String COMMA = ",";
+    public static final String TILDE = "~";
+    
 
 //        Key    Value 
     Map<Integer, Order> inventory = new HashMap<>();
-
+    
+    
+//    Hashmap below is for customer class 
+    Map <String, Customer> customerOrders = new HashMap<>();
+    
+    public ProductionDaoFileImpl() throws PersistenceException {
+        loadInventory();
+    }
+    
     @Override
     public List<Order> displayAllOrders() throws PersistenceException {
 //        loadInventory();
@@ -98,7 +110,7 @@ public class ProductionDaoFileImpl implements Dao {
         try {
             writeInventory();
 //            loadInventory();
-
+    
         } catch (PersistenceException ex) {
             System.out.println("Could not write to inventory test..");
         }
@@ -126,33 +138,60 @@ public class ProductionDaoFileImpl implements Dao {
         String[] currentTokens;
 
         while (scanner.hasNextLine()) {
+
             currentLine = scanner.nextLine();
 
             currentTokens = currentLine.split(DELIMITER);
 
-            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order Number
+            Order currentOrder = new Order(parseInt(currentTokens[0])); //Order + Order Number
 
             currentOrder.setCustomerName(currentTokens[1]); //Name
 
-            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
+//            currentOrder.setArea(new BigDecimal(currentTokens[2])); //Area
 
-            currentOrder.setTaxClass(currentTokens[3]); //State
+            currentOrder.setTaxClass(currentTokens[2]); //State
 
-            currentOrder.setTaxRate(new BigDecimal(currentTokens[4]));//State Tax%
+            currentOrder.setTaxRate(new BigDecimal(currentTokens[3]));//State Tax%
 
-            currentOrder.setProductClass(currentTokens[5]); //Product
+//            currentOrder.setProductClass(currentTokens[4]); //Product, Area, maybe Tilde
+            
+            String[] currentTalisman = currentTokens[4].split(TILDE);//Product, Area, maybe Tilde
+            
+            for(String bucket : currentTalisman){//Loops through each Talisman i.e. (Wood,432)
+                String[] splitter = bucket.split(COMMA);//Index 0 is wood, index 1 is area
+                //Now this needs to be added to the hashmap:
+                currentOrder.setProductsToHashMap(splitter[0], new BigDecimal(splitter[1]));
+            }
+                
+            currentOrder.setTotalCostPerSqFt(new BigDecimal(currentTokens[5]));//Total Cost Per Sq Ft
 
-            currentOrder.setCostPerSqFt(new BigDecimal(currentTokens[6]));
-
-            currentOrder.setLaborCostPerSqFt(new BigDecimal(currentTokens[7]));
+            currentOrder.setTotalLaborCostPerSqFt(new BigDecimal(currentTokens[6]));// Total Labor Cost Per Sq Ft
  
-            currentOrder.setTaxCharged(new BigDecimal(currentTokens[8])); //Tax Charged
+            currentOrder.setTaxCharged(new BigDecimal(currentTokens[7])); //Total Tax
  
-            currentOrder.setGrandTotal(new BigDecimal(currentTokens[9])); //Grand Total
+            currentOrder.setGrandTotal(new BigDecimal(currentTokens[8])); //Grand Total
 
-            currentOrder.setDate(LocalDate.parse(currentTokens[10]));//Date
+            currentOrder.setDate(LocalDate.parse(currentTokens[9]));//Date
 
-            inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap
+            currentOrder.setPhoneNumber(currentTokens[10]);//PhoneNumber
+             
+            Customer myCustomer = new Customer(parseInt(currentTokens[0]), currentOrder, currentTokens[10], currentTokens[2]);
+            
+            if (customerOrders.containsKey(myCustomer.getPhoneNumber())) { //Check to see if the customer's entered # exists
+                 Customer currentCustomer = customerOrders.get(myCustomer.getPhoneNumber()); //I'm getting the phone number which is the key
+                 currentCustomer.addOrder(currentOrder);
+  
+                 customerOrders.put(myCustomer.getPhoneNumber(), currentCustomer);//adds all the orders for the current customer
+            } else { //if the number doesn't exist
+                myCustomer.setCustomerName(currentOrder.getCustomerName());
+//                myCustomer.setState(currentOrder.getTaxClass());
+                customerOrders.put(myCustomer.getPhoneNumber(), myCustomer);//creates a new customer
+                
+            }
+
+            inventory.put(currentOrder.getOrderNumber(), currentOrder);//Put everything in hashmap  
+            
+            
         }
         scanner.close();
 
@@ -171,30 +210,80 @@ public class ProductionDaoFileImpl implements Dao {
 
         for (Order tempBucket : inventory) {
 
-            out.println(tempBucket.getOrderNumber() + DELIMITER //Order number
+            out.println(tempBucket.getOrderNumber() + DELIMITER //Order number 0
 
-                    + tempBucket.getCustomerName() + DELIMITER //Name
+                    + tempBucket.getCustomerName() + DELIMITER //Name 1
+ 
+                    + tempBucket.getTaxClass() + DELIMITER //State 2
 
-                    + tempBucket.getArea() + DELIMITER //Area
+                    + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax 3
 
-                    + tempBucket.getTaxClass() + DELIMITER //State 
+                    + tempBucket.displayFormat() + DELIMITER//Product,Area, maybe Tilde 4
 
-                    + tempBucket.getTaxClass().getStatesTax() + DELIMITER //Tax  
+//                    + tempBucket.getProductClass().getProductName() + DELIMITER //Product
 
-                    + tempBucket.getProductClass().getProductName() + DELIMITER //Product
+                    + tempBucket.getTotalCostPerSqFt() + DELIMITER // Total Cost Per St Ft 5
+//                    + tempBucket.getProductClass().getCostPerSqFt() + DELIMITER // 
 
-                    + tempBucket.getProductClass().getCostPerSqFt() + DELIMITER // 
+                    + tempBucket.getTotalLaborCostPerSqFt() + DELIMITER // Total Labor Cost Per Sq Ft. 6
+//                    + tempBucket.getProductClass().getlaborCostPerSqFt() + DELIMITER // 
 
-                    + tempBucket.getProductClass().getlaborCostPerSqFt() + DELIMITER // 
+                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax 7
+//                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax
 
-                    + tempBucket.getTaxCharged() + DELIMITER //TotalTax
+                    + tempBucket.getGrandTotal() + DELIMITER //Grand Total 8
 
-                    + tempBucket.getGrandTotal() + DELIMITER //Grand Total
-
-                    + tempBucket.getDate());  //Date
+                    + tempBucket.getDate() + DELIMITER //Date 9
+            
+                    + tempBucket.getPhoneNumber()); //Phone Number 10
 
             out.flush();
         }
         out.close();
+    }
+    
+    private void loadCustomer() throws PersistenceException{
+        Scanner scanner;
+
+        try {
+            scanner = new Scanner(new BufferedReader(new FileReader(CUSTOMERS_FILE)));
+        } catch (FileNotFoundException e) {
+            throw new PersistenceException("Could not load inventory from file", e);
+        }
+
+        String currentLine;
+        String[] currentTokens;
+
+        while (scanner.hasNextLine()) {
+            currentLine = scanner.nextLine();
+
+            currentTokens = currentLine.split(DELIMITER);
+            System.out.println(currentTokens);
+
+//            Customer myCustomer = new Customer (currentTokens[0], currentTokens[1], currentTokens[2]); //Order Number
+
+    }
+    
+    
+    }
+    
+
+    
+
+    private void writeCustomer()throws PersistenceException{
+        
+    }
+    
+    public void addCustomer (String phoneNumber, Customer currentCustomer){
+        customerOrders.put(phoneNumber, currentCustomer);
+    }
+    
+    public Customer getCustomer (String phoneNumber){
+        return customerOrders.get(phoneNumber);
+    }
+
+    @Override
+    public List<Customer> getAllCustomers() {
+        return new ArrayList<>(customerOrders.values());
     }
 }

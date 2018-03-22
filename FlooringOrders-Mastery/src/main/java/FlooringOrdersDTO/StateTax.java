@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  */
 public enum StateTax {
 
-    OH("Ohio", new BigDecimal(".0625")),
+    OH("OH", new BigDecimal(".0625")),
     PA("Pennysalvania", new BigDecimal(".0675")),
     MI("Michigan", new BigDecimal(".0575")),
     IN("Indiana", new BigDecimal(".0600"));
