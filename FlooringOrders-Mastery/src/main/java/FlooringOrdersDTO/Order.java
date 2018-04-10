@@ -278,19 +278,19 @@ public class Order {
         this.taxCharged = (totalTax); //Here i'm setting the totalTax to the taxCharged
         //Tax rate for that state is i.e. 6.25%
         //Now the tax is (area * cost per sq ft) + (area * labor cost per sq ft) * tax rate for that state i.e. 6.25%
-<<<<<<< HEAD
+
 //        System.out.println(taxCharged);
         
         BigDecimal totalCost
                 = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
                         .add(totalTax)).setScale(2, HALF_UP));
-=======
+
 
 //        System.out.println(taxCharged);
-        BigDecimal totalCost = taxCharged.add(totalPreTax);
+         totalCost = taxCharged.add(totalPreTax);
 //                = (((area.multiply(productClass.getCostPerSqFt())).add((area.multiply(productClass.getlaborCostPerSqFt())))
 //                        .add(totalTax)).setScale(2, HALF_UP));
->>>>>>> mastery2.0WithTxt
+
 
         //Grand total is 
 //        ((area * prodcut cost per Sq ft) + (area * product labor cost per Sq ft) + totalTax)
@@ -304,13 +304,10 @@ public class Order {
 
         }
         
-<<<<<<< HEAD
 //        System.out.println(grandTotal);
-=======
 //        System.out.println("grand total: " + grandTotal);
 //        System.out.println("tax charged: " + taxCharged);
 //        System.out.println("totalPreTax " + totalPreTax);
->>>>>>> mastery2.0WithTxt
 
         System.out.println(this.toString());
         
