@@ -16,4 +16,8 @@
 
     <!-- Bean definitions go here -->
     
+    <bean id="Dao"
+      class="com.sg.vendingmachinespringmvc.dao.DaoFileImpl"/> <!-- first bean for dao impl-->
+    
+    
 </beans>

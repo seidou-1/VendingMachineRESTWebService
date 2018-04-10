@@ -16,3 +16,6 @@
 2018-02-01T13:49:40.452 : getProduct: A1
 2018-02-01T13:49:40.452 : inventoryAvailability: 3222.22ID: A1 |Product Name: Snickers |Product Cost: 1.50 |Product Inventory Count: 27
 2018-02-01T13:49:40.454 : reduceInventory: ID: A1 |Product Name: Snickers |Product Cost: 1.50 |Product Inventory Count: 26
+2018-04-06T10:55:31.373 : getProduct: A1
+2018-04-06T10:55:31.434 : inventoryAvailability: 20.00ID: A1 |Product Name: Snickers |Product Cost: 1.50 |Product Inventory Count: 26
+2018-04-06T10:55:31.435 : reduceInventory: ID: A1 |Product Name: Snickers |Product Cost: 1.50 |Product Inventory Count: 25
