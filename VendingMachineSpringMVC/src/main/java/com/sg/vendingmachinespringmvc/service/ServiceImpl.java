@@ -7,6 +7,7 @@ package com.sg.vendingmachinespringmvc.service;
 
 import com.sg.vendingmachinespringmvc.dao.Dao;
 import com.sg.vendingmachinespringmvc.dao.PersistenceException;
+import com.sg.vendingmachinespringmvc.model.Change;
 import com.sg.vendingmachinespringmvc.model.Products;
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,6 +20,7 @@ import javax.inject.Inject;
 public class ServiceImpl implements Service{
     
     private Dao myDao;
+//    private Service myService;
 
     @Inject
     public ServiceImpl(Dao myDao) {
@@ -34,32 +36,59 @@ public class ServiceImpl implements Service{
 
     @Override
     public List<Products> getAllProducts() throws PersistenceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return myDao.getAllProducts();
     }
 
     @Override
     public BigDecimal getBalance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return myDao.getBalance();
     }
 
     @Override
     public void setBalance(BigDecimal adder) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        myDao.setBalance(adder);
     }
 
     @Override
     public void setBalance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        myDao.setBalance();
     }
 
     @Override
     public Products getitemTracker() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return myDao.getitemTracker();
     }
 
     @Override
     public void setItemTracker(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        myDao.setItemTracker(id);
+    }
+    
+    @Override
+    public String makePurchase (Products product, BigDecimal balance) throws InvalidSelection, SoldOutException, InsufficientFundsException{
+        
+        Change myChange = new Change();
+        
+        if (product ==null) { //Did they select an item?
+            throw new InvalidSelection ("Please select a product first");
+        }
+        
+        if (product.getProductInventory()<=0){ //Check if the item is in stock
+            throw new SoldOutException("Item is sold out");
+        }
+        
+        if (balance.compareTo(product.getProductCost())>0) { //Check if they have enough money
+            product.setProductInventory();
+            
+            
+
+            return myChange.calculateChange(balance, product);      
+        } else {
+            throw new InsufficientFundsException("Please insert $" + (product.getProductCost().subtract(balance)) + " more");
+        }
+        
+        
+
     }
     
 }

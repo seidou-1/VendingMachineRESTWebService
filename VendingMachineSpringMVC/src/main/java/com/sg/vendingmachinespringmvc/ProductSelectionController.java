@@ -5,10 +5,10 @@
  */
 package com.sg.vendingmachinespringmvc;
 
-import com.sg.vendingmachinespringmvc.dao.Dao;
 import com.sg.vendingmachinespringmvc.dao.PersistenceException;
 import com.sg.vendingmachinespringmvc.model.Change;
 import com.sg.vendingmachinespringmvc.model.Products;
+import com.sg.vendingmachinespringmvc.service.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.inject.Inject;
@@ -25,49 +25,50 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ProductSelectionController {
 
-    Dao dao;
+//    Dao dao;
+    Service service;
 
     @Inject
-    public ProductSelectionController(Dao dao) {
-        this.dao = dao;
+    public ProductSelectionController(Service service) {
+        this.service = service;
     }
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public String displayProducts(HttpServletRequest request, Model model) throws PersistenceException {
-        List<Products> products = dao.getAllProducts();
+        List<Products> products = service.getAllProducts();
         model.addAttribute("products", products);
         return "/index";
     }
 
     @RequestMapping(value = "/productSelection", method = RequestMethod.GET)
     public String productSelection(HttpServletRequest request, Model model) throws PersistenceException {
-        List<Products> products = dao.getAllProducts();
-        dao.setItemTracker(request.getParameter("productId"));
-//        dao.getProduct(request.getParameter("productId"));
-        
-        Products myProduct = dao.getitemTracker();
+        List<Products> products = service.getAllProducts();
+        service.setItemTracker(request.getParameter("productId"));
+//        service.getProduct(request.getParameter("productId"));
+
+        Products myProduct = service.getitemTracker();
         model.addAttribute("products", products);
         model.addAttribute("productName", myProduct.getProductName());
         model.addAttribute("productId", myProduct.getProductId());
-        
-        BigDecimal balance = dao.getBalance();
+
+        BigDecimal balance = service.getBalance();
         model.addAttribute("balance", balance);
-        
+
         return "/index";
     }
 
     @RequestMapping(value = "/addBread", method = RequestMethod.GET)
     public String addBread(HttpServletRequest request, Model model) throws PersistenceException {
-        List<Products> products = dao.getAllProducts();
+        List<Products> products = service.getAllProducts();
 
         BigDecimal originalBalance = new BigDecimal(request.getParameter("amount"));
 
-        BigDecimal balance = dao.getBalance().add(originalBalance);
-        
-        dao.setBalance(balance);
+        BigDecimal balance = service.getBalance().add(originalBalance);
 
-        Products myProduct = dao.getitemTracker();
-        
+        service.setBalance(balance);
+
+        Products myProduct = service.getitemTracker();
+
         model.addAttribute("products", products);
 
         model.addAttribute("productName", myProduct.getProductName());
@@ -76,24 +77,38 @@ public class ProductSelectionController {
         model.addAttribute("balance", balance);
         return "index";
     }
-    
+
     @RequestMapping(value = "/makePurchase", method = RequestMethod.GET)
     public String makePurchase(HttpServletRequest request, Model model) throws PersistenceException {
-        List<Products> products = dao.getAllProducts();
+        List<Products> products = service.getAllProducts();
 
+        BigDecimal balance = service.getBalance();
 
-        BigDecimal balance = dao.getBalance();
- 
+        Products myItem = service.getitemTracker();
+
+        Products myProduct = service.getitemTracker();
+
         
+        String myChange = null;
+
+        try {
+        myChange = service.makePurchase(myProduct, balance);
         
-        Products myProduct = dao.getitemTracker();
+//        service.setBalance(balance.subtract(myProduct.getProductCost()));
         
-        myProduct.setProductInventory();
+        balance = balance.subtract(myProduct.getProductCost());
+        service.setBalance(balance);
         
-        Change myChange = new Change();
-        
-        myChange.calculateChange(balance, myProduct);
-        
+            model.addAttribute("message", "Thank you come again");
+
+        } catch (Exception e) {
+
+            model.addAttribute("message", e.getMessage());
+
+        }
+//        
+//        myChange.calculateChange(balance, myProduct);
+
         model.addAttribute("products", products);
         model.addAttribute("myChange", myChange);
 
@@ -103,22 +118,20 @@ public class ProductSelectionController {
         model.addAttribute("balance", balance);
         return "index";
     }
-    
+
     @RequestMapping(value = "/changeReturn", method = RequestMethod.GET)
     public String changeReturn(HttpServletRequest request, Model model) throws PersistenceException {
-        List<Products> products = dao.getAllProducts();
+        List<Products> products = service.getAllProducts();
 
-        dao.setBalance();
-        dao.setItemTracker("0");
-        BigDecimal balance = dao.getBalance();
+        service.setBalance();
+        service.setItemTracker("0");
+        BigDecimal balance = service.getBalance();
 
-                
         model.addAttribute("products", products);
         model.addAttribute("balance", balance);
-        
+
         return "index";
-        
 
+    }
 
-}
 }

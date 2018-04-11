@@ -19,5 +19,8 @@
     <bean id="Dao"
       class="com.sg.vendingmachinespringmvc.dao.DaoFileImpl"/> <!-- first bean for dao impl-->
     
+    <bean id="Service"
+      class="com.sg.vendingmachinespringmvc.service.ServiceImpl"/> <!-- second bean for service impl-->
+    
     
 </beans>

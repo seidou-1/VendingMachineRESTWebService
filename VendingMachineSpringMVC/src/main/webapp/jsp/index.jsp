@@ -27,7 +27,9 @@
 
         <div class="container">
             <div>
+                <a href = "${pageContext.request.contextPath}">
                 <h1 class = "text-center">Vending Machine Spring MVC</h1>
+                </a>
             </div>
             <hr/>
             <div class="row">
@@ -231,7 +233,7 @@
                         Messages
                     </h5>
                     <p class="text-center message">
-                        ${productName}
+                        ${productName} ${message}
                     </p>
                     <div class="row">
                         <div class="col-md-6">
