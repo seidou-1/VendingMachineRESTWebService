@@ -18,7 +18,7 @@ public interface Dao {
     //Get a product
     //Hashmap
     
-    Products getProduct(String productID) throws PersistenceException;
+   Products getProduct(String productID) throws PersistenceException;
    
    List <Products> getAllProducts() throws PersistenceException;
    
