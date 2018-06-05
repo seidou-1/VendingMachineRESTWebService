@@ -97,8 +97,8 @@ function loadItems() {
       method: "GET",
       // type:"GET",
       dataType: "json",
-    }).done(function (itemArray) {
-      $.each(itemArray, function (index, item) {
+    }).done(function (itemArray) { //This always gets an array of what's returned in the URL
+      $.each(itemArray, function (index, item) { //Index is an optional pramater that allows you to get back a specific slot
   
         // var id = item.id;
         // var name = item.name;
@@ -128,7 +128,7 @@ function formatter(myItems) {
     var quantity = myItems.quantity;
 
     var row =
-    `<div class="col-md border" data-snackId="${id}"> <!-- Left side. For Title, Price, and Quantity Left-->
+    `<div class="col-md-4 border" data-snackId="${id}"> <!-- Left side. For Title, Price, and Quantity Left-->
               
             <p>(${id})</p> <!--Snack number -->
     
